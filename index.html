@@ -379,7 +379,7 @@ const PASSCODE_CONFIG={
 
 let data={subjects:[],lectures:[]};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
-let sb=null,syncTimer=null,remoteUpdatedAt=null;
+let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false;
 
 const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
 
@@ -443,6 +443,7 @@ function ensureDataShape(obj){
     marks:d.marks===0?0:(d.marks||null),
     totalMarks:d.totalMarks===0?0:(d.totalMarks||null)
   }));
+  obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
 function refreshCurrentView(){
@@ -511,6 +512,8 @@ function lockTracker(){
   showPasscode();
 }
 function save(){
+  ensureDataShape(data);
+  data.meta.updatedAt=new Date().toISOString();
   saveLocal();
   if(sb){
     setSyncStatus('Saving','warn');
@@ -521,12 +524,14 @@ function save(){
   }
 }
 async function syncNow(){
-  if(!sb)return;
+  if(!sb||isSyncing)return;
+  isSyncing=true;
   ensureDataShape(data);
   const payload={tracker_id:SUPABASE_CONFIG.rowId,data,updated_at:new Date().toISOString()};
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'tracker_id'}).select('updated_at').single();
-  if(error){setSyncStatus('Sync failed','bad');console.error(error);return;}
+  if(error){isSyncing=false;setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   remoteUpdatedAt=row?.updated_at||payload.updated_at;
+  isSyncing=false;
   setSyncStatus('Synced','ok');
 }
 async function load(){
@@ -534,31 +539,37 @@ async function load(){
   try{const r=localStorage.getItem('pw_tracker_final');if(r){data=ensureDataShape(JSON.parse(r));}else throw 0;}
   catch(e){data=defaultData();}
   localData=data;
+  try{if((localData.lectures?.length||0)>0)localStorage.setItem('pw_tracker_local_backup',JSON.stringify(localData));}catch(e){}
   activeSub=data.subjects[0]?.id||null;
   renderAll();
 
   if(!sb){setSyncStatus('Local only',isSupabaseConfigured()?'warn':'bad');return;}
   setSyncStatus('Loading','warn');
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
-  if(error){setSyncStatus('Sync failed','bad');console.error(error);return;}
+  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   if(row?.data){
-    row.data=ensureDataShape(row.data);
-    const localCount=localData?.lectures?.length||0;
-    const remoteCount=row.data?.lectures?.length||0;
-    if(localCount>remoteCount){
-      data=localData;
-      await syncNow();
-    }else{
-      data=row.data;
-      remoteUpdatedAt=row.updated_at;
-      saveLocal();
-    }
+    data=ensureDataShape(row.data);
+    remoteUpdatedAt=row.updated_at;
+    saveLocal();
   }else{
     await syncNow();
   }
   activeSub=data.subjects[0]?.id||null;
   renderAll();
   setSyncStatus('Synced','ok');
+}
+async function refreshFromCloud(){
+  if(!sb||sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'||isSyncing)return;
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
+  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  if(row?.data&&row.updated_at&&row.updated_at!==remoteUpdatedAt){
+    data=ensureDataShape(row.data);
+    remoteUpdatedAt=row.updated_at;
+    saveLocal();
+    activeSub=data.subjects.find(s=>s.id===activeSub)?.id||data.subjects[0]?.id||null;
+    renderAll();
+    setSyncStatus('Synced','ok');
+  }
 }
 
 async function init(){
@@ -573,6 +584,8 @@ async function startSync(){
   if(isSupabaseConfigured()){
     sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
     await load();
+    clearInterval(refreshTimer);
+    refreshTimer=setInterval(refreshFromCloud,30000);
     return;
   }
   await load();
@@ -819,6 +832,7 @@ function renderExport(){
     <div class="tool-panel"><h3><i class="ti ti-file-text"></i>DPPs CSV</h3><div class="tool-caption">All DPPs with chapter, tag, linked lecture and marks.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadDppCSV()"><i class="ti ti-download"></i>Download CSV</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-database-export"></i>JSON backup</h3><div class="tool-caption">Full backup with subjects, lectures, DPPs and settings.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadJSON()"><i class="ti ti-download"></i>Download JSON</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-file-type-pdf"></i>PDF report</h3><div class="tool-caption">Opens browser print. Choose Save as PDF.</div><div class="tool-actions"><button class="btn-primary" onclick="printReport()"><i class="ti ti-printer"></i>Print report</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button><button class="btn-sec" onclick="restoreLocalBackup()"><i class="ti ti-cloud-upload"></i>Upload this device</button></div></div>
   </div>`;
 }
 function downloadBlob(name,type,content){
@@ -846,6 +860,16 @@ function downloadDppCSV(){
 }
 function downloadJSON(){
   downloadBlob(`pw-tracker-backup-${todayKey()}.json`,'application/json;charset=utf-8',JSON.stringify(ensureDataShape(data),null,2));
+}
+async function restoreLocalBackup(){
+  const raw=localStorage.getItem('pw_tracker_local_backup')||localStorage.getItem('pw_tracker_final');
+  if(!raw){alert('No local backup found on this device.');return;}
+  if(!confirm('Upload this device backup to cloud and replace the cloud copy?'))return;
+  data=ensureDataShape(JSON.parse(raw));
+  activeSub=data.subjects[0]?.id||null;
+  saveLocal();
+  renderAll();
+  await syncNow();
 }
 function printReport(){
   const all=getStats(null),pace=paceStats();
@@ -1309,6 +1333,10 @@ document.getElementById('catRow').addEventListener('click',function(e){
 document.getElementById('dppSubRow').addEventListener('click',function(e){
   const btn=e.target.closest('button');if(!btn)return;
   if(btn.dataset.dppSubId)setDppSub(btn.dataset.dppSubId);
+});
+window.addEventListener('focus',refreshFromCloud);
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible')refreshFromCloud();
 });
 
 init();
