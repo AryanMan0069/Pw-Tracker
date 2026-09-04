@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PW Lecture Tracker</title>
+<meta name="application-name" content="PW Lecture Tracker">
+<meta name="apple-mobile-web-app-title" content="PW Tracker">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FF5722">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#f5f5f4;--surface:#ffffff;--surface2:#fafaf9;
+  --border:#e5e5e4;--border-strong:#d0d0ce;
+  --text:#1a1a18;--text2:#5a5a57;--text3:#9a9a96;
+  --accent:#FF5722;--accent-hover:#E64A19;
+  --green:#22c55e;--green-bg:#f0fdf4;--green-text:#15803d;
+  --blue-bg:#eff6ff;--blue-text:#1d4ed8;
+  --amber-bg:#fffbeb;--amber-text:#b45309;
+  --red-text:#dc2626;--red-bg:#fef2f2;
+  --radius:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,.12),0 2px 6px rgba(0,0,0,.08);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#111110;--surface:#1c1c1a;--surface2:#242422;
+  --border:#2e2e2b;--border-strong:#3d3d3a;
+  --text:#f0f0ed;--text2:#a8a8a4;--text3:#6a6a66;
+  --green-bg:#052e16;--green-text:#4ade80;
+  --blue-bg:#172554;--blue-text:#93c5fd;
+  --amber-bg:#292107;--amber-text:#fbbf24;
+  --red-bg:#2d0b0b;--red-text:#f87171;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.container{max-width:820px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+
+/* Topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:12px;flex-wrap:wrap;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.pw-logo{width:38px;height:38px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:13px;flex-shrink:0;}
+.app-title{font-size:16px;font-weight:600;color:var(--text);}
+.app-sub{font-size:12px;color:var(--text3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.sync-pill{font-size:12px;color:var(--text2);border:1px solid var(--border);background:var(--surface);border-radius:99px;padding:5px 10px;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.sync-dot{width:7px;height:7px;border-radius:99px;background:var(--text3);}
+.sync-dot.ok{background:var(--green);}
+.sync-dot.warn{background:#f59e0b;}
+.sync-dot.bad{background:var(--red-text);}
+.view-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:3px;gap:2px;}
+.vtab{padding:5px 13px;font-size:12px;font-weight:500;border:none;background:transparent;color:var(--text2);border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.vtab.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);}
+
+/* Buttons */
+.btn-primary{background:var(--accent);color:white;border:none;padding:8px 15px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:inherit;transition:background .15s;}
+.btn-primary:hover{background:var(--accent-hover);}
+.btn-sec{background:var(--surface);color:var(--text2);border:1px solid var(--border-strong);padding:7px 13px;border-radius:var(--radius);font-size:13px;cursor:pointer;font-family:inherit;transition:background .15s;}
+.btn-sec:hover{background:var(--surface2);}
+.btn-ghost{background:transparent;border:none;color:var(--text3);cursor:pointer;padding:5px 7px;border-radius:6px;font-size:15px;line-height:1;transition:all .15s;}
+.btn-ghost:hover{background:var(--surface2);color:var(--text2);}
+.btn-ghost.danger:hover{background:var(--red-bg);color:var(--red-text);}
+
+/* Dashboard */
+.dash-overall{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem 1.5rem;margin-bottom:1.5rem;box-shadow:var(--shadow);}
+.dash-bar-track{height:8px;background:var(--border);border-radius:99px;overflow:hidden;}
+.dash-bar-fill{height:100%;border-radius:99px;transition:width .5s ease;background:var(--green);}
+.dash-bar-fill.warn{background:#f59e0b;}
+.dash-bar-fill.low{background:var(--accent);}
+.dash-mini{text-align:center;padding:10px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);}
+.dash-mini-val{font-size:18px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.dash-mini-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;font-weight:500;}
+
+/* Subject cards */
+.dash-section-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;margin-top:1.5rem;}
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;}
+.subj-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem 1rem 1.4rem;cursor:pointer;transition:all .15s;position:relative;overflow:hidden;}
+.subj-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-md);transform:translateY(-1px);}
+.subj-card-accent{position:absolute;top:0;left:0;width:4px;height:100%;}
+.subj-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.subj-total{font-size:12px;color:var(--text3);margin-bottom:.8rem;}
+.subj-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:.8rem;}
+.subj-stat{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;text-align:center;}
+.subj-stat-val{font-size:14px;font-weight:600;}
+.subj-stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.3px;margin-top:1px;}
+.subj-bar-track{height:4px;background:var(--border);border-radius:99px;overflow:hidden;}
+.subj-bar-fill{height:100%;border-radius:99px;transition:width .5s ease;}
+.subj-pct-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.subj-pct{font-size:12px;font-weight:600;}
+.subj-hint{font-size:11px;color:var(--text3);text-align:right;margin-top:6px;}
+
+/* Colors */
+.ca0{background:#6366f1;} .ca1{background:#0ea5e9;} .ca2{background:#10b981;} .ca3{background:#f59e0b;} .ca4{background:#ec4899;} .ca5{background:#8b5cf6;} .ca6{background:#14b8a6;} .ca7{background:#f97316;} .ca8{background:#6366f1;} .ca9{background:#0ea5e9;}
+.ct0{color:#6366f1;} .ct1{color:#0ea5e9;} .ct2{color:#10b981;} .ct3{color:#f59e0b;} .ct4{color:#ec4899;} .ct5{color:#8b5cf6;} .ct6{color:#14b8a6;} .ct7{color:#f97316;} .ct8{color:#6366f1;} .ct9{color:#0ea5e9;}
+
+/* Tracker */
+.sub-row{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.25rem;overflow-x:auto;}
+.sub-row::-webkit-scrollbar{display:none;}
+.stab{padding:8px 15px;font-size:13px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:inherit;background:transparent;border-top:none;border-left:none;border-right:none;transition:color .15s;}
+.stab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:500;}
+.stab:hover:not(.active){color:var(--text);}
+.stab-add{padding:8px 10px;color:var(--text3);cursor:pointer;margin-bottom:-1px;display:flex;align-items:center;font-size:18px;border:none;background:transparent;}
+.stab-add:hover{color:var(--text2);}
+.stats-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:10px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:11px 13px;}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:3px;font-weight:500;letter-spacing:.3px;text-transform:uppercase;}
+.stat-val{font-size:20px;font-weight:600;color:var(--text);}
+.stat-val.green{color:var(--green);}
+.stat-val.blue{color:var(--blue-text);}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;margin-bottom:1.25rem;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);border-radius:2px;transition:width .4s ease;}
+.cat-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.85rem;align-items:center;}
+.cat-pill{font-size:12px;padding:4px 12px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit;}
+.cat-pill:hover{border-color:var(--accent);color:var(--accent);}
+.cat-pill.active{background:var(--accent);color:white;border-color:var(--accent);}
+.cat-pill-add{font-size:12px;padding:4px 11px;border-radius:99px;border:1px dashed var(--border-strong);background:transparent;color:var(--text3);cursor:pointer;font-family:inherit;transition:all .15s;}
+.cat-pill-add:hover{border-color:var(--accent);color:var(--accent);}
+.ctrl-row{display:flex;align-items:center;gap:8px;margin-bottom:.85rem;}
+.search-wrap{flex:1;position:relative;}
+.search-wrap input{width:100%;font-size:13px;padding:7px 10px 7px 30px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:inherit;}
+.search-wrap input:focus{outline:none;border-color:var(--accent);}
+.search-wrap .si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none;}
+.filter-btn{font-size:12px;padding:7px 11px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:all .15s;}
+.filter-btn.on{background:var(--green-bg);color:var(--green-text);border-color:var(--green);}
+.lec-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 14px;margin-bottom:7px;display:flex;align-items:flex-start;gap:11px;transition:border-color .15s;}
+.lec-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow);}
+.check-btn{width:21px;height:21px;border-radius:50%;border:1.5px solid var(--border-strong);cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:transparent;transition:all .15s;}
+.check-btn:hover{border-color:var(--green);}
+.check-btn.done{background:var(--green);border-color:var(--green);}
+.check-btn svg{width:11px;height:11px;stroke:white;fill:none;stroke-width:2.5;opacity:0;}
+.check-btn.done svg{opacity:1;}
+.lec-body{flex:1;min-width:0;}
+.lec-title{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:5px;line-height:1.4;}
+.lec-title.striked{color:var(--text3);text-decoration:line-through;}
+.lec-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.badge{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:500;}
+.b-date{color:var(--text3);}
+.b-dur{background:var(--blue-bg);color:var(--blue-text);}
+.b-cat{background:var(--surface2);color:var(--text2);border:1px solid var(--border);}
+.b-ch{background:var(--surface2);color:var(--text2);border:1px solid var(--border);}
+.b-dpp{background:var(--amber-bg);color:var(--amber-text);}
+.card-actions{display:flex;gap:2px;flex-shrink:0;}
+.empty{text-align:center;padding:3rem 1rem;color:var(--text3);font-size:14px;}
+.empty i{font-size:32px;display:block;margin-bottom:10px;opacity:.4;}
+
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1rem;}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md);}
+.modal h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem;}
+.mtab-row{display:flex;gap:3px;margin-bottom:.9rem;background:var(--surface2);border-radius:var(--radius);padding:3px;}
+.mtab{flex:1;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--text2);border-radius:6px;text-align:center;border:none;background:transparent;font-family:inherit;transition:all .15s;}
+.mtab.active{background:var(--surface);color:var(--text);font-weight:500;box-shadow:var(--shadow);}
+.fr{margin-bottom:11px;}
+.fr label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;font-weight:500;}
+.fr input,.fr select,.fr textarea{width:100%;font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;font-family:inherit;}
+.fr input:focus,.fr select:focus,.fr textarea:focus{outline:none;border-color:var(--accent);}
+.fr textarea{min-height:100px;resize:vertical;}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.checkbox-row{display:flex;align-items:center;gap:8px;}
+.checkbox-row input{width:auto;accent-color:var(--accent);}
+.checkbox-row label{font-size:13px;color:var(--text2);cursor:pointer;margin:0;font-weight:400;}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem;}
+.parse-hint{font-size:12px;color:var(--text3);margin-bottom:8px;line-height:1.6;}
+.err-msg{font-size:12px;color:var(--red-text);margin-top:6px;display:none;}
+.rename-row{display:flex;gap:6px;align-items:center;margin-bottom:6px;}
+.rename-row input{flex:1;font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-family:inherit;}
+.rename-row input:focus{outline:none;border-color:var(--accent);}
+.section-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:8px;margin-top:14px;}
+.danger-zone{border:1px solid #fecaca;border-radius:var(--radius);padding:12px;background:var(--red-bg);}
+.danger-zone p{font-size:12px;color:var(--red-text);margin-bottom:8px;}
+
+/* Auth */
+.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:var(--bg);}
+.auth-card{width:100%;max-width:390px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.35rem;box-shadow:var(--shadow-md);}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;}
+.auth-card h1{font-size:18px;font-weight:600;color:var(--text);}
+.auth-card p{font-size:13px;color:var(--text3);line-height:1.5;margin-top:3px;}
+.auth-card input{width:100%;font-size:14px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 11px;font-family:inherit;margin-bottom:9px;}
+.auth-card input:focus{outline:none;border-color:var(--accent);}
+.auth-error{display:none;font-size:12px;color:var(--red-text);background:var(--red-bg);border:1px solid #fecaca;border-radius:var(--radius);padding:8px 10px;margin:8px 0;}
+.auth-note{font-size:12px;color:var(--text3);line-height:1.5;margin-top:11px;}
+
+@media(max-width:520px){
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .f2{grid-template-columns:1fr;}
+  .subj-grid{grid-template-columns:1fr;}
+}
+
+/* ---- Dock ---- */
+.container{padding-bottom:6.5rem;}
+.dock-wrap{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;padding:14px 12px calc(14px + env(safe-area-inset-bottom));pointer-events:none;z-index:500;}
+.dock{pointer-events:auto;display:flex;align-items:flex-end;gap:4px;background:rgba(255,255,255,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.5);border-radius:22px;padding:8px 10px;box-shadow:0 8px 30px rgba(0,0,0,.16),0 2px 8px rgba(0,0,0,.08);}
+@media(prefers-color-scheme:dark){
+  .dock{background:rgba(28,28,26,.72);border-color:rgba(255,255,255,.08);box-shadow:0 8px 30px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3);}
+}
+.dock-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:52px;height:52px;border:none;background:transparent;border-radius:16px;cursor:pointer;color:var(--text2);font-family:inherit;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s,color .15s;flex-shrink:0;}
+.dock-item i{font-size:20px;line-height:1;transition:transform .18s cubic-bezier(.34,1.56,.64,1);}
+.dock-item .dock-label{font-size:9px;font-weight:600;letter-spacing:.2px;opacity:0;max-height:0;transition:opacity .15s,max-height .15s;}
+.dock-item:hover{transform:translateY(-6px) scale(1.08);background:var(--surface2);color:var(--text);}
+.dock-item:hover .dock-label{opacity:1;max-height:12px;}
+.dock-item.active{color:var(--accent);}
+.dock-item.active i{transform:translateY(-2px);}
+.dock-item.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent);}
+.dock-item:active{transform:translateY(-2px) scale(.96);}
+@media(max-width:520px){
+  .dock{gap:1px;padding:7px 6px;border-radius:18px;}
+  .dock-item{width:44px;height:44px;border-radius:13px;}
+  .dock-item i{font-size:18px;}
+  .dock-item .dock-label{display:none;}
+  .container{padding-bottom:5.5rem;}
+}
+
+/* Study tools */
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:1rem;}
+.tool-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:var(--shadow);}
+.tool-panel h3{font-size:14px;font-weight:600;margin-bottom:.75rem;color:var(--text);display:flex;align-items:center;gap:6px;}
+.tool-stat{font-size:30px;font-weight:700;line-height:1;color:var(--text);margin-bottom:5px;}
+.tool-caption{font-size:12px;color:var(--text3);line-height:1.5;}
+.tool-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:13px;color:var(--text2);}
+.tool-row input{width:96px;font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 9px;font-family:inherit;}
+.tool-list{margin-top:.75rem;}
+.tool-empty{background:var(--surface);border:1px dashed var(--border-strong);border-radius:12px;padding:2rem 1rem;text-align:center;color:var(--text3);font-size:14px;}
+.tool-actions{display:flex;gap:8px;flex-wrap:wrap;margin:.75rem 0 1rem;}
+.mini-list-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 13px;margin-bottom:7px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.mini-title{font-size:13.5px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:5px;}
+.mini-meta{font-size:11px;color:var(--text3);display:flex;gap:6px;flex-wrap:wrap;}
+.mini-actions{display:flex;gap:4px;flex-shrink:0;}
+.badge.b-rev{background:var(--red-bg);color:var(--red-text);}
+.badge.b-ok{background:var(--green-bg);color:var(--green-text);}
+</style>
+</head>
+<body>
+<div class="auth-screen" id="passcodeScreen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="pw-logo">PW</div>
+      <div>
+        <h1>PW Lecture Tracker</h1>
+        <p>Enter your passcode to unlock sync.</p>
+      </div>
+    </div>
+    <input type="password" id="passcodeInput" placeholder="6-digit passcode" inputmode="numeric" autocomplete="off" maxlength="6" onkeydown="if(event.key==='Enter')unlockTracker()">
+    <div class="auth-error" id="passcodeError"></div>
+    <button class="btn-primary" id="unlockBtn" onclick="unlockTracker()" style="width:100%;justify-content:center;padding:10px 15px;">
+      <i class="ti ti-lock"></i> Unlock
+    </button>
+    <div class="auth-note">This keeps the tracker private from casual visitors on your public GitHub Pages URL.</div>
+  </div>
+</div>
+
+<div class="container" id="appShell" style="display:none;">
+  <div class="topbar">
+    <div class="logo-wrap">
+      <div class="pw-logo">PW</div>
+      <div><div class="app-title">PW Lecture Tracker</div><div class="app-sub">Dropper · IIT JEE</div></div>
+    </div>
+    <div class="topbar-right">
+      <div class="sync-pill" id="syncStatus"><span class="sync-dot warn"></span><span>Starting</span></div>
+      <button class="btn-primary" id="addLecBtn" onclick="openAddModal()" style="display:none"><i class="ti ti-plus"></i> Add</button>
+      <button class="btn-sec" onclick="lockTracker()" title="Lock"><i class="ti ti-lock"></i></button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="view-dashboard">
+    <div class="dash-overall" id="dashOverall"></div>
+    <div id="dashSubjects"></div>
+  </div>
+
+  <!-- TRACKER -->
+  <div id="view-tracker" style="display:none;">
+    <div class="sub-row" id="subRow"></div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-label">Total</div><div class="stat-val" id="sTotal">0</div></div>
+      <div class="stat"><div class="stat-label">Done</div><div class="stat-val green" id="sDone">0</div></div>
+      <div class="stat"><div class="stat-label">Time left</div><div class="stat-val blue" id="sTime">—</div></div>
+      <div class="stat"><div class="stat-label">Progress</div><div class="stat-val" id="sPct">0%</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="cat-row" id="catRow"></div>
+    <div class="ctrl-row">
+      <div class="search-wrap"><i class="ti ti-search si"></i><input type="text" id="searchBox" placeholder="Search lectures…" oninput="render()"></div>
+      <button class="filter-btn" id="filterDoneBtn" onclick="toggleHideDone()"><i class="ti ti-eye-off"></i> Hide done</button>
+      <button class="btn-sec" onclick="openManageModal()" style="padding:7px 10px;"><i class="ti ti-settings" style="font-size:15px;"></i></button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <!-- STREAKS / TARGET -->
+  <div id="view-streaks" style="display:none;">
+    <div id="streakContent"></div>
+  </div>
+
+  <!-- DPP -->
+  <div id="view-dpp" style="display:none;">
+    <div class="sub-row" id="dppSubRow"></div>
+    <div class="ctrl-row">
+      <div class="search-wrap"><i class="ti ti-search si"></i><input type="text" id="dppSearchBox" placeholder="Search DPPs…" oninput="renderDpp()"></div>
+      <button class="filter-btn" id="dppFilterBtn" onclick="toggleDppHideDone()"><i class="ti ti-eye-off"></i> Hide done</button>
+      <button class="btn-primary" onclick="openAddDppModal()"><i class="ti ti-plus"></i> Add DPP</button>
+    </div>
+    <div id="dppContent"></div>
+  </div>
+
+  <!-- REVISION -->
+  <div id="view-revision" style="display:none;">
+    <div id="revisionContent"></div>
+  </div>
+
+  <!-- STATS -->
+  <div id="view-stats" style="display:none;">
+    <div id="statsContent"></div>
+  </div>
+
+  <!-- EXPORT -->
+  <div id="view-export" style="display:none;">
+    <div id="exportContent"></div>
+  </div>
+</div>
+
+<!-- DOCK -->
+<nav class="dock-wrap" id="dockWrap" style="display:none;">
+  <div class="dock">
+    <button class="dock-item active" data-view="dashboard" onclick="setView('dashboard')">
+      <i class="ti ti-layout-dashboard"></i>
+      <span class="dock-label">Dashboard</span>
+    </button>
+    <button class="dock-item" data-view="tracker" onclick="setView('tracker')">
+      <i class="ti ti-list"></i>
+      <span class="dock-label">Tracker</span>
+    </button>
+    <button class="dock-item" data-view="streaks" onclick="setView('streaks')">
+      <i class="ti ti-flame"></i>
+      <span class="dock-label">Streaks</span>
+    </button>
+    <button class="dock-item" data-view="dpp" onclick="setView('dpp')">
+      <i class="ti ti-file-text"></i>
+      <span class="dock-label">DPP</span>
+    </button>
+    <button class="dock-item" data-view="revision" onclick="setView('revision')">
+      <i class="ti ti-refresh"></i>
+      <span class="dock-label">Revise</span>
+    </button>
+    <button class="dock-item" data-view="stats" onclick="setView('stats')">
+      <i class="ti ti-chart-bar"></i>
+      <span class="dock-label">Stats</span>
+    </button>
+    <button class="dock-item" data-view="export" onclick="setView('export')">
+      <i class="ti ti-download"></i>
+      <span class="dock-label">Export</span>
+    </button>
+  </div>
+</nav>
+
+<div id="mc"></div>
+
+<script>
+const SUPABASE_CONFIG={
+  url:'https://pxcwqhlgvgahopqodkwz.supabase.co',
+  anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4Y3dxaGxndmdhaG9wcW9ka3d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MDU5MDIsImV4cCI6MjA5ODI4MTkwMn0.ATkL9GDo_FFoE_Y0wZ3VkLooQaothzozs92i6uCu2VM',
+  table:'pw_tracker_state',
+  rowId:'tracker_dac754b235b0869271bdf6c6e71ff2d8e871dbf9890b25c4546c9adcb91f1c88'
+};
+const PASSCODE_CONFIG={
+  hash:'dac754b235b0869271bdf6c6e71ff2d8e871dbf9890b25c4546c9adcb91f1c88',
+  sessionKey:'pw_tracker_unlocked'
+};
+
+let data={subjects:[],lectures:[]};
+let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
+let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,hasPendingLocalChanges=false;
+
+const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
+
+const DEFAULTS=[
+  {id:'phy27',name:"Physics '27",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
+  {id:'mat27',name:"Maths '27",       categories:['Regular Lectures']},
+  {id:'pc27', name:"Physical Chemistry '27", categories:['Regular Lectures']},
+  {id:'oc27', name:"Organic Chemistry '27",  categories:['Regular Lectures']},
+  {id:'ic27', name:"Inorganic Chemistry '27",categories:['Regular Lectures']},
+  {id:'phy26',name:"Physics '26",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
+  {id:'mat26',name:"Maths '26",       categories:['Regular Lectures']},
+  {id:'pc26', name:"Physical Chemistry '26", categories:['Regular Lectures']},
+  {id:'oc26', name:"Organic Chemistry '26",  categories:['Regular Lectures']},
+  {id:'ic26', name:"Inorganic Chemistry '26",categories:['Regular Lectures']},
+];
+
+const DEMO=[
+  {id:1,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 07 : Vector (Part-02)",chapter:'Mathematical Tools',date:'29 Apr 2026',duration:'2h 10m',hasDPP:true,done:false},
+  {id:2,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 06 : Vector",chapter:'Mathematical Tools',date:'28 Apr 2026',duration:'2h 7m',hasDPP:true,done:false},
+  {id:3,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 05 : Basic Math || Binomial Approximation",chapter:'Mathematical Tools',date:'27 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
+  {id:4,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 04 : Basic Math || Approximation",chapter:'Mathematical Tools',date:'25 Apr 2026',duration:'2h 8m',hasDPP:true,done:false},
+  {id:5,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 03 : Basic Math || Trigonometry",chapter:'Mathematical Tools',date:'24 Apr 2026',duration:'2h 7m',hasDPP:false,done:false},
+  {id:6,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 02 : Basic Math",chapter:'Mathematical Tools',date:'23 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
+  {id:7,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 01 : Basic Baat Chit || Basic Math",chapter:'Mathematical Tools',date:'22 Apr 2026',duration:'2h 6m',hasDPP:false,done:false},
+];
+
+function uid(){return Date.now()+Math.floor(Math.random()*99999);}
+function durToMins(s){if(!s)return 0;const h=s.match(/(\d+)h/),m=s.match(/(\d+)m/);return(h?+h[1]*60:0)+(m?+m[1]:0);}
+function minsToStr(m){if(!m)return'—';const h=Math.floor(m/60),mn=m%60;return h>0?(mn>0?h+'h '+mn+'m':h+'h'):mn+'m';}
+const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Sept:8,September:8,Oct:9,Nov:10,Dec:11};
+const MONTH_RE='Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|September|Oct|Nov|Dec';
+function normalizeDateText(d){
+  return (d||'').trim().replace(/\bSept(?:ember)?\b/i,'Sep').replace(/\s+/g,' ');
+}
+function parseDate(d){if(!d)return new Date(0);const p=normalizeDateText(d).split(' ');return new Date(+p[2],MONTHS[p[1]],+p[0]);}
+function todayKey(date=new Date()){const d=new Date(date);const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
+function isoWeekStart(date=new Date()){const d=new Date(date);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d;}
+function monthStart(date=new Date()){return new Date(date.getFullYear(),date.getMonth(),1);}
+function daysBetween(a,b){const ms=24*60*60*1000;const ad=new Date(a);const bd=new Date(b);ad.setHours(0,0,0,0);bd.setHours(0,0,0,0);return Math.round((bd-ad)/ms);}
+function subjectName(id){return data.subjects.find(s=>s.id===id)?.name||'Unknown subject';}
+
+function defaultData(){
+  return ensureDataShape({subjects:DEFAULTS.map(s=>({...s,categories:[...s.categories]})),lectures:DEMO.map(l=>({...l})),dpps:[]});
+}
+function ensureDataShape(obj){
+  if(!obj||typeof obj!=='object')obj={};
+  obj.subjects=Array.isArray(obj.subjects)?obj.subjects:[];
+  obj.lectures=Array.isArray(obj.lectures)?obj.lectures:[];
+  obj.dpps=Array.isArray(obj.dpps)?obj.dpps:[];
+  obj.settings={dailyTarget:3,examDate:'2027-01-15',...(obj.settings||{})};
+  obj.lectures=obj.lectures.map(l=>({
+    ...l,
+    revision:!!l.revision,
+    completedAt:l.completedAt||''
+  }));
+  obj.dpps=obj.dpps.map(d=>({
+    id:d.id,
+    subjectId:d.subjectId,
+    chapter:d.chapter||'',
+    label:d.label||'',
+    tag:d.tag||'',
+    date:d.date||'',
+    linkedLectureId:d.linkedLectureId||null,
+    done:!!d.done,
+    completedAt:d.completedAt||'',
+    marks:d.marks===0?0:(d.marks||null),
+    totalMarks:d.totalMarks===0?0:(d.totalMarks||null)
+  }));
+  obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
+  return obj;
+}
+function refreshCurrentView(){
+  if(currentView==='dashboard')renderDashboard();
+  else if(currentView==='tracker')renderTracker();
+  else if(currentView==='streaks')renderStreaks();
+  else if(currentView==='dpp')renderDpp();
+  else if(currentView==='revision')renderRevision();
+  else if(currentView==='stats')renderStats();
+  else if(currentView==='export')renderExport();
+}
+function isSupabaseConfigured(){
+  return SUPABASE_CONFIG.url.startsWith('https://')&&
+    SUPABASE_CONFIG.anonKey.length>30&&
+    !SUPABASE_CONFIG.url.includes('YOUR_')&&
+    !SUPABASE_CONFIG.anonKey.includes('YOUR_');
+}
+function setSyncStatus(text,state='warn'){
+  const el=document.getElementById('syncStatus');if(!el)return;
+  const dot=state==='ok'?'ok':state==='bad'?'bad':'warn';
+  el.innerHTML=`<span class="sync-dot ${dot}"></span><span>${text}</span>`;
+}
+function saveLocal(){
+  try{localStorage.setItem('pw_tracker_final',JSON.stringify(data));}catch(e){}
+}
+async function sha256(text){
+  const bytes=new TextEncoder().encode(text);
+  const hash=await crypto.subtle.digest('SHA-256',bytes);
+  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function showPasscode(message=''){
+  document.getElementById('passcodeScreen').style.display='flex';
+  document.getElementById('appShell').style.display='none';
+  document.getElementById('dockWrap').style.display='none';
+  const err=document.getElementById('passcodeError');
+  err.style.display=message?'block':'none';
+  err.textContent=message;
+  setTimeout(()=>document.getElementById('passcodeInput')?.focus(),0);
+}
+function showApp(){
+  document.getElementById('passcodeScreen').style.display='none';
+  document.getElementById('appShell').style.display='';
+  document.getElementById('dockWrap').style.display='';
+}
+async function unlockTracker(){
+  const input=document.getElementById('passcodeInput');
+  const btn=document.getElementById('unlockBtn');
+  const code=(input.value||'').trim();
+  if(!code){showPasscode('Enter the passcode.');return;}
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> Unlocking';
+  const hash=await sha256(code);
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-lock"></i> Unlock';
+  if(hash!==PASSCODE_CONFIG.hash){
+    input.value='';
+    showPasscode('Wrong passcode.');
+    return;
+  }
+  sessionStorage.setItem(PASSCODE_CONFIG.sessionKey,'1');
+  input.value='';
+  showApp();
+  await startSync();
+}
+function lockTracker(){
+  sessionStorage.removeItem(PASSCODE_CONFIG.sessionKey);
+  data={subjects:[],lectures:[]};
+  showPasscode();
+}
+function save(){
+  ensureDataShape(data);
+  data.meta.updatedAt=new Date().toISOString();
+  hasPendingLocalChanges=true;
+  saveLocal();
+  if(sb){
+    setSyncStatus('Saving','warn');
+    clearTimeout(syncTimer);
+    syncTimer=setTimeout(syncNow,350);
+  }else{
+    setSyncStatus('Local only',isSupabaseConfigured()?'warn':'bad');
+  }
+}
+async function syncNow(){
+  if(!sb||isSyncing)return;
+  isSyncing=true;
+  ensureDataShape(data);
+  const payload={tracker_id:SUPABASE_CONFIG.rowId,data,updated_at:new Date().toISOString()};
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'tracker_id'}).select('updated_at').single();
+  if(error){isSyncing=false;setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  remoteUpdatedAt=row?.updated_at||payload.updated_at;
+  hasPendingLocalChanges=false;
+  isSyncing=false;
+  setSyncStatus('Synced','ok');
+}
+async function load(){
+  let localData=null;
+  try{const r=localStorage.getItem('pw_tracker_final');if(r){data=ensureDataShape(JSON.parse(r));}else throw 0;}
+  catch(e){data=defaultData();}
+  localData=data;
+  try{if((localData.lectures?.length||0)>0)localStorage.setItem('pw_tracker_local_backup',JSON.stringify(localData));}catch(e){}
+  activeSub=data.subjects[0]?.id||null;
+  renderAll();
+
+  if(!sb){setSyncStatus('Local only',isSupabaseConfigured()?'warn':'bad');return;}
+  setSyncStatus('Loading','warn');
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
+  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  if(row?.data){
+    data=ensureDataShape(row.data);
+    remoteUpdatedAt=row.updated_at;
+    saveLocal();
+  }else{
+    await syncNow();
+  }
+  activeSub=data.subjects[0]?.id||null;
+  renderAll();
+  setSyncStatus('Synced','ok');
+}
+async function refreshFromCloud(){
+  if(!sb||sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'||isSyncing||hasPendingLocalChanges)return;
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
+  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  if(row?.data&&row.updated_at&&row.updated_at!==remoteUpdatedAt){
+    data=ensureDataShape(row.data);
+    remoteUpdatedAt=row.updated_at;
+    saveLocal();
+    activeSub=data.subjects.find(s=>s.id===activeSub)?.id||data.subjects[0]?.id||null;
+    renderAll();
+    setSyncStatus('Synced','ok');
+  }
+}
+
+async function init(){
+  if(sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'){
+    showPasscode();
+    return;
+  }
+  showApp();
+  await startSync();
+}
+async function startSync(){
+  if(isSupabaseConfigured()){
+    sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
+    await load();
+    clearInterval(refreshTimer);
+    refreshTimer=setInterval(refreshFromCloud,30000);
+    return;
+  }
+  await load();
+}
+
+/* ---- View ---- */
+const VIEWS=['dashboard','tracker','streaks','dpp','revision','stats','export'];
+function setView(v){
+  currentView=v;
+  VIEWS.forEach(name=>{
+    const el=document.getElementById('view-'+name);
+    if(el)el.style.display=name===v?'':'none';
+  });
+  document.getElementById('addLecBtn').style.display=v==='tracker'?'':'none';
+  document.querySelectorAll('.dock-item').forEach(btn=>{
+    btn.classList.toggle('active',btn.dataset.view===v);
+  });
+  if(v==='dashboard')renderDashboard();
+  else if(v==='tracker')renderTracker();
+  else if(v==='streaks')renderStreaks();
+  else if(v==='dpp')renderDpp();
+  else if(v==='revision')renderRevision();
+  else if(v==='stats')renderStats();
+  else if(v==='export')renderExport();
+}
+
+function renderAll(){ensureDataShape(data);renderDashboard();renderSubTabs();render();renderStreaks();renderDpp();renderRevision();renderStats();renderExport();}
+
+/* ---- Dashboard ---- */
+function getStats(subId){
+  const lecs=subId?data.lectures.filter(l=>l.subjectId===subId):data.lectures;
+  const total=lecs.length,done=lecs.filter(l=>l.done).length;
+  const leftMins=lecs.filter(l=>!l.done).reduce((a,l)=>a+durToMins(l.duration),0);
+  const pct=total?Math.round(done/total*100):0;
+  return{total,done,remaining:total-done,leftMins,pct};
+}
+
+function renderDashboard(){
+  const all=getStats(null);
+  const barCls=all.pct>=70?'':all.pct>=35?'warn':'low';
+
+  document.getElementById('dashOverall').innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:1.2rem;">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Overall Progress</div>
+        <div style="display:flex;align-items:baseline;gap:10px;">
+          <div style="font-size:40px;font-weight:700;color:var(--text);line-height:1;">${all.done}<span style="font-size:22px;color:var(--text3);font-weight:500;">/${all.total}</span></div>
+          <div style="font-size:13px;color:var(--text3);line-height:1.4;">lectures<br>completed</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1;min-width:210px;max-width:340px;">
+        <div class="dash-mini"><div class="dash-mini-val" style="color:var(--green);">${all.done}</div><div class="dash-mini-label">Completed</div></div>
+        <div class="dash-mini"><div class="dash-mini-val" style="color:var(--accent);">${all.remaining}</div><div class="dash-mini-label">Remaining</div></div>
+        <div class="dash-mini"><div class="dash-mini-val" style="color:var(--blue-text);font-size:15px;">${minsToStr(all.leftMins)}</div><div class="dash-mini-label">Time Left</div></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:6px;">
+      <span>Overall completion</span><span style="font-weight:600;color:var(--text);">${all.pct}%</span>
+    </div>
+    <div class="dash-bar-track"><div class="dash-bar-fill ${barCls}" style="width:${all.pct}%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:5px;">
+      <span>${data.subjects.length} subjects · ${data.lectures.length} total lectures</span>
+    </div>`;
+
+  if(!data.subjects.length){
+    document.getElementById('dashSubjects').innerHTML='<div class="empty"><i class="ti ti-books"></i>No subjects yet. Switch to Tracker to get started.</div>';
+    return;
+  }
+
+  // Group into '27 and '26 (and others)
+  const groups={};
+  data.subjects.forEach((s,i)=>{
+    const m=s.name.match(/'\d+$/);
+    const yr=m?m[0]:'Other';
+    if(!groups[yr])groups[yr]=[];
+    groups[yr].push({s,i});
+  });
+
+  let html='';
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(yr=>{
+    html+=`<div class="dash-section-title">${yr==='Other'?'Other subjects':yr+' Batch'}</div><div class="subj-grid">`;
+    groups[yr].forEach(({s,i})=>{
+      const st=getStats(s.id);
+      const col=COLORS[i%COLORS.length];
+      const barW=st.pct+'%';
+      html+=`<div class="subj-card" onclick="goToSubject('${s.id}')">
+        <div class="subj-card-accent" style="background:${col};"></div>
+        <div class="subj-name">${s.name}</div>
+        <div class="subj-total">${st.total} lecture${st.total!==1?'s':''} total</div>
+        <div class="subj-stats">
+          <div class="subj-stat"><div class="subj-stat-val" style="color:var(--green);">${st.done}</div><div class="subj-stat-label">Done</div></div>
+          <div class="subj-stat"><div class="subj-stat-val" style="color:var(--accent);">${st.remaining}</div><div class="subj-stat-label">Left</div></div>
+          <div class="subj-stat"><div class="subj-stat-val" style="color:var(--blue-text);font-size:12px;">${minsToStr(st.leftMins)}</div><div class="subj-stat-label">Time left</div></div>
+        </div>
+        <div class="subj-pct-row"><span style="font-size:11px;color:var(--text3);">Progress</span><span class="subj-pct" style="color:${col};">${st.pct}%</span></div>
+        <div class="subj-bar-track"><div class="subj-bar-fill" style="width:${barW};background:${col};"></div></div>
+        <div class="subj-hint"><i class="ti ti-arrow-right" style="font-size:10px;margin-right:3px;"></i>Open tracker</div>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  document.getElementById('dashSubjects').innerHTML=html;
+}
+
+function goToSubject(id){activeSub=id;activeCat='all';setView('tracker');}
+
+/* ---- Study tools ---- */
+function completedLectures(){return data.lectures.filter(l=>l.done);}
+function completionDates(){
+  return new Set(completedLectures().map(l=>l.completedAt).filter(Boolean));
+}
+function currentStreak(){
+  const dates=completionDates();let streak=0;const d=new Date();
+  while(dates.has(todayKey(d))){streak++;d.setDate(d.getDate()-1);}
+  return streak;
+}
+function bestStreak(){
+  const sorted=[...completionDates()].sort();
+  let best=0,cur=0,prev=null;
+  sorted.forEach(k=>{
+    if(prev&&daysBetween(prev,k)===1)cur++;else cur=1;
+    best=Math.max(best,cur);prev=k;
+  });
+  return best;
+}
+function watchedCountSince(start){
+  const startKey=todayKey(start);
+  return completedLectures().filter(l=>l.completedAt&&l.completedAt>=startKey).length;
+}
+function watchedMinsSince(start){
+  const startKey=todayKey(start);
+  return completedLectures().filter(l=>l.completedAt&&l.completedAt>=startKey).reduce((a,l)=>a+durToMins(l.duration),0);
+}
+function paceStats(){
+  const remaining=data.lectures.filter(l=>!l.done).length;
+  const target=Number(data.settings.dailyTarget)||0;
+  const daysLeft=data.settings.examDate?Math.max(0,daysBetween(todayKey(),data.settings.examDate)):0;
+  const capacity=target*daysLeft;
+  const needed=daysLeft?Math.ceil(remaining/daysLeft):remaining;
+  return{remaining,target,daysLeft,capacity,needed,onPace:capacity>=remaining};
+}
+function updateSettings(){
+  data.settings.dailyTarget=Math.max(0,Number(document.getElementById('dailyTargetInput').value)||0);
+  data.settings.examDate=document.getElementById('examDateInput').value||'';
+  save();renderAll();
+}
+function renderStreaks(){
+  const el=document.getElementById('streakContent');if(!el)return;
+  const pace=paceStats();
+  const todayDone=watchedCountSince(new Date(new Date().setHours(0,0,0,0)));
+  el.innerHTML=`
+    <div class="tool-grid">
+      <div class="tool-panel"><h3><i class="ti ti-flame"></i>Study streak</h3><div class="tool-stat">${currentStreak()}</div><div class="tool-caption">days in a row with at least one completed lecture</div></div>
+      <div class="tool-panel"><h3><i class="ti ti-trophy"></i>Best streak</h3><div class="tool-stat">${bestStreak()}</div><div class="tool-caption">best streak recorded from completion dates</div></div>
+      <div class="tool-panel"><h3><i class="ti ti-calendar-check"></i>Today</h3><div class="tool-stat">${todayDone}/${pace.target||0}</div><div class="tool-caption">${todayDone>=(pace.target||0)?'Daily target done':'lectures completed today'}</div></div>
+    </div>
+    <div class="tool-panel">
+      <h3><i class="ti ti-target-arrow"></i>Daily target and exam pace</h3>
+      <div class="tool-row"><span>Lectures per day</span><input id="dailyTargetInput" type="number" min="0" value="${pace.target}"></div>
+      <div class="tool-row"><span>Exam date</span><input id="examDateInput" type="date" value="${data.settings.examDate||''}"></div>
+      <div class="tool-actions"><button class="btn-primary" onclick="updateSettings()"><i class="ti ti-device-floppy"></i>Save target</button></div>
+      <div class="tool-caption">${pace.remaining} lectures remaining · ${pace.daysLeft} days left · need about <strong>${pace.needed}</strong>/day. ${pace.onPace?'<span style="color:var(--green-text);">You are on pace.</span>':'<span style="color:var(--red-text);">Increase pace or finish backlog days.</span>'}</div>
+    </div>`;
+}
+function lectureMini(l,actions=''){
+  return`<div class="mini-list-item"><div><div class="mini-title">${l.title}</div><div class="mini-meta"><span>${subjectName(l.subjectId)}</span>${l.category?`<span>${l.category}</span>`:''}${l.duration?`<span>${l.duration}</span>`:''}${l.date?`<span>${l.date}</span>`:''}</div></div><div class="mini-actions">${actions}</div></div>`;
+}
+let activeDppSub=null,dppHideDone=false;
+function getDppSub(){return data.subjects.find(s=>s.id===activeDppSub)||data.subjects[0];}
+function renderDppSubTabs(){
+  const row=document.getElementById('dppSubRow');if(!row)return;
+  if(!activeDppSub&&data.subjects.length)activeDppSub=data.subjects[0].id;
+  row.innerHTML=data.subjects.map(s=>`<button class="stab ${s.id===activeDppSub?'active':''}" data-dpp-sub-id="${s.id}">${s.name}</button>`).join('');
+}
+function toggleDppHideDone(){dppHideDone=!dppHideDone;document.getElementById('dppFilterBtn').classList.toggle('on',dppHideDone);renderDpp();}
+function renderDpp(){
+  renderDppSubTabs();
+  const el=document.getElementById('dppContent');if(!el)return;
+  if(!data.subjects.length){el.innerHTML='<div class="empty"><i class="ti ti-file-text"></i>No subjects yet. Add one from the Tracker tab.</div>';return;}
+  let dpps=data.dpps.filter(d=>d.subjectId===activeDppSub);
+  const total=dpps.length,done=dpps.filter(d=>d.done).length;
+  const q=(document.getElementById('dppSearchBox')?.value||'').toLowerCase();
+  if(q)dpps=dpps.filter(d=>(d.chapter+' '+d.label+' '+d.tag).toLowerCase().includes(q));
+  if(dppHideDone)dpps=dpps.filter(d=>!d.done);
+  const groups={};
+  dpps.forEach(d=>{const key=d.chapter||'Unsorted';if(!groups[key])groups[key]=[];groups[key].push(d);});
+  const chapterOrder=Object.keys(groups).sort();
+  let html=`<div class="tool-grid" style="margin-bottom:1rem;">
+    <div class="tool-panel"><h3><i class="ti ti-file-text"></i>Pending DPPs</h3><div class="tool-stat">${total-done}</div><div class="tool-caption">${done}/${total} completed in this subject</div></div>
+    <div class="tool-panel"><h3><i class="ti ti-circle-check"></i>DPP progress</h3><div class="tool-stat">${total?Math.round(done/total*100):0}%</div><div class="tool-caption">tracked independently of lectures</div></div>
+  </div>`;
+  if(!total){html+='<div class="tool-empty"><i class="ti ti-file-text"></i><br>No DPPs added for this subject yet. Click "Add DPP".</div>';el.innerHTML=html;return;}
+  if(!chapterOrder.length){html+='<div class="tool-empty"><i class="ti ti-circle-check"></i><br>Nothing matches your filters.</div>';el.innerHTML=html;return;}
+  chapterOrder.forEach(ch=>{
+    html+=`<div class="dash-section-title" style="margin-top:1.1rem;">${ch}</div>`;
+    groups[ch].sort((a,b)=>parseDate(a.date)-parseDate(b.date)).forEach(d=>{
+      const linked=d.linkedLectureId?data.lectures.find(l=>l.id===d.linkedLectureId):null;
+      const marksStr=(d.marks!==null&&d.marks!==undefined&&d.totalMarks)?`<span class="badge b-ok">${d.marks}/${d.totalMarks}</span>`:'';
+      html+=`<div class="lec-card">
+        <button class="check-btn ${d.done?'done':''}" onclick="toggleDppDone(${d.id})">
+          <svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+        </button>
+        <div class="lec-body">
+          <div class="lec-title ${d.done?'striked':''}">${d.chapter}${d.chapter?' : ':''}${d.label}${d.tag?` <span style="color:var(--text3);font-weight:400;">(${d.tag})</span>`:''}</div>
+          <div class="lec-meta">
+            ${d.date?`<span class="badge b-date"><i class="ti ti-calendar" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${d.date}</span>`:''}
+            ${linked?`<span class="badge b-ch"><i class="ti ti-link" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${linked.title}</span>`:''}
+            ${marksStr}
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-ghost" onclick="openEditDppModal(${d.id})"><i class="ti ti-pencil"></i></button>
+          <button class="btn-ghost danger" onclick="deleteDpp(${d.id})"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>`;
+    });
+  });
+  el.innerHTML=html;
+}
+function setDppSub(id){activeDppSub=id;renderDpp();}
+function toggleDppDone(id){data.dpps=data.dpps.map(d=>d.id===id?{...d,done:!d.done,completedAt:!d.done?todayKey():''}:d);save();renderDpp();}
+function deleteDpp(id){if(!confirm('Delete this DPP?'))return;data.dpps=data.dpps.filter(d=>d.id!==id);save();renderDpp();}
+function renderRevision(){
+  const el=document.getElementById('revisionContent');if(!el)return;
+  const rev=data.lectures.filter(l=>l.revision);
+  el.innerHTML=`<div class="tool-panel"><h3><i class="ti ti-refresh"></i>Revision mode</h3><div class="tool-caption">Mark lectures from the tracker with the refresh icon. This list is separate from done/not done.</div></div><div class="tool-list">${rev.length?rev.map(l=>lectureMini(l,`<button class="btn-sec" onclick="toggleRevision(${l.id})"><i class="ti ti-x"></i>Clear</button>`)).join(''):'<div class="tool-empty"><i class="ti ti-refresh"></i><br>No lectures marked for revision.</div>'}</div>`;
+}
+function renderStats(){
+  const el=document.getElementById('statsContent');if(!el)return;
+  const weekStart=isoWeekStart(),mStart=monthStart();
+  const weekMins=watchedMinsSince(weekStart),monthMins=watchedMinsSince(mStart);
+  const weekCount=watchedCountSince(weekStart),monthCount=watchedCountSince(mStart);
+  const totalWatched=completedLectures().reduce((a,l)=>a+durToMins(l.duration),0);
+  el.innerHTML=`<div class="tool-grid">
+    <div class="tool-panel"><h3><i class="ti ti-clock"></i>This week</h3><div class="tool-stat">${minsToStr(weekMins)}</div><div class="tool-caption">${weekCount} lectures completed since Monday</div></div>
+    <div class="tool-panel"><h3><i class="ti ti-calendar-month"></i>This month</h3><div class="tool-stat">${minsToStr(monthMins)}</div><div class="tool-caption">${monthCount} lectures completed this month</div></div>
+    <div class="tool-panel"><h3><i class="ti ti-player-play"></i>Total watched</h3><div class="tool-stat">${minsToStr(totalWatched)}</div><div class="tool-caption">based on lectures marked done</div></div>
+  </div><div class="tool-panel"><h3><i class="ti ti-info-circle"></i>Note</h3><div class="tool-caption">Week/month stats become accurate from the day this update is used. Older completed lectures had no completion date saved.</div></div>`;
+}
+function renderExport(){
+  const el=document.getElementById('exportContent');if(!el)return;
+  el.innerHTML=`<div class="tool-grid">
+    <div class="tool-panel"><h3><i class="ti ti-file-spreadsheet"></i>Lectures CSV</h3><div class="tool-caption">Spreadsheet-friendly lecture progress export.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadCSV()"><i class="ti ti-download"></i>Download CSV</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-file-text"></i>DPPs CSV</h3><div class="tool-caption">All DPPs with chapter, tag, linked lecture and marks.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadDppCSV()"><i class="ti ti-download"></i>Download CSV</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-database-export"></i>JSON backup</h3><div class="tool-caption">Full backup with subjects, lectures, DPPs and settings.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadJSON()"><i class="ti ti-download"></i>Download JSON</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-file-type-pdf"></i>PDF report</h3><div class="tool-caption">Opens browser print. Choose Save as PDF.</div><div class="tool-actions"><button class="btn-primary" onclick="printReport()"><i class="ti ti-printer"></i>Print report</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button><button class="btn-sec" onclick="forcePushCloud()"><i class="ti ti-cloud-up"></i>Push cloud</button><button class="btn-sec" onclick="restoreLocalBackup()"><i class="ti ti-upload"></i>Upload backup</button></div></div>
+  </div>`;
+}
+function downloadBlob(name,type,content){
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+  URL.revokeObjectURL(url);
+}
+function csvCell(v){
+  const s=String(v??'');
+  return /[",\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s;
+}
+function downloadCSV(){
+  const rows=[['Subject','Category','Title','Chapter','Date','Duration','Done','Completed At','Revision']];
+  data.lectures.forEach(l=>rows.push([subjectName(l.subjectId),l.category,l.title,l.chapter,l.date,l.duration,l.done?'Yes':'No',l.completedAt||'',l.revision?'Yes':'No']));
+  downloadBlob(`pw-tracker-${todayKey()}.csv`,'text/csv;charset=utf-8',rows.map(r=>r.map(csvCell).join(',')).join('\n'));
+}
+function downloadDppCSV(){
+  const rows=[['Subject','Chapter','DPP','Tag','Date','Linked Lecture','Done','Completed At','Marks','Total Marks']];
+  data.dpps.forEach(d=>{
+    const linked=d.linkedLectureId?data.lectures.find(l=>l.id===d.linkedLectureId):null;
+    rows.push([subjectName(d.subjectId),d.chapter,d.label,d.tag,d.date,linked?linked.title:'',d.done?'Yes':'No',d.completedAt||'',d.marks??'',d.totalMarks??'']);
+  });
+  downloadBlob(`pw-tracker-dpps-${todayKey()}.csv`,'text/csv;charset=utf-8',rows.map(r=>r.map(csvCell).join(',')).join('\n'));
+}
+function downloadJSON(){
+  downloadBlob(`pw-tracker-backup-${todayKey()}.json`,'application/json;charset=utf-8',JSON.stringify(ensureDataShape(data),null,2));
+}
+async function forcePushCloud(){
+  hasPendingLocalChanges=true;
+  await syncNow();
+}
+async function restoreLocalBackup(){
+  const raw=localStorage.getItem('pw_tracker_local_backup')||localStorage.getItem('pw_tracker_final');
+  if(!raw){alert('No local backup found on this device.');return;}
+  if(!confirm('Upload this device backup to cloud and replace the cloud copy?'))return;
+  data=ensureDataShape(JSON.parse(raw));
+  activeSub=data.subjects[0]?.id||null;
+  saveLocal();
+  renderAll();
+  await syncNow();
+}
+function printReport(){
+  const all=getStats(null),pace=paceStats();
+  const w=window.open('','_blank');
+  const subjectRows=data.subjects.map(s=>{const st=getStats(s.id);return`<tr><td>${s.name}</td><td>${st.done}/${st.total}</td><td>${st.pct}%</td><td>${minsToStr(st.leftMins)}</td></tr>`;}).join('');
+  w.document.write(`<!doctype html><html><head><title>PW Tracker Report</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h1{margin:0 0 6px}p{color:#555}table{width:100%;border-collapse:collapse;margin-top:18px}td,th{border:1px solid #ddd;padding:8px;text-align:left}th{background:#f3f3f3}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.card{border:1px solid #ddd;padding:12px;border-radius:8px}.num{font-size:24px;font-weight:700}</style></head><body><h1>PW Lecture Tracker</h1><p>Report generated ${new Date().toLocaleString()}</p><div class="grid"><div class="card"><div class="num">${all.done}/${all.total}</div><div>Lectures done</div></div><div class="card"><div class="num">${all.pct}%</div><div>Overall progress</div></div><div class="card"><div class="num">${currentStreak()}</div><div>Current streak</div></div><div class="card"><div class="num">${pace.needed}/day</div><div>Needed pace</div></div></div><table><thead><tr><th>Subject</th><th>Done</th><th>Progress</th><th>Time left</th></tr></thead><tbody>${subjectRows}</tbody></table></body></html>`);
+  w.document.close();w.focus();w.print();
+}
+
+/* ---- Tracker ---- */
+function renderTracker(){renderSubTabs();render();}
+
+function renderSubTabs(){
+  document.getElementById('subRow').innerHTML=
+    data.subjects.map(s=>`<button class="stab ${s.id===activeSub?'active':''}" data-sub-id="${s.id}">${s.name}</button>`).join('')+
+    `<button class="stab-add" data-sub-add="1"><i class="ti ti-plus"></i></button>`;
+}
+
+function setSub(id){activeSub=id;activeCat='all';renderSubTabs();render();}
+function getCurSub(){return data.subjects.find(s=>s.id===activeSub);}
+function toggleHideDone(){hideDone=!hideDone;document.getElementById('filterDoneBtn').classList.toggle('on',hideDone);render();}
+
+function render(){
+  const sub=getCurSub();
+  if(!sub){document.getElementById('list').innerHTML='<div class="empty"><i class="ti ti-books"></i>No subjects yet.</div>';return;}
+
+  // Category pills
+  document.getElementById('catRow').innerHTML=
+    `<button class="cat-pill ${activeCat==='all'?'active':''}" data-cat="__all__">All</button>`+
+    sub.categories.map((c,i)=>`<button class="cat-pill ${activeCat===c?'active':''}" data-cat-idx="${i}">${c}</button>`).join('')+
+    `<button class="cat-pill-add" data-cat-add="1"><i class="ti ti-plus"></i> New category</button>`;
+
+  let lecs=data.lectures.filter(l=>l.subjectId===activeSub);
+  const total=lecs.length,done=lecs.filter(l=>l.done).length;
+  const leftMins=lecs.filter(l=>!l.done).reduce((a,l)=>a+durToMins(l.duration),0);
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('sDone').textContent=done;
+  document.getElementById('sTime').textContent=minsToStr(leftMins);
+  document.getElementById('sPct').textContent=pct+'%';
+  document.getElementById('prog').style.width=pct+'%';
+
+  if(activeCat!=='all')lecs=lecs.filter(l=>l.category===activeCat);
+  if(hideDone)lecs=lecs.filter(l=>!l.done);
+  const q=(document.getElementById('searchBox').value||'').toLowerCase();
+  if(q)lecs=lecs.filter(l=>(l.title+l.chapter+l.category).toLowerCase().includes(q));
+  lecs.sort((a,b)=>parseDate(a.date)-parseDate(b.date));
+
+  const el=document.getElementById('list');
+  if(!lecs.length){el.innerHTML=`<div class="empty"><i class="ti ti-notebook"></i>${total===0?'No lectures yet. Click <strong>Add</strong> to get started.':'No lectures match your filters.'}</div>`;return;}
+  el.innerHTML=lecs.map(l=>`
+    <div class="lec-card">
+      <button class="check-btn ${l.done?'done':''}" onclick="toggleDone(${l.id})">
+        <svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
+      </button>
+      <div class="lec-body">
+        <div class="lec-title ${l.done?'striked':''}">${l.title}</div>
+        <div class="lec-meta">
+          ${l.date?`<span class="badge b-date"><i class="ti ti-calendar" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${l.date}</span>`:''}
+          ${l.duration?`<span class="badge b-dur"><i class="ti ti-clock" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${l.duration}</span>`:''}
+          ${l.category?`<span class="badge b-cat">${l.category}</span>`:''}
+          ${l.chapter?`<span class="badge b-ch">${l.chapter}</span>`:''}
+          ${dppBadgeForLecture(l.id)}
+          ${l.revision?`<span class="badge b-rev">Revision</span>`:''}
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-ghost" title="Toggle revision" onclick="toggleRevision(${l.id})"><i class="ti ti-refresh ${l.revision?'ct4':''}"></i></button>
+        <button class="btn-ghost" onclick="openEditModal(${l.id})"><i class="ti ti-pencil"></i></button>
+        <button class="btn-ghost danger" onclick="deleteLec(${l.id})"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`).join('');
+}
+function dppBadgeForLecture(lecId){
+  const linked=data.dpps.filter(d=>d.linkedLectureId===lecId);
+  if(!linked.length)return'';
+  const done=linked.filter(d=>d.done).length;
+  const cls=done===linked.length?'b-ok':'b-dpp';
+  return`<span class="badge ${cls}">${done}/${linked.length} DPP</span>`;
+}
+
+function toggleDone(id){data.lectures=data.lectures.map(l=>l.id===id?{...l,done:!l.done,completedAt:!l.done?todayKey():''}:l);save();render();renderDashboard();}
+function toggleRevision(id){data.lectures=data.lectures.map(l=>l.id===id?{...l,revision:!l.revision}:l);save();if(currentView==='tracker')render();else refreshCurrentView();}
+function deleteLec(id){if(!confirm('Remove this lecture?'))return;data.lectures=data.lectures.filter(l=>l.id!==id);save();render();renderDashboard();}
+function setCat(c){activeCat=c;render();}
+
+function promptAddSubject(){
+  const name=prompt('New subject name:');
+  if(!name||!name.trim())return;
+  const n=name.trim();
+  if(data.subjects.find(s=>s.name===n)){alert('Already exists.');return;}
+  data.subjects.push({id:'s'+uid(),name:n,categories:['Regular Lectures']});
+  activeSub=data.subjects[data.subjects.length-1].id;activeCat='all';
+  save();renderAll();
+}
+function promptAddCategory(){
+  const sub=getCurSub();if(!sub)return;
+  const name=prompt('New category name:\n(e.g. "MBBS by Manish Sir", "Extra Dose", "Revision in One Shot")');
+  if(!name||!name.trim())return;
+  const n=name.trim();
+  if(sub.categories.includes(n)){alert('Already exists.');return;}
+  sub.categories.push(n);activeCat=n;save();renderAll();
+}
+
+/* ---- Modals ---- */
+function showModal(html){document.getElementById('mc').innerHTML=html;}
+function closeModal(){document.getElementById('mc').innerHTML='';}
+function bgClick(e){if(e.target.classList.contains('modal-overlay'))closeModal();}
+function openAddModal(){modalMode='manual';showModal(buildAddModal());}
+function setModalMode(m){modalMode=m;showModal(buildAddModal());}
+
+function buildAddModal(){
+  const sub=getCurSub();const cats=sub?sub.categories:[];
+  return`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal">
+    <h3>Add lecture</h3>
+    <div class="mtab-row">
+      <button class="mtab ${modalMode==='manual'?'active':''}" onclick="setModalMode('manual')">Manual entry</button>
+      <button class="mtab ${modalMode==='paste'?'active':''}" onclick="setModalMode('paste')">Paste from PW</button>
+    </div>
+    ${modalMode==='paste'?buildPasteForm(cats):buildManualForm(cats,null)}
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="${modalMode==='paste'?'submitPaste()':'submitManual()'}">
+        ${modalMode==='paste'?'Parse & add':'Add lecture'}
+      </button>
+    </div>
+  </div></div>`;
+}
+
+function buildManualForm(cats,l){
+  const preselect=l?l.category:(activeCat!=='all'?activeCat:(cats[0]||''));
+  return`
+    <div class="fr"><label>Category</label>
+      <select id="f-cat">${cats.map(c=>`<option value="${c}"${c===preselect?' selected':''}>${c}</option>`).join('')}</select></div>
+    <div class="fr"><label>Title</label>
+      <input type="text" id="f-title" value="${l?l.title.replace(/"/g,'&quot;'):''}" placeholder="e.g. Motion in a Straight Line 01"></div>
+    <div class="fr"><label>Chapter (optional)</label>
+      <input type="text" id="f-chapter" value="${l?l.chapter:''}" placeholder="e.g. Mathematical Tools"></div>
+    <div class="f2">
+      <div class="fr"><label>Date</label><input type="text" id="f-date" value="${l?l.date:''}" placeholder="29 Apr 2026"></div>
+      <div class="fr"><label>Duration</label><input type="text" id="f-dur" value="${l?l.duration:''}" placeholder="2h 10m"></div>
+    </div>`;
+}
+
+function buildPasteForm(cats){
+  const preselect=activeCat!=='all'?activeCat:(cats[0]||'');
+  return`
+    <div class="fr"><label>Assign to category</label>
+      <select id="f-cat2">${cats.map(c=>`<option value="${c}"${c===preselect?' selected':''}>${c}</option>`).join('')}</select></div>
+    <div class="fr">
+      <p class="parse-hint">Copy text from the PW "All Classes" page and paste below. Works for any section.</p>
+      <textarea id="f-paste" placeholder="Lecture&#10;29 Apr 2026&#10;Topic Name&#10;2h:10m&#10;Watch&#10;..."></textarea>
+      <div class="err-msg" id="parse-err">No lectures found — try selecting more text from the page.</div>
+    </div>`;
+}
+
+function openEditModal(id){
+  const l=data.lectures.find(x=>x.id===id);if(!l)return;
+  const sub=getCurSub();const cats=sub?sub.categories:[];
+  showModal(`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal">
+    <h3>Edit lecture</h3>
+    ${buildManualForm(cats,l)}
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="submitEdit(${l.id})">Save changes</button>
+    </div>
+  </div></div>`);
+}
+
+function submitManual(){
+  const title=document.getElementById('f-title').value.trim();
+  if(!title){alert('Title is required.');return;}
+  data.lectures.push({id:uid(),subjectId:activeSub,done:false,
+    category:document.getElementById('f-cat').value,
+    title,chapter:document.getElementById('f-chapter').value.trim(),
+    date:document.getElementById('f-date').value.trim(),
+    duration:document.getElementById('f-dur').value.trim(),
+    revision:false,completedAt:''});
+  save();closeModal();renderAll();
+}
+
+function submitEdit(id){
+  const title=document.getElementById('f-title').value.trim();
+  if(!title){alert('Title is required.');return;}
+  data.lectures=data.lectures.map(l=>l.id===id?{...l,
+    category:document.getElementById('f-cat').value,
+    title,chapter:document.getElementById('f-chapter').value.trim(),
+    date:document.getElementById('f-date').value.trim(),
+    duration:document.getElementById('f-dur').value.trim()}:l);
+  save();closeModal();renderAll();
+}
+
+function submitPaste(){
+  const raw=document.getElementById('f-paste').value.trim();
+  const cat=document.getElementById('f-cat2').value;
+  if(!raw){alert('Please paste some text.');return;}
+  const parsed=parsePW(raw,cat);
+  if(!parsed.length){document.getElementById('parse-err').style.display='block';return;}
+  data.lectures.push(...parsed);
+  save();closeModal();renderAll();
+}
+
+function parsePW(raw,cat){
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const skip=['Watch','Resume','Notes & more','Attempt DPP','Notes','Auto Fetch'];
+  const dateRe=new RegExp(`^\\d{1,2}\\s+(?:${MONTH_RE})\\s+\\d{4}$`,'i');
+  const durRe=/^(\d+)h[:\s](\d+)m$/i;
+  const res=[];let i=0;
+  while(i<lines.length){
+    if(/^Lecture$/i.test(lines[i])){
+      const l={id:uid(),subjectId:activeSub,category:cat,title:'',chapter:'',date:'',duration:'',done:false,revision:false,completedAt:''};
+      i++;
+      if(i<lines.length&&dateRe.test(lines[i])){l.date=normalizeDateText(lines[i]);i++;}
+      if(i<lines.length&&!skip.includes(lines[i])&&!durRe.test(lines[i])&&!/^Lecture$/i.test(lines[i])){
+        l.title=lines[i].replace(/\s*\|\|\s*NO DPP\s*/gi,'').trim();i++;
+      }
+      if(i<lines.length&&durRe.test(lines[i])){const m=lines[i].match(durRe);l.duration=m[1]+'h '+m[2]+'m';i++;}
+      while(i<lines.length&&!/^Lecture$/i.test(lines[i]))i++;
+      if(l.title){l.chapter=guessChapter(l.title);res.push(l);}
+    }else{i++;}
+  }
+  return res;
+}
+
+function guessChapter(t){
+  const map=[
+    [/error in meas/i,'Error in Measurements'],[/mathematical tool/i,'Mathematical Tools'],
+    [/motion in a straight/i,'Motion in a Straight Line'],[/motion in a plane/i,'Motion in a Plane'],
+    [/relative motion/i,'Relative Motion'],[/laws of motion/i,'Laws of Motion'],
+    [/work.*energy/i,'Work, Energy and Power'],[/circular/i,'Circular Motion'],
+    [/centre of mass/i,'Centre of Mass'],[/gravitation/i,'Gravitation'],
+    [/trigono/i,'Trigonometry'],[/differenti/i,'Differentiation'],[/integrat/i,'Integration'],
+    [/limit/i,'Limits'],[/function/i,'Functions'],[/sets/i,'Sets'],
+    [/mole concept/i,'Mole Concept'],[/atomic/i,'Atomic Structure'],
+    [/chemical bonding/i,'Chemical Bonding'],[/thermodynamics/i,'Thermodynamics'],
+    [/equilibrium/i,'Equilibrium'],[/hydrocarbon/i,'Hydrocarbons'],
+  ];
+  for(const[r,c]of map)if(r.test(t))return c;
+  return'';
+}
+
+/* ---- DPP Modal ---- */
+let dppModalMode='manual';
+function lecturesForSub(subId){return data.lectures.filter(l=>l.subjectId===subId).sort((a,b)=>parseDate(b.date)-parseDate(a.date));}
+function openAddDppModal(){
+  if(!activeDppSub&&data.subjects.length)activeDppSub=data.subjects[0].id;
+  dppModalMode='manual';showModal(buildDppModal(null));
+}
+function setDppModalMode(m){dppModalMode=m;showModal(buildDppModal(null));}
+function openEditDppModal(id){
+  const d=data.dpps.find(x=>x.id===id);if(!d)return;
+  dppModalMode='manual';showModal(buildDppModal(d));
+}
+function buildDppModal(d){
+  const sub=data.subjects.find(s=>s.id===(d?d.subjectId:activeDppSub))||data.subjects[0];
+  const isEdit=!!d;
+  return`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal">
+    <h3>${isEdit?'Edit DPP':'Add DPP'}</h3>
+    ${!isEdit?`<div class="mtab-row">
+      <button class="mtab ${dppModalMode==='manual'?'active':''}" onclick="setDppModalMode('manual')">Manual entry</button>
+      <button class="mtab ${dppModalMode==='paste'?'active':''}" onclick="setDppModalMode('paste')">Paste from PW</button>
+    </div>`:''}
+    ${(isEdit||dppModalMode==='manual')?buildDppManualForm(sub,d):buildDppPasteForm(sub)}
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="${isEdit?`submitDppEdit(${d.id})`:(dppModalMode==='paste'?'submitDppPaste()':'submitDppManual()')}">
+        ${isEdit?'Save changes':(dppModalMode==='paste'?'Parse & add':'Add DPP')}
+      </button>
+    </div>
+  </div></div>`;
+}
+function buildDppManualForm(sub,d){
+  const linkedLecs=sub?lecturesForSub(sub.id):[];
+  return`
+    <div class="fr"><label>Subject</label>
+      <select id="d-sub" onchange="rebuildDppModalForSub()">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
+    <div class="fr"><label>Chapter</label>
+      <input type="text" id="d-chapter" value="${d?d.chapter.replace(/"/g,'&quot;'):''}" placeholder="e.g. Motion in a Straight Line"></div>
+    <div class="f2">
+      <div class="fr"><label>DPP label</label><input type="text" id="d-label" value="${d?d.label.replace(/"/g,'&quot;'):''}" placeholder="e.g. DPP 06"></div>
+      <div class="fr"><label>Tag (optional)</label><input type="text" id="d-tag" value="${d?d.tag.replace(/"/g,'&quot;'):''}" placeholder="Extra / Of Lec 07"></div>
+    </div>
+    <div class="fr"><label>Date</label><input type="text" id="d-date" value="${d?d.date:''}" placeholder="13 May"></div>
+    <div class="fr"><label>Link to lecture (optional)</label>
+      <select id="d-linked">
+        <option value="">— None —</option>
+        ${linkedLecs.map(l=>`<option value="${l.id}"${d&&d.linkedLectureId===l.id?' selected':''}>${l.title}</option>`).join('')}
+      </select></div>
+    <div class="f2">
+      <div class="fr"><label>Marks scored (optional)</label><input type="number" id="d-marks" value="${d&&d.marks!==null&&d.marks!==undefined?d.marks:''}" placeholder="e.g. 8"></div>
+      <div class="fr"><label>Total marks (optional)</label><input type="number" id="d-total" value="${d&&d.totalMarks!==null&&d.totalMarks!==undefined?d.totalMarks:''}" placeholder="e.g. 12"></div>
+    </div>`;
+}
+function buildDppPasteForm(sub){
+  return`
+    <div class="fr"><label>Subject</label>
+      <select id="d-sub-paste">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
+    <div class="fr">
+      <p class="parse-hint">Copy DPP entries from the PW "DPPs" page and paste below. Format expected: "DPP PDF" / date / "Chapter : DPP 06 (tag)" / "View DPP PDF" repeating.</p>
+      <textarea id="d-paste" placeholder="DPP PDF&#10;13 May&#10;Motion in a Straight Line : DPP 06 (Extra)&#10;View DPP PDF&#10;..."></textarea>
+      <div class="err-msg" id="dpp-parse-err">No DPPs found — check the pasted text matches the expected format.</div>
+    </div>`;
+}
+function rebuildDppModalForSub(){
+  const subId=document.getElementById('d-sub').value;
+  const sub=data.subjects.find(s=>s.id===subId);
+  showModal(buildDppModal(null));
+  document.getElementById('d-sub').value=subId;
+}
+function submitDppManual(){
+  const chapter=document.getElementById('d-chapter').value.trim();
+  const label=document.getElementById('d-label').value.trim();
+  if(!label){alert('DPP label is required.');return;}
+  const marksVal=document.getElementById('d-marks').value;
+  const totalVal=document.getElementById('d-total').value;
+  data.dpps.push({
+    id:uid(),
+    subjectId:document.getElementById('d-sub').value,
+    chapter,label,
+    tag:document.getElementById('d-tag').value.trim(),
+    date:document.getElementById('d-date').value.trim(),
+    linkedLectureId:document.getElementById('d-linked').value||null,
+    done:false,completedAt:'',
+    marks:marksVal===''?null:Number(marksVal),
+    totalMarks:totalVal===''?null:Number(totalVal)
+  });
+  save();closeModal();renderDpp();
+}
+function submitDppEdit(id){
+  const chapter=document.getElementById('d-chapter').value.trim();
+  const label=document.getElementById('d-label').value.trim();
+  if(!label){alert('DPP label is required.');return;}
+  const marksVal=document.getElementById('d-marks').value;
+  const totalVal=document.getElementById('d-total').value;
+  data.dpps=data.dpps.map(d=>d.id===id?{...d,
+    subjectId:document.getElementById('d-sub').value,
+    chapter,label,
+    tag:document.getElementById('d-tag').value.trim(),
+    date:document.getElementById('d-date').value.trim(),
+    linkedLectureId:document.getElementById('d-linked').value||null,
+    marks:marksVal===''?null:Number(marksVal),
+    totalMarks:totalVal===''?null:Number(totalVal)
+  }:d);
+  save();closeModal();renderDpp();
+}
+function submitDppPaste(){
+  const raw=document.getElementById('d-paste').value.trim();
+  const subId=document.getElementById('d-sub-paste').value;
+  if(!raw){alert('Please paste some text.');return;}
+  const parsed=parseDppPaste(raw,subId);
+  if(!parsed.length){document.getElementById('dpp-parse-err').style.display='block';return;}
+  data.dpps.push(...parsed);
+  save();closeModal();renderDpp();
+}
+function parseDppPaste(raw,subId){
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const skip=['DPP PDF','View DPP PDF','Auto Fetch','Attempt DPP','Notes'];
+  const dateRe=new RegExp(`^\\d{1,2}\\s+(?:${MONTH_RE})(\\s+\\d{4})?$`,'i');
+  const titleRe=/^(.*?)\s*:\s*DPP\s*[- ]?\s*(\d+)\s*(?:\((.*?)\))?\s*$/i;
+  const res=[];let i=0;
+  while(i<lines.length){
+    const line=lines[i];
+    if(skip.includes(line)){i++;continue;}
+    if(dateRe.test(line)){
+      const date=normalizeDateText(line);let j=i+1;
+      while(j<lines.length&&skip.includes(lines[j]))j++;
+      if(j<lines.length&&titleRe.test(lines[j])){
+        const m=lines[j].match(titleRe);
+        res.push({
+          id:uid(),subjectId:subId,
+          chapter:m[1].trim(),
+          label:'DPP '+m[2],
+          tag:m[3]?m[3].trim():'',
+          date,
+          linkedLectureId:null,done:false,completedAt:'',
+          marks:null,totalMarks:null
+        });
+        i=j+1;continue;
+      }
+    }
+    i++;
+  }
+  return res;
+}
+
+/* ---- Manage Modal ---- */
+function openManageModal(){
+  const sub=getCurSub();
+  showModal(`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal">
+    <h3><i class="ti ti-settings" style="margin-right:6px;"></i>Manage subjects & categories</h3>
+    <div class="section-label">Rename subject</div>
+    <div class="rename-row">
+      <input type="text" id="ren-sub" value="${sub?sub.name.replace(/"/g,'&quot;'):''}" placeholder="Subject name">
+      <button class="btn-primary" style="padding:7px 13px;font-size:13px;" onclick="renameSubject()">Rename</button>
+    </div>
+    ${sub?`
+    <div class="section-label">Rename or delete categories</div>
+    ${sub.categories.map((c,i)=>`
+      <div class="rename-row">
+        <input type="text" id="ren-cat-${i}" value="${c.replace(/"/g,'&quot;')}">
+        <button class="btn-primary" style="padding:7px 12px;font-size:13px;" onclick="renameCat(${i})">Save</button>
+        <button class="btn-ghost danger" onclick="deleteCat(${i})"><i class="ti ti-trash"></i></button>
+      </div>`).join('')}
+    <div class="section-label" style="margin-top:16px;">Danger zone</div>
+    <div class="danger-zone">
+      <p>Permanently deletes <strong>${sub.name}</strong> and all its lectures.</p>
+      <button class="btn-sec" style="color:var(--red-text);border-color:#fecaca;" onclick="deleteSubject()">
+        <i class="ti ti-trash" style="margin-right:5px;"></i>Delete ${sub.name}
+      </button>
+    </div>`:''}
+    <div class="modal-btns" style="margin-top:1rem;">
+      <button class="btn-primary" onclick="closeModal()">Done</button>
+    </div>
+  </div></div>`);
+}
+
+function renameSubject(){
+  const sub=getCurSub();if(!sub)return;
+  const n=document.getElementById('ren-sub').value.trim();
+  if(!n){alert('Name cannot be empty.');return;}
+  sub.name=n;save();renderAll();openManageModal();
+}
+function renameCat(i){
+  const sub=getCurSub();if(!sub)return;
+  const n=document.getElementById('ren-cat-'+i).value.trim();
+  if(!n){alert('Name cannot be empty.');return;}
+  const old=sub.categories[i];sub.categories[i]=n;
+  data.lectures=data.lectures.map(l=>l.subjectId===activeSub&&l.category===old?{...l,category:n}:l);
+  if(activeCat===old)activeCat=n;
+  save();renderAll();openManageModal();
+}
+function deleteCat(i){
+  const sub=getCurSub();if(!sub)return;
+  const c=sub.categories[i];
+  if(!confirm(`Delete category "${c}"? Lectures stay but lose their category.`))return;
+  sub.categories.splice(i,1);
+  if(activeCat===c)activeCat='all';
+  save();renderAll();openManageModal();
+}
+function deleteSubject(){
+  const sub=getCurSub();if(!sub)return;
+  if(!confirm(`Delete "${sub.name}" and ALL its lectures? Cannot be undone.`))return;
+  data.subjects=data.subjects.filter(s=>s.id!==activeSub);
+  data.lectures=data.lectures.filter(l=>l.subjectId!==activeSub);
+  activeSub=data.subjects[0]?.id||null;activeCat='all';
+  save();closeModal();renderAll();
+}
+
+/* ---- Delegated listeners ---- */
+document.getElementById('subRow').addEventListener('click',function(e){
+  const btn=e.target.closest('button');if(!btn)return;
+  if(btn.dataset.subId){setSub(btn.dataset.subId);return;}
+  if(btn.dataset.subAdd)promptAddSubject();
+});
+document.getElementById('catRow').addEventListener('click',function(e){
+  const btn=e.target.closest('button');if(!btn)return;
+  if(btn.dataset.cat==='__all__'){setCat('all');return;}
+  if(btn.dataset.catIdx!==undefined){const sub=getCurSub();if(sub)setCat(sub.categories[+btn.dataset.catIdx]);return;}
+  if(btn.dataset.catAdd)promptAddCategory();
+});
+document.getElementById('dppSubRow').addEventListener('click',function(e){
+  const btn=e.target.closest('button');if(!btn)return;
+  if(btn.dataset.dppSubId)setDppSub(btn.dataset.dppSubId);
+});
+window.addEventListener('focus',refreshFromCloud);
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible')refreshFromCloud();
+});
+
+init();
+</script>
+</body>
+</html>
