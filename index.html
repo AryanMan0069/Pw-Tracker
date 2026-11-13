@@ -379,7 +379,7 @@ const PASSCODE_CONFIG={
 
 let data={subjects:[],lectures:[]};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
-let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,hasPendingLocalChanges=false;
+let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false;
 
 const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
 
@@ -409,12 +409,7 @@ const DEMO=[
 function uid(){return Date.now()+Math.floor(Math.random()*99999);}
 function durToMins(s){if(!s)return 0;const h=s.match(/(\d+)h/),m=s.match(/(\d+)m/);return(h?+h[1]*60:0)+(m?+m[1]:0);}
 function minsToStr(m){if(!m)return'—';const h=Math.floor(m/60),mn=m%60;return h>0?(mn>0?h+'h '+mn+'m':h+'h'):mn+'m';}
-const MONTHS={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Sept:8,September:8,Oct:9,Nov:10,Dec:11};
-const MONTH_RE='Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|September|Oct|Nov|Dec';
-function normalizeDateText(d){
-  return (d||'').trim().replace(/\bSept(?:ember)?\b/i,'Sep').replace(/\s+/g,' ');
-}
-function parseDate(d){if(!d)return new Date(0);const p=normalizeDateText(d).split(' ');return new Date(+p[2],MONTHS[p[1]],+p[0]);}
+function parseDate(d){if(!d)return new Date(0);const mo={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Sept:8,Oct:9,Nov:10,Dec:11};const p=d.split(' ');return new Date(+p[2],mo[p[1]],+p[0]);}
 function todayKey(date=new Date()){const d=new Date(date);const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
 function isoWeekStart(date=new Date()){const d=new Date(date);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d;}
 function monthStart(date=new Date()){return new Date(date.getFullYear(),date.getMonth(),1);}
@@ -519,7 +514,6 @@ function lockTracker(){
 function save(){
   ensureDataShape(data);
   data.meta.updatedAt=new Date().toISOString();
-  hasPendingLocalChanges=true;
   saveLocal();
   if(sb){
     setSyncStatus('Saving','warn');
@@ -537,7 +531,6 @@ async function syncNow(){
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'tracker_id'}).select('updated_at').single();
   if(error){isSyncing=false;setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   remoteUpdatedAt=row?.updated_at||payload.updated_at;
-  hasPendingLocalChanges=false;
   isSyncing=false;
   setSyncStatus('Synced','ok');
 }
@@ -566,7 +559,7 @@ async function load(){
   setSyncStatus('Synced','ok');
 }
 async function refreshFromCloud(){
-  if(!sb||sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'||isSyncing||hasPendingLocalChanges)return;
+  if(!sb||sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'||isSyncing)return;
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
   if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   if(row?.data&&row.updated_at&&row.updated_at!==remoteUpdatedAt){
@@ -839,7 +832,7 @@ function renderExport(){
     <div class="tool-panel"><h3><i class="ti ti-file-text"></i>DPPs CSV</h3><div class="tool-caption">All DPPs with chapter, tag, linked lecture and marks.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadDppCSV()"><i class="ti ti-download"></i>Download CSV</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-database-export"></i>JSON backup</h3><div class="tool-caption">Full backup with subjects, lectures, DPPs and settings.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadJSON()"><i class="ti ti-download"></i>Download JSON</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-file-type-pdf"></i>PDF report</h3><div class="tool-caption">Opens browser print. Choose Save as PDF.</div><div class="tool-actions"><button class="btn-primary" onclick="printReport()"><i class="ti ti-printer"></i>Print report</button></div></div>
-    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button><button class="btn-sec" onclick="forcePushCloud()"><i class="ti ti-cloud-up"></i>Push cloud</button><button class="btn-sec" onclick="restoreLocalBackup()"><i class="ti ti-upload"></i>Upload backup</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button><button class="btn-sec" onclick="restoreLocalBackup()"><i class="ti ti-cloud-upload"></i>Upload this device</button></div></div>
   </div>`;
 }
 function downloadBlob(name,type,content){
@@ -867,10 +860,6 @@ function downloadDppCSV(){
 }
 function downloadJSON(){
   downloadBlob(`pw-tracker-backup-${todayKey()}.json`,'application/json;charset=utf-8',JSON.stringify(ensureDataShape(data),null,2));
-}
-async function forcePushCloud(){
-  hasPendingLocalChanges=true;
-  await syncNow();
 }
 async function restoreLocalBackup(){
   const raw=localStorage.getItem('pw_tracker_local_backup')||localStorage.getItem('pw_tracker_final');
@@ -1086,14 +1075,14 @@ function submitPaste(){
 function parsePW(raw,cat){
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   const skip=['Watch','Resume','Notes & more','Attempt DPP','Notes','Auto Fetch'];
-  const dateRe=new RegExp(`^\\d{1,2}\\s+(?:${MONTH_RE})\\s+\\d{4}$`,'i');
-  const durRe=/^(\d+)h[:\s](\d+)m$/i;
+  const dateRe=/^\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)\s+\d{4}$/i;
+  const durRe=/^(?:Duration\s*:?\s*)?(\d+)h\s*[:\s]?\s*(\d+)m$/i;
   const res=[];let i=0;
   while(i<lines.length){
     if(/^Lecture$/i.test(lines[i])){
       const l={id:uid(),subjectId:activeSub,category:cat,title:'',chapter:'',date:'',duration:'',done:false,revision:false,completedAt:''};
       i++;
-      if(i<lines.length&&dateRe.test(lines[i])){l.date=normalizeDateText(lines[i]);i++;}
+      if(i<lines.length&&dateRe.test(lines[i])){l.date=lines[i];i++;}
       if(i<lines.length&&!skip.includes(lines[i])&&!durRe.test(lines[i])&&!/^Lecture$/i.test(lines[i])){
         l.title=lines[i].replace(/\s*\|\|\s*NO DPP\s*/gi,'').trim();i++;
       }
@@ -1238,14 +1227,14 @@ function submitDppPaste(){
 function parseDppPaste(raw,subId){
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   const skip=['DPP PDF','View DPP PDF','Auto Fetch','Attempt DPP','Notes'];
-  const dateRe=new RegExp(`^\\d{1,2}\\s+(?:${MONTH_RE})(\\s+\\d{4})?$`,'i');
+  const dateRe=/^\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)(\s+\d{4})?$/i;
   const titleRe=/^(.*?)\s*:\s*DPP\s*[- ]?\s*(\d+)\s*(?:\((.*?)\))?\s*$/i;
   const res=[];let i=0;
   while(i<lines.length){
     const line=lines[i];
     if(skip.includes(line)){i++;continue;}
     if(dateRe.test(line)){
-      const date=normalizeDateText(line);let j=i+1;
+      const date=line;let j=i+1;
       while(j<lines.length&&skip.includes(lines[j]))j++;
       if(j<lines.length&&titleRe.test(lines[j])){
         const m=lines[j].match(titleRe);
