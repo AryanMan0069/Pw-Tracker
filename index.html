@@ -238,7 +238,71 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .mini-actions{display:flex;gap:4px;flex-shrink:0;}
 .badge.b-rev{background:var(--red-bg);color:var(--red-text);}
 .badge.b-ok{background:var(--green-bg);color:var(--green-text);}
+
+/* ===== Redesign layer ===== */
+:root{
+  --bg:#f4f3fb;--surface:#ffffff;--surface2:#f8f7fd;
+  --border:#e8e6f4;--border-strong:#d6d3ea;
+  --text:#1b1a2e;--text2:#5b5977;--text3:#9593ad;
+  --accent:#6c5ce7;--accent-hover:#5849d6;--accent-soft:#ece9ff;
+  --green:#16c47f;--radius:12px;
+  --shadow:0 1px 2px rgba(40,30,100,.05),0 4px 14px rgba(40,30,100,.06);
+  --shadow-md:0 10px 34px rgba(40,30,100,.16);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0d0c17;--surface:#171627;--surface2:#1e1d33;
+  --border:#2a2842;--border-strong:#3a3860;
+  --text:#f1f0ff;--text2:#aeacd0;--text3:#7a789e;
+  --accent:#8b7dff;--accent-hover:#7a6cf5;--accent-soft:#25214d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 4px 14px rgba(0,0,0,.3);
+  --shadow-md:0 10px 34px rgba(0,0,0,.55);
+}}
+body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:radial-gradient(900px 420px at 85% -10%,var(--accent-soft),transparent 70%),var(--bg);background-attachment:fixed;letter-spacing:-.01em;}
+.container{max-width:960px;padding-bottom:7rem;}
+.pw-logo{background:linear-gradient(135deg,#8b7dff,#6c5ce7);box-shadow:0 6px 16px rgba(108,92,231,.38);border-radius:12px;}
+.app-title{font-weight:700;font-size:17px;letter-spacing:-.02em;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-hover));border-radius:10px;box-shadow:0 4px 12px rgba(108,92,231,.32);font-weight:600;}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-sec,.filter-btn{border-radius:10px;}
+.sync-pill{background:var(--surface);box-shadow:var(--shadow);}
+.dash-overall{border-radius:22px;padding:1.7rem 1.8rem;background:linear-gradient(135deg,var(--surface) 55%,var(--accent-soft));border:1px solid var(--border);box-shadow:var(--shadow-md);}
+.dash-bar-track,.progress-bar{height:10px;border-radius:99px;background:var(--surface2);border:1px solid var(--border);}
+.dash-bar-fill,.progress-fill{background:linear-gradient(90deg,#16c47f,#6c5ce7);border-radius:99px;}
+.dash-bar-fill.warn,.dash-bar-fill.low{background:linear-gradient(90deg,#ffb020,#6c5ce7);}
+.dash-mini,.stat,.subj-stat{border-radius:14px;background:var(--surface);box-shadow:var(--shadow);}
+.dash-section-title{letter-spacing:.8px;}
+.subj-card{border-radius:18px;box-shadow:var(--shadow);border:1px solid var(--border);}
+.subj-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.subj-card-accent{width:100%;height:4px;top:0;left:0;}
+.lec-card{border-radius:14px;box-shadow:var(--shadow);}
+.lec-card:hover{transform:translateY(-1px);border-color:var(--accent);}
+.cat-pill{border-radius:99px;font-weight:500;}
+.cat-pill.active,.stab.active{background:var(--accent);border-color:var(--accent);}
+.stab.active{background:transparent;color:var(--accent);border-bottom-color:var(--accent);}
+.badge{border-radius:99px;}
+.modal{border-radius:22px;box-shadow:var(--shadow-md);}
+.fr input,.fr select,.fr textarea,.search-wrap input{border-radius:10px;background:var(--surface2);}
+.fr input:focus,.fr select:focus,.fr textarea:focus,.search-wrap input:focus,.auth-card input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);outline:none;}
+.dock{border-radius:26px;background:rgba(255,255,255,.78);box-shadow:0 14px 40px rgba(40,30,100,.22);}
+@media(prefers-color-scheme:dark){.dock{background:rgba(23,22,39,.78);border-color:rgba(255,255,255,.08);}}
+.dock-item.active{background:var(--accent-soft);}
+/* Login */
+.auth-screen{background:radial-gradient(700px 400px at 50% -10%,var(--accent-soft),transparent 70%),var(--bg);}
+.auth-card{border-radius:24px;padding:1.9rem;box-shadow:var(--shadow-md);max-width:400px;}
+.auth-card input{font-size:14px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-family:inherit;}
+.auth-link{display:block;width:100%;margin-top:12px;background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.ch-block{background:var(--surface);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;padding:4px 12px 10px;box-shadow:var(--shadow);}
+.ch-block>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 2px;align-items:center;}
+.ch-block>summary::-webkit-details-marker{display:none;}
+.ch-name{font-weight:700;font-size:15px;}.ch-count{grid-column:1;font-size:11px;color:var(--text3);}
+.ch-pct{grid-row:1;grid-column:2;font-weight:700;color:var(--accent);}
+.ch-bar{grid-column:1/-1;height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:6px;}
+.ch-bar div{height:100%;background:linear-gradient(90deg,#16c47f,#6c5ce7);border-radius:99px;}
+.ch-sub{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3);margin:12px 0 8px;}
+.ch-none{font-size:12px;color:var(--text3);padding:4px 2px 8px;}
+.mini-add{margin-left:auto;border:1px dashed var(--border-strong);background:transparent;color:var(--accent);border-radius:99px;font-size:11px;padding:3px 10px;cursor:pointer;font-family:inherit;}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="auth-screen" id="passcodeScreen">
@@ -267,7 +331,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
     </div>
     <div class="topbar-right">
       <div class="sync-pill" id="syncStatus"><span class="sync-dot warn"></span><span>Starting</span></div>
-      <button class="btn-primary" id="addLecBtn" onclick="openAddModal()" style="display:none"><i class="ti ti-plus"></i> Add</button>
+      <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
       <button class="btn-sec" onclick="lockTracker()" title="Lock"><i class="ti ti-lock"></i></button>
     </div>
   </div>
@@ -288,10 +352,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
       <div class="stat"><div class="stat-label">Progress</div><div class="stat-val" id="sPct">0%</div></div>
     </div>
     <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="view-toggle" style="display:inline-flex;margin-bottom:12px;"><button class="vtab active" id="mode-chapters" onclick="setMode('chapters')"><i class="ti ti-list-details"></i> Chapters</button><button class="vtab" id="mode-material" onclick="setMode('material')"><i class="ti ti-files"></i> Study Material</button></div>
     <div class="cat-row" id="catRow"></div>
     <div class="ctrl-row">
       <div class="search-wrap"><i class="ti ti-search si"></i><input type="text" id="searchBox" placeholder="Search lectures…" oninput="render()"></div>
       <button class="filter-btn" id="filterDoneBtn" onclick="toggleHideDone()"><i class="ti ti-eye-off"></i> Hide done</button>
+      <button class="filter-btn" id="sortBtn" onclick="toggleSort()"></button>
       <button class="btn-sec" onclick="openManageModal()" style="padding:7px 10px;"><i class="ti ti-settings" style="font-size:15px;"></i></button>
     </div>
     <div id="list"></div>
@@ -384,16 +450,11 @@ let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=fals
 const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
 
 const DEFAULTS=[
-  {id:'phy27',name:"Physics '27",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
-  {id:'mat27',name:"Maths '27",       categories:['Regular Lectures']},
-  {id:'pc27', name:"Physical Chemistry '27", categories:['Regular Lectures']},
-  {id:'oc27', name:"Organic Chemistry '27",  categories:['Regular Lectures']},
-  {id:'ic27', name:"Inorganic Chemistry '27",categories:['Regular Lectures']},
-  {id:'phy26',name:"Physics '26",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
-  {id:'mat26',name:"Maths '26",       categories:['Regular Lectures']},
-  {id:'pc26', name:"Physical Chemistry '26", categories:['Regular Lectures']},
-  {id:'oc26', name:"Organic Chemistry '26",  categories:['Regular Lectures']},
-  {id:'ic26', name:"Inorganic Chemistry '26",categories:['Regular Lectures']},
+  {id:'phy27',name:"Physics",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
+  {id:'mat27',name:"Maths",       categories:['Regular Lectures']},
+  {id:'pc27', name:"Physical Chemistry", categories:['Regular Lectures']},
+  {id:'oc27', name:"Organic Chemistry",  categories:['Regular Lectures']},
+  {id:'ic27', name:"Inorganic Chemistry",categories:['Regular Lectures']},
 ];
 
 const DEMO=[
@@ -424,6 +485,14 @@ function ensureDataShape(obj){
   obj.subjects=Array.isArray(obj.subjects)?obj.subjects:[];
   obj.lectures=Array.isArray(obj.lectures)?obj.lectures:[];
   obj.dpps=Array.isArray(obj.dpps)?obj.dpps:[];
+  // Remove '26 batch, strip "'27" from subject names
+  const drop26=new Set(obj.subjects.filter(s=>/\s*'26$/.test(s.name||'')).map(s=>s.id));
+  if(drop26.size){
+    obj.subjects=obj.subjects.filter(s=>!drop26.has(s.id));
+    obj.lectures=obj.lectures.filter(l=>!drop26.has(l.subjectId));
+    if(Array.isArray(obj.dpps))obj.dpps=obj.dpps.filter(d=>!drop26.has(d.subjectId));
+  }
+  obj.subjects=obj.subjects.map(s=>({...s,name:(s.name||'').replace(/\s*'27$/,'')}));
   obj.settings={dailyTarget:3,examDate:'2027-01-15',...(obj.settings||{})};
   obj.lectures=obj.lectures.map(l=>({
     ...l,
@@ -441,8 +510,15 @@ function ensureDataShape(obj){
     done:!!d.done,
     completedAt:d.completedAt||'',
     marks:d.marks===0?0:(d.marks||null),
-    totalMarks:d.totalMarks===0?0:(d.totalMarks||null)
+    totalMarks:d.totalMarks===0?0:(d.totalMarks||null),
+    result:d.result||null,
+    category:d.category||''
   }));
+  obj.materials=(Array.isArray(obj.materials)?obj.materials:[]).map(m=>({id:m.id,subjectId:m.subjectId,title:m.title||'',type:m.type||'PDF',chapter:m.chapter||'',date:m.date||'',link:m.link||'',done:!!m.done}));
+  obj.subjects.forEach(s=>{
+    if(!Array.isArray(s.matCategories))s.matCategories=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
+    obj.materials.filter(m=>m.subjectId===s.id&&m.type&&!s.matCategories.includes(m.type)).forEach(m=>s.matCategories.push(m.type));
+  });
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
@@ -591,6 +667,188 @@ async function startSync(){
   await load();
 }
 
+
+/* ---- Chapters: lectures + DPPs, Study Material ---- */
+let trackerMode='chapters';const chClosed={};
+function setMode(m){trackerMode=m;render();}
+function jid(x){return JSON.stringify(x).replace(/"/g,'&quot;');}
+function lecChapter(l){return (l.chapter||'').trim()||((l.title||'').match(/^(.*?)\s+\d+\s*[:\-]/)||[])[1]||'';}
+function subChapters(subId){
+  const seen={};
+  [...data.lectures.filter(l=>l.subjectId===subId).map(lecChapter),...data.dpps.filter(d=>d.subjectId===subId).map(d=>(d.chapter||'').trim())]
+    .forEach(n=>{n=(n||'').trim();if(n&&!seen[n.toLowerCase()])seen[n.toLowerCase()]=n;});
+  return Object.values(seen).sort((x,y)=>x.localeCompare(y));
+}
+function chOptions(subId){return `<datalist id="chList">${subChapters(subId).map(ch=>`<option value="${ch.replace(/"/g,'&quot;')}">`).join('')}</datalist>`;}
+let sortDir=(function(){try{return localStorage.getItem('pw_sort')||'asc';}catch(e){return 'asc';}})();
+function updateSortBtn(){const ab=document.getElementById('addLecBtn');if(ab)ab.innerHTML=trackerMode==='material'?'<i class="ti ti-plus"></i> Add material':'<i class="ti ti-plus"></i> Add lecture';const b=document.getElementById('sortBtn');if(b)b.innerHTML=sortDir==='asc'?'<i class="ti ti-sort-ascending"></i> Oldest first':'<i class="ti ti-sort-descending"></i> Newest first';}
+function addForMode(){if(trackerMode==='material')openMaterialModal();else openAddModal();}
+function toggleSort(){sortDir=sortDir==='asc'?'desc':'asc';try{localStorage.setItem('pw_sort',sortDir);}catch(e){}render();}
+function fullDate(s){s=(s||'').trim();return /^\d{1,2}\s+[A-Za-z]+$/.test(s)?s+' '+new Date().getFullYear():s;}
+function groupByDate(items){
+  const by={};items.forEach(r=>{const k=fullDate(r.x.date)||'No date';(by[k]=by[k]||[]).push(r);});
+  const keys=Object.keys(by).filter(k=>k!=='No date').sort((a,b)=>(+parseDate(a)-+parseDate(b))*(sortDir==='asc'?1:-1));
+  if(by['No date'])keys.push('No date');
+  return keys.map(k=>`<div class="dash-section-title" style="margin-top:14px;">${k}</div>`+by[k].map(r=>r.k==='l'?lecCardHtml(r.x):r.k==='d'?dppRowHtml(r.x):matRowHtml(r.x)).join('')).join('');
+}
+function dateBlocks(lecs){
+  const q=(document.getElementById('searchBox').value||'').toLowerCase();
+  const items=lecs.map(x=>({k:'l',x}));
+  {
+    data.dpps.filter(d=>d.subjectId===activeSub&&(activeCat==='all'||d.category===activeCat)&&(!hideDone||!d.done)&&(!q||((d.chapter||'')+' '+(d.label||'')+' '+(d.tag||'')).toLowerCase().includes(q))).forEach(x=>items.push({k:'d',x}));
+  }
+  return groupByDate(items);
+}
+function dppRowHtml(d){
+  const id=jid(d.id);
+  return `<div class="lec-card"><button class="check-btn ${d.done?'done':''}" onclick="toggleDppDone(${id})"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></button>
+  <div class="lec-body"><div class="lec-title ${d.done?'striked':''}">${d.label||'DPP'}${d.tag?' · '+d.tag:''}</div>
+  <div class="lec-meta">${d.date?`<span class="badge b-date">${d.date}</span>`:''}${d.marks!=null&&d.totalMarks?`<span class="badge b-dur">${d.marks}/${d.totalMarks}</span>`:''}</div></div>
+  <div class="card-actions"><button class="btn-ghost" onclick="openEditDppModal(${id})"><i class="ti ti-pencil"></i></button><button class="btn-ghost danger" onclick="deleteDpp(${id})"><i class="ti ti-trash"></i></button></div></div>`;
+}
+function addDppFor(ch){activeDppSub=activeSub;openAddDppModal();const e=document.getElementById('d-chapter');if(e&&ch!=='Unsorted')e.value=ch;}
+
+const MAT_TYPES=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
+let activeMatCat='all';
+function renderMaterial(sub){
+  const cats=sub.matCategories||[];
+  if(activeMatCat!=='all'&&!cats.includes(activeMatCat))activeMatCat='all';
+  document.getElementById('catRow').innerHTML=
+    `<button class="cat-pill ${activeMatCat==='all'?'active':''}" onclick="setMatCat(-1)">All</button>`+
+    cats.map((cn,i)=>`<button class="cat-pill ${activeMatCat===cn?'active':''}" onclick="setMatCat(${i})">${cn}</button>`).join('')+
+    `<button class="cat-pill-add" onclick="promptAddMatCategory()"><i class="ti ti-plus"></i> New category</button>`;
+  const q=(document.getElementById('searchBox').value||'').toLowerCase();
+  const rows=data.materials.filter(m=>m.subjectId===sub.id&&(activeMatCat==='all'||m.type===activeMatCat)&&(!hideDone||!m.done)&&(!q||(m.title+' '+m.chapter+' '+m.type).toLowerCase().includes(q))).map(x=>({k:'m',x}));
+  let h='';
+  h+=rows.length?groupByDate(rows):`<div class="empty"><i class="ti ti-files"></i>Nothing here yet. Use <strong>Add material</strong> to start.</div>`;
+  document.getElementById('list').innerHTML=h;
+}
+function setMatCat(i){const s=getCurSub();activeMatCat=i<0?'all':s.matCategories[i];render();}
+function promptAddMatCategory(){
+  const s=getCurSub();if(!s)return;
+  const n=(prompt('New material category (e.g. "Mind Maps", "Formula Sheets"):')||'').trim();
+  if(!n)return;
+  if(s.matCategories.includes(n)){alert('Already exists.');return;}
+  s.matCategories.push(n);activeMatCat=n;save();render();
+}
+function renameMatCat(i){
+  const s=getCurSub();if(!s)return;
+  const n=document.getElementById('ren-mcat-'+i).value.trim();if(!n){alert('Name cannot be empty.');return;}
+  const old=s.matCategories[i];s.matCategories[i]=n;
+  data.materials=data.materials.map(m=>m.subjectId===s.id&&m.type===old?{...m,type:n}:m);
+  if(activeMatCat===old)activeMatCat=n;
+  save();render();openManageModal();
+}
+function deleteMatCat(i){
+  const s=getCurSub();if(!s)return;const cn=s.matCategories[i];
+  if(!confirm(`Delete category "${cn}"? Items stay but only show under All.`))return;
+  s.matCategories.splice(i,1);if(activeMatCat===cn)activeMatCat='all';
+  save();render();openManageModal();
+}
+function matRowHtml(m){
+  const link=/^https?:\/\//i.test(m.link)?`<a class="badge b-dur" href="${m.link}" target="_blank" rel="noopener">Open ↗</a>`:'';
+  return `<div class="lec-card"><button class="check-btn ${m.done?'done':''}" onclick="toggleMat(${m.id})"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></button>
+  <div class="lec-body"><div class="lec-title ${m.done?'striked':''}">${m.title}</div>
+  <div class="lec-meta"><span class="badge b-cat">${m.type}</span>${m.chapter?`<span class="badge b-ch">${m.chapter}</span>`:''}${link}</div></div>
+  <div class="card-actions"><button class="btn-ghost danger" onclick="deleteMat(${m.id})"><i class="ti ti-trash"></i></button></div></div>`;
+}
+function toggleMat(id){data.materials=data.materials.map(m=>m.id===id?{...m,done:!m.done}:m);save();render();}
+function deleteMat(id){if(!confirm('Remove this item?'))return;data.materials=data.materials.filter(m=>m.id!==id);save();render();}
+let matMode='manual';
+function openMaterialModal(){matMode='manual';showModal(buildMaterialModal());}
+function setMatMode(m){matMode=m;showModal(buildMaterialModal());}
+function buildMaterialModal(){
+  const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  const cats=getCurSub().matCategories||MAT_TYPES;
+  const catSel=`<div class="fr"><label>Category</label><select id="m-type">${cats.map(t=>`<option${t===activeMatCat?' selected':''}>${t}</option>`).join('')}</select></div>`;
+  const manual=`<div class="fr"><label>Title</label><input type="text" id="m-title" placeholder="e.g. Matrices Short Notes"></div>
+    <div class="f2">${catSel}<div class="fr"><label>Date uploaded</label><input type="text" id="m-date" value="${today}"></div></div>
+    <div class="fr"><label>Link (optional)</label><input type="text" id="m-link" placeholder="https://…"></div>`;
+  const paste=`${catSel}<div class="fr"><p class="parse-hint">Copy the notes list from the PW page and paste it below. Dates without a year get the current year, and items already added are skipped.</p>
+    <textarea id="m-paste" placeholder="Notes&#10;2 Jan&#10;Topic : Short Notes || Prayas JEE 2026&#10;View Note&#10;..."></textarea>
+    <div class="err-msg" id="m-err">No items found. Try selecting more text from the page.</div></div>`;
+  return `<div class="modal-overlay" onclick="bgClick(event)"><div class="modal"><h3>Add study material</h3>
+    <div class="mtab-row"><button class="mtab ${matMode==='manual'?'active':''}" onclick="setMatMode('manual')">Manual entry</button><button class="mtab ${matMode==='paste'?'active':''}" onclick="setMatMode('paste')">Paste from PW</button></div>
+    ${matMode==='paste'?paste:manual}
+    <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-primary" onclick="${matMode==='paste'?'submitMaterialPaste()':'submitMaterial()'}">${matMode==='paste'?'Parse &amp; add':'Add'}</button></div></div></div>`;
+}
+function parseMaterialPaste(raw,subId,type){
+  const L=raw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const dateRe=/^\d{1,2}\s+[A-Za-z]{3,9}(\s+\d{4})?$/;
+  const skip=/^(View Note|View|Download|Open|Notes & more|Auto Fetch)$/i;
+  const kind=/^(Notes?|PDFs?|Short Notes|PYQs?|DPP PDFs?)$/i;
+  const out=[];let i=0;
+  while(i<L.length){
+    if(!kind.test(L[i])){i++;continue;}
+    i++;let date='',title='';
+    if(i<L.length&&dateRe.test(L[i])){date=fullDate(L[i]);i++;}
+    if(i<L.length&&!skip.test(L[i])&&!kind.test(L[i])){title=L[i];i++;}
+    while(i<L.length&&!kind.test(L[i]))i++;
+    if(title)out.push({id:uid()+out.length,subjectId:subId,title,type,chapter:'',date,link:'',done:false});
+  }
+  return out;
+}
+function submitMaterialPaste(){
+  const raw=document.getElementById('m-paste').value.trim();
+  if(!raw){alert('Please paste some text.');return;}
+  const parsed=parseMaterialPaste(raw,activeSub,document.getElementById('m-type').value);
+  if(!parsed.length){document.getElementById('m-err').style.display='block';return;}
+  const seen=new Set(data.materials.filter(m=>m.subjectId===activeSub).map(m=>(m.title+'|'+m.date).toLowerCase()));
+  const fresh=parsed.filter(m=>!seen.has((m.title+'|'+m.date).toLowerCase()));
+  data.materials.push(...fresh);
+  save();closeModal();render();
+  if(fresh.length<parsed.length)alert(`Added ${fresh.length} items. Skipped ${parsed.length-fresh.length} already in your list.`);
+}
+function submitMaterial(){
+  const title=document.getElementById('m-title').value.trim();if(!title){alert('Title is required.');return;}
+  data.materials.push({id:uid(),subjectId:activeSub,title,type:document.getElementById('m-type').value,chapter:'',date:document.getElementById('m-date').value.trim(),link:document.getElementById('m-link').value.trim(),done:false});
+  save();closeModal();render();
+}
+
+
+/* ---- DPP result logging ---- */
+const MISTAKE_TAGS=['Concept gap','Calculation error','Silly mistake','Formula forgotten','Misread question','Time pressure','Guessed','Skipped (no idea)'];
+function resultBadges(d){
+  const r=d.result;if(!r)return '';
+  const att=r.correct+r.wrong,acc=att?Math.round(r.correct/att*100):0;
+  return `<span class="badge b-ok">${r.correct}/${r.total} correct</span><span class="badge b-dur">${acc}% accuracy</span>`+
+    (r.minutes?`<span class="badge b-date">${r.minutes} min</span>`:'')+
+    (r.mistakes||[]).map(t=>`<span class="badge b-cat">${escH(t)}</span>`).join('')+(r.redo?'<span class="badge b-rev">Redo</span>':'');
+}
+function dppInsightPanels(list){
+  const rs=list.filter(d=>d.result);
+  if(!rs.length)return `<div class="tool-panel"><h3><i class="ti ti-target"></i>Accuracy</h3><div class="tool-stat">—</div><div class="tool-caption">Log a result on any DPP to see this</div></div>`;
+  let c=0,w=0,q=0;const tags={};
+  rs.forEach(d=>{c+=d.result.correct;w+=d.result.wrong;q+=d.result.total;(d.result.mistakes||[]).forEach(t=>tags[t]=(tags[t]||0)+1);});
+  const top=Object.entries(tags).sort((a,b)=>b[1]-a[1])[0];
+  return `<div class="tool-panel"><h3><i class="ti ti-target"></i>Accuracy</h3><div class="tool-stat">${c+w?Math.round(c/(c+w)*100):0}%</div><div class="tool-caption">${c}/${q} correct across ${rs.length} DPPs</div></div>
+  <div class="tool-panel"><h3><i class="ti ti-alert-triangle"></i>Top mistake</h3><div class="tool-stat" style="font-size:18px;">${top?escH(top[0]):'None'}</div><div class="tool-caption">${top?top[1]+' DPPs flagged':'No mistakes tagged yet'}</div></div>`;
+}
+function openDppResult(id){
+  const d=data.dpps.find(x=>x.id===id);if(!d)return;
+  const r=d.result||{};const n=v=>v==null?'':v;
+  showModal(`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal"><h3>${escH(d.chapter?d.chapter+' : ':'')}${escH(d.label)} · Result</h3>
+    <div class="f2"><div class="fr"><label>Total questions</label><input type="number" id="r-total" min="0" value="${n(r.total)}"></div>
+    <div class="fr"><label>Time taken (min)</label><input type="number" id="r-min" min="0" value="${n(r.minutes)}"></div></div>
+    <div class="f2"><div class="fr"><label>Correct</label><input type="number" id="r-correct" min="0" value="${n(r.correct)}"></div>
+    <div class="fr"><label>Wrong</label><input type="number" id="r-wrong" min="0" value="${n(r.wrong)}"></div></div>
+    <div class="f2"><div class="fr"><label>Marks scored</label><input type="number" id="r-marks" value="${n(d.marks)}"></div>
+    <div class="fr"><label>Total marks</label><input type="number" id="r-tmarks" value="${n(d.totalMarks)}"></div></div>
+    <div class="fr"><label>Where did you go wrong?</label><div style="display:flex;flex-wrap:wrap;gap:6px;">${MISTAKE_TAGS.map((t,i)=>`<label style="font-size:12px;display:flex;align-items:center;gap:4px;border:1px solid var(--border);border-radius:99px;padding:4px 10px;cursor:pointer;"><input type="checkbox" class="r-tag" value="${t}"${(r.mistakes||[]).includes(t)?' checked':''} style="width:auto;accent-color:var(--accent);">${t}</label>`).join('')}</div></div>
+    <div class="fr"><label>Notes: question numbers, what to fix</label><textarea id="r-notes" placeholder="e.g. Q4, Q9 sign error. Revise integration by parts.">${escH(r.notes||'')}</textarea></div>
+    <div class="fr checkbox-row"><input type="checkbox" id="r-redo"${r.redo?' checked':''}><label for="r-redo">Redo this DPP later</label></div>
+    <div class="modal-btns"><button class="btn-sec" onclick="closeModal()">Cancel</button><button class="btn-primary" onclick="submitDppResult(${id})">Save result</button></div></div></div>`);
+}
+function submitDppResult(id){
+  const num=k=>{const v=document.getElementById(k).value;return v===''?null:Number(v);};
+  const total=num('r-total'),correct=num('r-correct')||0,wrong=num('r-wrong')||0;
+  if(!total||total<1){alert('Enter the total number of questions.');return;}
+  if(correct+wrong>total){alert('Correct + wrong cannot be more than the total questions.');return;}
+  const result={total,correct,wrong,skipped:total-correct-wrong,minutes:num('r-min'),notes:document.getElementById('r-notes').value.trim(),redo:document.getElementById('r-redo').checked,mistakes:[...document.querySelectorAll('.r-tag:checked')].map(x=>x.value),loggedAt:todayKey()};
+  data.dpps=data.dpps.map(d=>d.id===id?{...d,result,marks:num('r-marks'),totalMarks:num('r-tmarks'),done:true,completedAt:d.completedAt||todayKey()}:d);
+  save();closeModal();renderDpp();render();renderDashboard();
+}
+
 /* ---- View ---- */
 const VIEWS=['dashboard','tracker','streaks','dpp','revision','stats','export'];
 function setView(v){
@@ -655,7 +913,7 @@ function renderDashboard(){
     return;
   }
 
-  // Group into '27 and '26 (and others)
+  // Group subjects
   const groups={};
   data.subjects.forEach((s,i)=>{
     const m=s.name.match(/'\d+$/);
@@ -666,7 +924,7 @@ function renderDashboard(){
 
   let html='';
   Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(yr=>{
-    html+=`<div class="dash-section-title">${yr==='Other'?'Other subjects':yr+' Batch'}</div><div class="subj-grid">`;
+    html+=`<div class="dash-section-title">${yr==='Other'?'Subjects':yr+' Batch'}</div><div class="subj-grid">`;
     groups[yr].forEach(({s,i})=>{
       const st=getStats(s.id);
       const col=COLORS[i%COLORS.length];
@@ -776,6 +1034,7 @@ function renderDpp(){
   let html=`<div class="tool-grid" style="margin-bottom:1rem;">
     <div class="tool-panel"><h3><i class="ti ti-file-text"></i>Pending DPPs</h3><div class="tool-stat">${total-done}</div><div class="tool-caption">${done}/${total} completed in this subject</div></div>
     <div class="tool-panel"><h3><i class="ti ti-circle-check"></i>DPP progress</h3><div class="tool-stat">${total?Math.round(done/total*100):0}%</div><div class="tool-caption">tracked independently of lectures</div></div>
+    ${dppInsightPanels(data.dpps.filter(d=>d.subjectId===activeDppSub))}
   </div>`;
   if(!total){html+='<div class="tool-empty"><i class="ti ti-file-text"></i><br>No DPPs added for this subject yet. Click "Add DPP".</div>';el.innerHTML=html;return;}
   if(!chapterOrder.length){html+='<div class="tool-empty"><i class="ti ti-circle-check"></i><br>Nothing matches your filters.</div>';el.innerHTML=html;return;}
@@ -793,10 +1052,12 @@ function renderDpp(){
           <div class="lec-meta">
             ${d.date?`<span class="badge b-date"><i class="ti ti-calendar" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${d.date}</span>`:''}
             ${linked?`<span class="badge b-ch"><i class="ti ti-link" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${linked.title}</span>`:''}
-            ${marksStr}
+            ${d.category?`<span class="badge b-cat">${escH(d.category)}</span>`:''}${marksStr}${resultBadges(d)}
           </div>
+          ${d.result&&d.result.notes?`<div style="font-size:12px;color:var(--text3);margin-top:6px;white-space:pre-wrap;">${escH(d.result.notes)}</div>`:''}
         </div>
         <div class="card-actions">
+          <button class="btn-ghost" title="Log result" onclick="openDppResult(${d.id})"><i class="ti ti-chart-bar ${d.result?'ct2':''}"></i></button>
           <button class="btn-ghost" onclick="openEditDppModal(${d.id})"><i class="ti ti-pencil"></i></button>
           <button class="btn-ghost danger" onclick="deleteDpp(${d.id})"><i class="ti ti-trash"></i></button>
         </div>
@@ -806,8 +1067,8 @@ function renderDpp(){
   el.innerHTML=html;
 }
 function setDppSub(id){activeDppSub=id;renderDpp();}
-function toggleDppDone(id){data.dpps=data.dpps.map(d=>d.id===id?{...d,done:!d.done,completedAt:!d.done?todayKey():''}:d);save();renderDpp();}
-function deleteDpp(id){if(!confirm('Delete this DPP?'))return;data.dpps=data.dpps.filter(d=>d.id!==id);save();renderDpp();}
+function toggleDppDone(id){data.dpps=data.dpps.map(d=>d.id===id?{...d,done:!d.done,completedAt:!d.done?todayKey():''}:d);save();renderDpp();render();}
+function deleteDpp(id){if(!confirm('Delete this DPP?'))return;data.dpps=data.dpps.filter(d=>d.id!==id);save();renderDpp();render();renderDashboard();}
 function renderRevision(){
   const el=document.getElementById('revisionContent');if(!el)return;
   const rev=data.lectures.filter(l=>l.revision);
@@ -888,39 +1149,11 @@ function renderSubTabs(){
     `<button class="stab-add" data-sub-add="1"><i class="ti ti-plus"></i></button>`;
 }
 
-function setSub(id){activeSub=id;activeCat='all';renderSubTabs();render();}
+function setSub(id){activeSub=id;activeCat='all';activeMatCat='all';renderSubTabs();render();}
 function getCurSub(){return data.subjects.find(s=>s.id===activeSub);}
 function toggleHideDone(){hideDone=!hideDone;document.getElementById('filterDoneBtn').classList.toggle('on',hideDone);render();}
 
-function render(){
-  const sub=getCurSub();
-  if(!sub){document.getElementById('list').innerHTML='<div class="empty"><i class="ti ti-books"></i>No subjects yet.</div>';return;}
-
-  // Category pills
-  document.getElementById('catRow').innerHTML=
-    `<button class="cat-pill ${activeCat==='all'?'active':''}" data-cat="__all__">All</button>`+
-    sub.categories.map((c,i)=>`<button class="cat-pill ${activeCat===c?'active':''}" data-cat-idx="${i}">${c}</button>`).join('')+
-    `<button class="cat-pill-add" data-cat-add="1"><i class="ti ti-plus"></i> New category</button>`;
-
-  let lecs=data.lectures.filter(l=>l.subjectId===activeSub);
-  const total=lecs.length,done=lecs.filter(l=>l.done).length;
-  const leftMins=lecs.filter(l=>!l.done).reduce((a,l)=>a+durToMins(l.duration),0);
-  const pct=total?Math.round(done/total*100):0;
-  document.getElementById('sTotal').textContent=total;
-  document.getElementById('sDone').textContent=done;
-  document.getElementById('sTime').textContent=minsToStr(leftMins);
-  document.getElementById('sPct').textContent=pct+'%';
-  document.getElementById('prog').style.width=pct+'%';
-
-  if(activeCat!=='all')lecs=lecs.filter(l=>l.category===activeCat);
-  if(hideDone)lecs=lecs.filter(l=>!l.done);
-  const q=(document.getElementById('searchBox').value||'').toLowerCase();
-  if(q)lecs=lecs.filter(l=>(l.title+l.chapter+l.category).toLowerCase().includes(q));
-  lecs.sort((a,b)=>parseDate(a.date)-parseDate(b.date));
-
-  const el=document.getElementById('list');
-  if(!lecs.length){el.innerHTML=`<div class="empty"><i class="ti ti-notebook"></i>${total===0?'No lectures yet. Click <strong>Add</strong> to get started.':'No lectures match your filters.'}</div>`;return;}
-  el.innerHTML=lecs.map(l=>`
+function lecCardHtml(l){return `
     <div class="lec-card">
       <button class="check-btn ${l.done?'done':''}" onclick="toggleDone(${l.id})">
         <svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
@@ -941,7 +1174,39 @@ function render(){
         <button class="btn-ghost" onclick="openEditModal(${l.id})"><i class="ti ti-pencil"></i></button>
         <button class="btn-ghost danger" onclick="deleteLec(${l.id})"><i class="ti ti-trash"></i></button>
       </div>
-    </div>`).join('');
+    </div>`;}
+function render(){
+  const sub=getCurSub();
+  if(!sub){document.getElementById('list').innerHTML='<div class="empty"><i class="ti ti-books"></i>No subjects yet.</div>';return;}
+
+  // Category pills
+  document.getElementById('catRow').innerHTML=
+    `<button class="cat-pill ${activeCat==='all'?'active':''}" data-cat="__all__">All</button>`+
+    sub.categories.map((c,i)=>`<button class="cat-pill ${activeCat===c?'active':''}" data-cat-idx="${i}">${c}</button>`).join('')+
+    `<button class="cat-pill-add" data-cat-add="1"><i class="ti ti-plus"></i> New category</button>`;
+
+  let lecs=data.lectures.filter(l=>l.subjectId===activeSub);
+  const total=lecs.length,done=lecs.filter(l=>l.done).length;
+  const leftMins=lecs.filter(l=>!l.done).reduce((a,l)=>a+durToMins(l.duration),0);
+  const pct=total?Math.round(done/total*100):0;
+  document.getElementById('sTotal').textContent=total;
+  document.getElementById('sDone').textContent=done;
+  document.getElementById('sTime').textContent=minsToStr(leftMins);
+  document.getElementById('sPct').textContent=pct+'%';
+  document.getElementById('prog').style.width=pct+'%';
+
+  updateSortBtn();
+  ['chapters','material'].forEach(m=>document.getElementById('mode-'+m)?.classList.toggle('active',trackerMode===m));
+  if(trackerMode==='material'){renderMaterial(sub);return;}
+  if(activeCat!=='all')lecs=lecs.filter(l=>l.category===activeCat);
+  if(hideDone)lecs=lecs.filter(l=>!l.done);
+  const q=(document.getElementById('searchBox').value||'').toLowerCase();
+  if(q)lecs=lecs.filter(l=>(l.title+l.chapter+l.category).toLowerCase().includes(q));
+  lecs.sort((a,b)=>(parseDate(a.date)-parseDate(b.date))*(sortDir==='asc'?1:-1));
+
+  const el=document.getElementById('list');
+  if(!lecs.length&&!data.dpps.some(d=>d.subjectId===activeSub)){el.innerHTML=`<div class="empty"><i class="ti ti-notebook"></i>${total===0?'No lectures yet. Click <strong>Add</strong> to get started.':'No lectures match your filters.'}</div>`;return;}
+  el.innerHTML=dateBlocks(lecs);
 }
 function dppBadgeForLecture(lecId){
   const linked=data.dpps.filter(d=>d.linkedLectureId===lecId);
@@ -1108,7 +1373,7 @@ function guessChapter(t){
     [/equilibrium/i,'Equilibrium'],[/hydrocarbon/i,'Hydrocarbons'],
   ];
   for(const[r,c]of map)if(r.test(t))return c;
-  return'';
+  const mm=t.match(/^(.*?)\s+\d+\s*[:\-]/);return mm?mm[1].trim():'';
 }
 
 /* ---- DPP Modal ---- */
@@ -1146,8 +1411,8 @@ function buildDppManualForm(sub,d){
   return`
     <div class="fr"><label>Subject</label>
       <select id="d-sub" onchange="rebuildDppModalForSub()">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
-    <div class="fr"><label>Chapter</label>
-      <input type="text" id="d-chapter" value="${d?d.chapter.replace(/"/g,'&quot;'):''}" placeholder="e.g. Motion in a Straight Line"></div>
+    <div class="fr"><label>Chapter</label><div id="d-chwrap">${chapterPicker(sub?sub.id:activeDppSub,d?d.chapter:'')}</div></div>
+    <div class="fr"><label>Category</label><select id="d-cat"><option value="">— None —</option>${(sub?sub.categories:[]).map(x=>`<option value="${escH(x)}"${d&&d.category===x?' selected':''}>${escH(x)}</option>`).join('')}</select></div>
     <div class="f2">
       <div class="fr"><label>DPP label</label><input type="text" id="d-label" value="${d?d.label.replace(/"/g,'&quot;'):''}" placeholder="e.g. DPP 06"></div>
       <div class="fr"><label>Tag (optional)</label><input type="text" id="d-tag" value="${d?d.tag.replace(/"/g,'&quot;'):''}" placeholder="Extra / Of Lec 07"></div>
@@ -1163,21 +1428,42 @@ function buildDppManualForm(sub,d){
       <div class="fr"><label>Total marks (optional)</label><input type="number" id="d-total" value="${d&&d.totalMarks!==null&&d.totalMarks!==undefined?d.totalMarks:''}" placeholder="e.g. 12"></div>
     </div>`;
 }
+function escH(s){return String(s==null?'':s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
+function chapterPicker(subId,val){
+  const list=subChapters(subId),v=(val||'').trim();
+  const hit=list.find(x=>x.toLowerCase()===v.toLowerCase());
+  const isNew=!hit&&(v||!list.length);
+  return `<select id="d-chsel" onchange="pickChapter(this)"><option value="">— Select chapter —</option>${list.map(x=>`<option value="${escH(x)}"${hit===x?' selected':''}>${escH(x)}</option>`).join('')}<option value="__new__"${isNew?' selected':''}>＋ New chapter…</option></select>
+  <input type="text" id="d-chapter" value="${escH(hit||v)}" placeholder="Type chapter name" style="margin-top:6px;${isNew?'':'display:none;'}">`;
+}
+function pickChapter(sel){const i=document.getElementById('d-chapter');if(sel.value==='__new__'){i.style.display='';i.value='';i.focus();}else{i.style.display='none';i.value=sel.value;}}
 function buildDppPasteForm(sub){
+  const sid=sub?sub.id:activeDppSub;
   return`
     <div class="fr"><label>Subject</label>
-      <select id="d-sub-paste">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
+      <select id="d-sub-paste" onchange="rebuildDppPasteSub()">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
+    <div class="fr"><label>Category</label>
+      <select id="d-pcat"><option value="">— None —</option>${(sub?sub.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('')}</select></div>
+    <div class="fr"><label>Chapter</label>
+      <select id="d-pch"><option value="">Read each chapter from the pasted text</option>${subChapters(sid).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('')}</select></div>
     <div class="fr">
-      <p class="parse-hint">Copy DPP entries from the PW "DPPs" page and paste below. Format expected: "DPP PDF" / date / "Chapter : DPP 06 (tag)" / "View DPP PDF" repeating.</p>
-      <textarea id="d-paste" placeholder="DPP PDF&#10;13 May&#10;Motion in a Straight Line : DPP 06 (Extra)&#10;View DPP PDF&#10;..."></textarea>
-      <div class="err-msg" id="dpp-parse-err">No DPPs found — check the pasted text matches the expected format.</div>
+      <p class="parse-hint">Paste from the PW DPP PDFs page: date, then a title like "Chapter : DPP 06", repeating. Pick a chapter above if the text doesn't name one. Chapters are matched to your lecture chapters, and repeats are skipped.</p>
+      <textarea id="d-paste" placeholder="DPP PDF&#10;13 May&#10;Motion in a Straight Line : DPP 06&#10;View DPP PDF&#10;..."></textarea>
+      <div class="err-msg" id="dpp-parse-err">No DPPs found. Check that each entry has a date and a title containing "DPP".</div>
     </div>`;
 }
+function rebuildDppPasteSub(){
+  const id=document.getElementById('d-sub-paste').value;
+  document.getElementById('d-pch').innerHTML='<option value="">Read each chapter from the pasted text</option>'+subChapters(id).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
+  const s=data.subjects.find(x=>x.id===id);
+  document.getElementById('d-pcat').innerHTML='<option value="">— None —</option>'+(s?s.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
+}
 function rebuildDppModalForSub(){
-  const subId=document.getElementById('d-sub').value;
-  const sub=data.subjects.find(s=>s.id===subId);
-  showModal(buildDppModal(null));
-  document.getElementById('d-sub').value=subId;
+  const id=document.getElementById('d-sub').value;
+  document.getElementById('d-chwrap').innerHTML=chapterPicker(id,'');
+  const _s=data.subjects.find(x=>x.id===id);
+  document.getElementById('d-cat').innerHTML='<option value="">— None —</option>'+(_s?_s.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
+  document.getElementById('d-linked').innerHTML='<option value="">— None —</option>'+lecturesForSub(id).map(l=>`<option value="${l.id}">${escH(l.title)}</option>`).join('');
 }
 function submitDppManual(){
   const chapter=document.getElementById('d-chapter').value.trim();
@@ -1188,6 +1474,7 @@ function submitDppManual(){
   data.dpps.push({
     id:uid(),
     subjectId:document.getElementById('d-sub').value,
+    category:document.getElementById('d-cat').value,
     chapter,label,
     tag:document.getElementById('d-tag').value.trim(),
     date:document.getElementById('d-date').value.trim(),
@@ -1196,7 +1483,7 @@ function submitDppManual(){
     marks:marksVal===''?null:Number(marksVal),
     totalMarks:totalVal===''?null:Number(totalVal)
   });
-  save();closeModal();renderDpp();
+  save();closeModal();renderDpp();render();renderDashboard();
 }
 function submitDppEdit(id){
   const chapter=document.getElementById('d-chapter').value.trim();
@@ -1206,6 +1493,7 @@ function submitDppEdit(id){
   const totalVal=document.getElementById('d-total').value;
   data.dpps=data.dpps.map(d=>d.id===id?{...d,
     subjectId:document.getElementById('d-sub').value,
+    category:document.getElementById('d-cat').value,
     chapter,label,
     tag:document.getElementById('d-tag').value.trim(),
     date:document.getElementById('d-date').value.trim(),
@@ -1213,44 +1501,39 @@ function submitDppEdit(id){
     marks:marksVal===''?null:Number(marksVal),
     totalMarks:totalVal===''?null:Number(totalVal)
   }:d);
-  save();closeModal();renderDpp();
+  save();closeModal();renderDpp();render();renderDashboard();
 }
 function submitDppPaste(){
   const raw=document.getElementById('d-paste').value.trim();
   const subId=document.getElementById('d-sub-paste').value;
+  const over=document.getElementById('d-pch').value,cat=document.getElementById('d-pcat').value;
   if(!raw){alert('Please paste some text.');return;}
-  const parsed=parseDppPaste(raw,subId);
+  const canon=subChapters(subId);
+  const parsed=parseDppPaste(raw,subId).map(d=>({...d,category:cat,chapter:over||canon.find(x=>x.toLowerCase()===d.chapter.toLowerCase())||d.chapter}));
   if(!parsed.length){document.getElementById('dpp-parse-err').style.display='block';return;}
-  data.dpps.push(...parsed);
-  save();closeModal();renderDpp();
+  const key=d=>(d.chapter+'|'+d.label+'|'+d.date).toLowerCase();
+  const seen=new Set(data.dpps.filter(d=>d.subjectId===subId).map(key));
+  const fresh=parsed.filter(d=>!seen.has(key(d)));
+  data.dpps.push(...fresh);
+  save();closeModal();renderDpp();render();renderDashboard();
+  if(fresh.length<parsed.length)alert(`Added ${fresh.length} DPPs. Skipped ${parsed.length-fresh.length} already in your list.`);
 }
 function parseDppPaste(raw,subId){
-  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
-  const skip=['DPP PDF','View DPP PDF','Auto Fetch','Attempt DPP','Notes'];
-  const dateRe=/^\d{1,2}\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sept?|Oct|Nov|Dec)(\s+\d{4})?$/i;
-  const titleRe=/^(.*?)\s*:\s*DPP\s*[- ]?\s*(\d+)\s*(?:\((.*?)\))?\s*$/i;
+  const L=raw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const dateRe=/^\d{1,2}\s+[A-Za-z]{3,9}(\s+\d{4})?$/;
+  const skip=/^(DPP PDFs?|DPPs?|PDFs?|View DPP PDF|View PDF|View DPP|View|Download|Auto Fetch|Attempt DPP|Notes|Notes & more)$/i;
+  const titleRe=/^(.*?)\s*[:\-–]\s*DPP\s*[- ]?\s*(\d+)\s*(?:\((.*?)\))?/i;
   const res=[];let i=0;
-  while(i<lines.length){
-    const line=lines[i];
-    if(skip.includes(line)){i++;continue;}
-    if(dateRe.test(line)){
-      const date=line;let j=i+1;
-      while(j<lines.length&&skip.includes(lines[j]))j++;
-      if(j<lines.length&&titleRe.test(lines[j])){
-        const m=lines[j].match(titleRe);
-        res.push({
-          id:uid(),subjectId:subId,
-          chapter:m[1].trim(),
-          label:'DPP '+m[2],
-          tag:m[3]?m[3].trim():'',
-          date,
-          linkedLectureId:null,done:false,completedAt:'',
-          marks:null,totalMarks:null
-        });
-        i=j+1;continue;
-      }
-    }
-    i++;
+  while(i<L.length){
+    if(!dateRe.test(L[i])){i++;continue;}
+    const date=fullDate(L[i]);let j=i+1;
+    while(j<L.length&&skip.test(L[j]))j++;
+    const t=L[j]||'';
+    if(j<L.length&&/dpp/i.test(t)&&!dateRe.test(t)){
+      const m=t.match(titleRe);
+      res.push({id:uid()+res.length,subjectId:subId,chapter:m?m[1].trim():'',label:m?'DPP '+m[2]:t,tag:m&&m[3]?m[3].trim():'',date,linkedLectureId:null,done:false,completedAt:'',marks:null,totalMarks:null,result:null});
+      i=j+1;
+    }else i++;
   }
   return res;
 }
@@ -1272,6 +1555,13 @@ function openManageModal(){
         <input type="text" id="ren-cat-${i}" value="${c.replace(/"/g,'&quot;')}">
         <button class="btn-primary" style="padding:7px 12px;font-size:13px;" onclick="renameCat(${i})">Save</button>
         <button class="btn-ghost danger" onclick="deleteCat(${i})"><i class="ti ti-trash"></i></button>
+      </div>`).join('')}
+    <div class="section-label">Study material categories</div>
+    ${(sub.matCategories||[]).map((cn,i)=>`
+      <div class="rename-row">
+        <input type="text" id="ren-mcat-${i}" value="${cn.replace(/"/g,'&quot;')}">
+        <button class="btn-primary" style="padding:7px 12px;font-size:13px;" onclick="renameMatCat(${i})">Save</button>
+        <button class="btn-ghost danger" onclick="deleteMatCat(${i})"><i class="ti ti-trash"></i></button>
       </div>`).join('')}
     <div class="section-label" style="margin-top:16px;">Danger zone</div>
     <div class="danger-zone">
