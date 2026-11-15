@@ -301,6 +301,102 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
 .ch-sub{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3);margin:12px 0 8px;}
 .ch-none{font-size:12px;color:var(--text3);padding:4px 2px 8px;}
 .mini-add{margin-left:auto;border:1px dashed var(--border-strong);background:transparent;color:var(--accent);border-radius:99px;font-size:11px;padding:3px 10px;cursor:pointer;font-family:inherit;}
+/* Heatmap */
+:root{--hm0:#ebedf0;--hm1:#9be9a8;--hm2:#40c463;--hm3:#30a14e;--hm4:#216e39;}
+@media(prefers-color-scheme:dark){:root{--hm0:#1e1d33;--hm1:#0e4429;--hm2:#006d32;--hm3:#26a641;--hm4:#39d353;}}
+.hm-grid{display:grid;grid-template-rows:repeat(7,13px);grid-auto-flow:column;gap:3px;}
+.hm-labels{grid-template-rows:14px;margin-bottom:4px;}
+.hm-lab{font-size:10px;color:var(--text3);white-space:nowrap;overflow:visible;line-height:14px;}
+.hm-days{display:grid;grid-template-rows:14px repeat(7,13px);gap:3px;font-size:10px;color:var(--text3);padding-top:4px;line-height:13px;}
+.hm-days span{display:block;}
+.hm-cell{width:13px;height:13px;border-radius:3px;background:var(--hm0);display:inline-block;cursor:pointer;box-sizing:border-box;}
+.hm-cell.l1{background:var(--hm1);}.hm-cell.l2{background:var(--hm2);}.hm-cell.l3{background:var(--hm3);}.hm-cell.l4{background:var(--hm4);}
+.hm-cell.hm-x{background:transparent;cursor:default;}
+.hm-cell.hm-f{opacity:.45;}
+.hm-cell.hm-today{outline:2px solid var(--accent);outline-offset:-1px;}
+.hm-cell.hm-sel{box-shadow:0 0 0 2px var(--text);}
+.hm-cell:not(.hm-x):hover{transform:scale(1.25);}
+.hm-legend{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);margin-top:8px;flex-wrap:wrap;}
+.hm-legend .hm-cell{cursor:default;}
+.hm-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px;margin-top:14px;}
+.hm-stat{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:9px 11px;}
+.hm-stat-v{font-weight:700;font-size:15px;}.hm-stat-t{font-size:11px;color:var(--text3);margin-top:1px;}
+.hm-detail{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.hm-row{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px dashed var(--border);}
+.hm-row span{flex:1;min-width:0;}.hm-row em{font-style:normal;color:var(--text3);font-size:12px;}
+/* Month calendar */
+.mc-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;}
+.mc-head{margin-bottom:6px;font-size:11px;color:var(--text3);text-align:center;font-weight:600;letter-spacing:.4px;text-transform:uppercase;}
+.mc-cell{position:relative;min-height:70px;border-radius:12px;border:1px solid var(--border);background:var(--hm0);padding:6px 7px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .12s;}
+.mc-cell:not(.mc-x):hover{transform:translateY(-2px);}
+.mc-cell.mc-x{background:transparent;border-color:transparent;cursor:default;}
+.mc-cell.l1{background:var(--hm1);}.mc-cell.l2{background:var(--hm2);}.mc-cell.l3{background:var(--hm3);color:#fff;}.mc-cell.l4{background:var(--hm4);color:#fff;}
+@media(prefers-color-scheme:dark){.mc-cell.l1,.mc-cell.l2,.mc-cell.l3{color:#fff;}.mc-cell.l4{color:#06240f;}}
+.mc-cell.mc-f{opacity:.5;}
+.mc-cell.mc-today{outline:2px solid var(--accent);outline-offset:-2px;}
+.mc-cell.mc-sel{box-shadow:0 0 0 2px var(--text);}
+.mc-d{font-size:12px;font-weight:700;}
+.mc-hit{position:absolute;top:5px;right:6px;font-size:13px;}
+.mc-info{font-size:11px;line-height:1.35;}
+@media(max-width:520px){.mc-grid{gap:3px;}.mc-cell{min-height:56px;padding:4px;border-radius:8px;}.mc-info{font-size:9.5px;}}
+/* Weekly + game */
+.wk-chart{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;}
+.wk-col{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
+.wk-bars{height:120px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:4px;}
+.wk-b{display:block;width:42%;max-width:18px;border-radius:5px 5px 2px 2px;min-height:2px;transform-origin:bottom;animation:wkgrow .7s cubic-bezier(.2,.8,.2,1) both;}
+.wk-b.cur{background:var(--hm4);}.wk-b.prev{background:var(--hm1);}
+.wk-today{color:var(--accent);font-weight:700;}
+@keyframes wkgrow{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+.hm-bar{height:7px;background:var(--surface2);border:1px solid var(--border);border-radius:99px;overflow:hidden;margin-top:6px;}
+.hm-bar div{height:100%;background:linear-gradient(90deg,#16c47f,#6c5ce7);border-radius:99px;transition:width .6s;}
+.gm-hero{background:linear-gradient(135deg,var(--surface) 50%,var(--accent-soft));}
+.gm-lvl{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#8b7dff,#6c5ce7);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;box-shadow:0 8px 22px rgba(108,92,231,.4);animation:gmpulse 3s ease-in-out infinite;}
+@keyframes gmpulse{0%,100%{transform:scale(1);}50%{transform:scale(1.06);}}
+.gm-xpbar{height:10px;background:var(--surface2);border:1px solid var(--border);border-radius:99px;overflow:hidden;margin-top:8px;}
+.gm-xpbar div{height:100%;border-radius:99px;background:linear-gradient(90deg,#16c47f,#6c5ce7,#16c47f);background-size:200% 100%;animation:gmshine 2.5s linear infinite;transition:width .8s;}
+@keyframes gmshine{to{background-position:-200% 0;}}
+.gm-flame{text-align:center;display:flex;flex-direction:column;line-height:1.1;}.gm-flame span{font-size:26px;animation:gmflick 1.6s ease-in-out infinite;}.gm-flame b{font-size:20px;}.gm-flame small{font-size:10px;color:var(--text3);}
+@keyframes gmflick{0%,100%{transform:rotate(-4deg) scale(1);}50%{transform:rotate(4deg) scale(1.12);}}
+.gm-quest{margin-top:14px;padding:10px 12px;border:1px dashed var(--border-strong);border-radius:14px;}.gm-quest.done{border-style:solid;border-color:var(--green);}
+.gm-quote{margin-top:12px;font-style:italic;color:var(--text2);font-size:14px;}
+.gm-badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:8px;margin-top:8px;}
+.gm-badge{border:1px solid var(--border);border-radius:14px;padding:10px;text-align:center;opacity:.5;filter:grayscale(1);display:flex;flex-direction:column;gap:2px;}
+.gm-badge div{font-size:26px;}.gm-badge b{font-size:12px;}.gm-badge small{font-size:10px;color:var(--text3);}
+.gm-badge.on{opacity:1;filter:none;background:var(--surface2);animation:gmpop .5s cubic-bezier(.2,1.4,.4,1) both;}
+@keyframes gmpop{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+.rw-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:14px;margin-bottom:8px;}
+.rw-ready{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,196,127,.18);animation:gmpulse 1.8s ease-in-out infinite;}
+.rw-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}.rw-form input,.rw-form select{font-size:13px;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-family:inherit;flex:1;min-width:120px;}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:3000;}
+.gm-toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);z-index:3001;display:flex;gap:12px;align-items:center;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:18px;padding:12px 16px;box-shadow:var(--shadow-md);max-width:min(92vw,420px);animation:gmin .45s cubic-bezier(.2,1.2,.4,1) both;}
+.gm-toast.out{opacity:0;transform:translateX(-50%) translateY(14px);transition:all .4s;}
+.gm-ico{font-size:28px;}.gm-t{font-weight:800;font-size:14px;}.gm-s{font-size:12px;color:var(--text2);margin-top:2px;}.gm-x{font-size:11px;color:var(--accent);margin-top:3px;font-weight:600;}
+@keyframes gmin{from{opacity:0;transform:translateX(-50%) translateY(24px) scale(.9);}to{opacity:1;transform:translateX(-50%) translateY(0) scale(1);}}
+@media(prefers-reduced-motion:reduce){.gm-lvl,.gm-flame span,.gm-xpbar div,.rw-ready,.wk-b{animation:none;}}
+/* DPP analytics */
+.dpa-title{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin:6px 0 8px;}
+.dpa-title small{font-weight:500;text-transform:none;letter-spacing:0;margin-left:6px;}
+.dpa-cols{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px;}
+@media(max-width:640px){.dpa-cols{grid-template-columns:1fr;}}
+.dpa-row{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:8px;}
+.dpa-row .dpa-name{width:38%;min-width:90px;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dpa-row b{min-width:32px;text-align:right;}.dpa-row small{color:var(--text3);font-size:10px;white-space:nowrap;}
+.dpa-line{stroke-dasharray:1400;stroke-dashoffset:1400;animation:dpadraw 1.4s ease forwards;}
+@keyframes dpadraw{to{stroke-dashoffset:0;}}
+@media(prefers-reduced-motion:reduce){.dpa-line{animation:none;stroke-dashoffset:0;}}
+/* Today */
+.td-head{padding:1.4rem 1.5rem;}
+.td-date{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3);}
+.td-hello{font-size:22px;font-weight:800;margin:4px 0 10px;letter-spacing:-.02em;}
+.td-chips{display:flex;gap:8px;flex-wrap:wrap;}.td-chip{font-size:12px;font-weight:600;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:5px 11px;}
+.td-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:12px 0;}
+.td-sec h3{display:flex;align-items:center;gap:6px;}.td-n{margin-left:auto;font-size:11px;background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 8px;}
+.td-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px dashed var(--border);}.td-row:last-of-type{border-bottom:none;}
+.td-row>i{color:var(--accent);font-size:17px;}.td-main{flex:1;min-width:0;}
+.td-t{font-size:13px;font-weight:600;line-height:1.35;}.td-s{font-size:11px;color:var(--text3);margin-top:1px;}
+.td-btn{width:34px;height:34px;border-radius:10px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text2);cursor:pointer;font-size:16px;transition:all .15s;}
+.td-btn:hover{background:var(--green);border-color:var(--green);color:#fff;transform:scale(1.08);}
+.td-empty{font-size:13px;color:var(--text3);padding:10px 0;}.td-more{background:none;border:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;padding:8px 0 0;font-family:inherit;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -337,7 +433,9 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
   </div>
 
   <!-- DASHBOARD -->
-  <div id="view-dashboard">
+  <div id="view-today"><div id="todayContent"></div></div>
+
+  <div id="view-dashboard" style="display:none;">
     <div class="dash-overall" id="dashOverall"></div>
     <div id="dashSubjects"></div>
   </div>
@@ -398,7 +496,11 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
 <!-- DOCK -->
 <nav class="dock-wrap" id="dockWrap" style="display:none;">
   <div class="dock">
-    <button class="dock-item active" data-view="dashboard" onclick="setView('dashboard')">
+    <button class="dock-item active" data-view="today" onclick="setView('today')">
+      <i class="ti ti-sun"></i>
+      <span class="dock-label">Today</span>
+    </button>
+    <button class="dock-item" data-view="dashboard" onclick="setView('dashboard')">
       <i class="ti ti-layout-dashboard"></i>
       <span class="dock-label">Dashboard</span>
     </button>
@@ -444,7 +546,7 @@ const PASSCODE_CONFIG={
 };
 
 let data={subjects:[],lectures:[]};
-let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
+let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='today';
 let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false;
 
 const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
@@ -519,11 +621,19 @@ function ensureDataShape(obj){
     if(!Array.isArray(s.matCategories))s.matCategories=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
     obj.materials.filter(m=>m.subjectId===s.id&&m.type&&!s.matCategories.includes(m.type)).forEach(m=>s.matCategories.push(m.type));
   });
+  obj.dpps.forEach(d=>{
+    if(d.category||!d.chapter)return;
+    const s=obj.subjects.find(x=>x.id===d.subjectId);if(!s)return;
+    const hits=s.categories.filter(x=>x.toLowerCase().includes(d.chapter.toLowerCase()));
+    if(hits.length===1)d.category=hits[0];
+  });
+  obj.rewards=(Array.isArray(obj.rewards)?obj.rewards:[]).filter(r=>r&&r.label).map(r=>({id:r.id,label:r.label,type:r.type||'streak',value:Number(r.value)||1,claimed:!!r.claimed}));
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
 function refreshCurrentView(){
-  if(currentView==='dashboard')renderDashboard();
+  if(currentView==='today')renderToday();
+  else if(currentView==='dashboard')renderDashboard();
   else if(currentView==='tracker')renderTracker();
   else if(currentView==='streaks')renderStreaks();
   else if(currentView==='dpp')renderDpp();
@@ -672,14 +782,6 @@ async function startSync(){
 let trackerMode='chapters';const chClosed={};
 function setMode(m){trackerMode=m;render();}
 function jid(x){return JSON.stringify(x).replace(/"/g,'&quot;');}
-function lecChapter(l){return (l.chapter||'').trim()||((l.title||'').match(/^(.*?)\s+\d+\s*[:\-]/)||[])[1]||'';}
-function subChapters(subId){
-  const seen={};
-  [...data.lectures.filter(l=>l.subjectId===subId).map(lecChapter),...data.dpps.filter(d=>d.subjectId===subId).map(d=>(d.chapter||'').trim())]
-    .forEach(n=>{n=(n||'').trim();if(n&&!seen[n.toLowerCase()])seen[n.toLowerCase()]=n;});
-  return Object.values(seen).sort((x,y)=>x.localeCompare(y));
-}
-function chOptions(subId){return `<datalist id="chList">${subChapters(subId).map(ch=>`<option value="${ch.replace(/"/g,'&quot;')}">`).join('')}</datalist>`;}
 let sortDir=(function(){try{return localStorage.getItem('pw_sort')||'asc';}catch(e){return 'asc';}})();
 function updateSortBtn(){const ab=document.getElementById('addLecBtn');if(ab)ab.innerHTML=trackerMode==='material'?'<i class="ti ti-plus"></i> Add material':'<i class="ti ti-plus"></i> Add lecture';const b=document.getElementById('sortBtn');if(b)b.innerHTML=sortDir==='asc'?'<i class="ti ti-sort-ascending"></i> Oldest first':'<i class="ti ti-sort-descending"></i> Newest first';}
 function addForMode(){if(trackerMode==='material')openMaterialModal();else openAddModal();}
@@ -695,7 +797,7 @@ function dateBlocks(lecs){
   const q=(document.getElementById('searchBox').value||'').toLowerCase();
   const items=lecs.map(x=>({k:'l',x}));
   {
-    data.dpps.filter(d=>d.subjectId===activeSub&&(activeCat==='all'||d.category===activeCat)&&(!hideDone||!d.done)&&(!q||((d.chapter||'')+' '+(d.label||'')+' '+(d.tag||'')).toLowerCase().includes(q))).forEach(x=>items.push({k:'d',x}));
+    data.dpps.filter(d=>d.subjectId===activeSub&&(activeCat==='all'||d.category===activeCat)&&(!hideDone||!d.done)&&(!q||((d.category||'')+' '+(d.label||'')+' '+(d.tag||'')).toLowerCase().includes(q))).forEach(x=>items.push({k:'d',x}));
   }
   return groupByDate(items);
 }
@@ -706,8 +808,6 @@ function dppRowHtml(d){
   <div class="lec-meta">${d.date?`<span class="badge b-date">${d.date}</span>`:''}${d.marks!=null&&d.totalMarks?`<span class="badge b-dur">${d.marks}/${d.totalMarks}</span>`:''}</div></div>
   <div class="card-actions"><button class="btn-ghost" onclick="openEditDppModal(${id})"><i class="ti ti-pencil"></i></button><button class="btn-ghost danger" onclick="deleteDpp(${id})"><i class="ti ti-trash"></i></button></div></div>`;
 }
-function addDppFor(ch){activeDppSub=activeSub;openAddDppModal();const e=document.getElementById('d-chapter');if(e&&ch!=='Unsorted')e.value=ch;}
-
 const MAT_TYPES=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
 let activeMatCat='all';
 function renderMaterial(sub){
@@ -827,7 +927,7 @@ function dppInsightPanels(list){
 function openDppResult(id){
   const d=data.dpps.find(x=>x.id===id);if(!d)return;
   const r=d.result||{};const n=v=>v==null?'':v;
-  showModal(`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal"><h3>${escH(d.chapter?d.chapter+' : ':'')}${escH(d.label)} · Result</h3>
+  showModal(`<div class="modal-overlay" onclick="bgClick(event)"><div class="modal"><h3>${escH(d.category?d.category+' : ':'')}${escH(d.label)} · Result</h3>
     <div class="f2"><div class="fr"><label>Total questions</label><input type="number" id="r-total" min="0" value="${n(r.total)}"></div>
     <div class="fr"><label>Time taken (min)</label><input type="number" id="r-min" min="0" value="${n(r.minutes)}"></div></div>
     <div class="f2"><div class="fr"><label>Correct</label><input type="number" id="r-correct" min="0" value="${n(r.correct)}"></div>
@@ -846,11 +946,309 @@ function submitDppResult(id){
   if(correct+wrong>total){alert('Correct + wrong cannot be more than the total questions.');return;}
   const result={total,correct,wrong,skipped:total-correct-wrong,minutes:num('r-min'),notes:document.getElementById('r-notes').value.trim(),redo:document.getElementById('r-redo').checked,mistakes:[...document.querySelectorAll('.r-tag:checked')].map(x=>x.value),loggedAt:todayKey()};
   data.dpps=data.dpps.map(d=>d.id===id?{...d,result,marks:num('r-marks'),totalMarks:num('r-tmarks'),done:true,completedAt:d.completedAt||todayKey()}:d);
-  save();closeModal();renderDpp();render();renderDashboard();
+  save();closeModal();renderDpp();render();renderDashboard();if(currentView==='today')renderToday();
+}
+
+
+/* ---- Stats: year heatmap ---- */
+let hmYear=new Date().getFullYear(),hmSel=todayKey(),hmFirst=true;
+const HM_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function hmDur(m){const h=Math.floor(m/60),mn=m%60;return h?(mn?h+'h '+mn+'m':h+'h'):mn+'m';}
+function hmPretty(k,long){return new Date(k+'T00:00:00').toLocaleDateString('en-GB',long?{weekday:'long',day:'numeric',month:'long',year:'numeric'}:{day:'numeric',month:'short'});}
+function dayActivity(){
+  const map={},get=k=>map[k]=map[k]||{min:0,lec:[],dpp:[]};
+  data.lectures.filter(l=>l.done&&l.completedAt).forEach(l=>{const m=get(l.completedAt);m.min+=durToMins(l.duration);m.lec.push(l);});
+  data.dpps.filter(d=>d.done&&d.completedAt).forEach(d=>get(d.completedAt).dpp.push(d));
+  return map;
+}
+function hmScore(a){return a?a.min+a.dpp.length*30:0;}
+function hmLevel(a){const s=hmScore(a);return s<=0?0:s<120?1:s<240?2:s<360?3:4;}
+function hmPick(k){hmSel=hmSel===k?'':k;hmRedraw();}
+function hmYearGo(n){hmYear+=n;hmSel=hmYear===new Date().getFullYear()?todayKey():'';hmFirst=true;hmRedraw();}
+function hmRedraw(){const sc=document.getElementById('hmScroll');const x=sc?sc.scrollLeft:0;renderStats();const s2=document.getElementById('hmScroll');if(s2)s2.scrollLeft=x;}
+function heatmapHtml(){
+  const act=dayActivity(),year=hmYear,today=todayKey();
+  const start=new Date(year,0,1);start.setDate(start.getDate()-((start.getDay()+6)%7));
+  const end=new Date(year,11,31);end.setDate(end.getDate()+(6-((end.getDay()+6)%7)));
+  const weeks=Math.round((end-start)/(7*86400000))+1;
+  let cells='',labels='',activeDays=0,totalMin=0,best={s:0,k:''},run=0,longest=0,lecCount=0,dppCount=0;
+  for(let w=0;w<weeks;w++){
+    let lab='';
+    for(let r=0;r<7;r++){
+      const d=new Date(start);d.setDate(start.getDate()+w*7+r);
+      if(d.getFullYear()!==year){cells+='<div class="hm-cell hm-x"></div>';continue;}
+      const k=todayKey(d),a=act[k],lvl=hmLevel(a),future=k>today;
+      if(d.getDate()===1)lab=HM_MONTHS[d.getMonth()];
+      if(lvl>0){activeDays++;totalMin+=a.min;lecCount+=a.lec.length;dppCount+=a.dpp.length;run++;longest=Math.max(longest,run);if(hmScore(a)>best.s)best={s:hmScore(a),k};}else if(!future)run=0;
+      const tip=hmPretty(k)+(a?` · ${hmDur(a.min)} · ${a.lec.length} lecture${a.lec.length===1?'':'s'} · ${a.dpp.length} DPP${a.dpp.length===1?'':'s'}`:' · no activity');
+      cells+=`<div class="hm-cell l${lvl}${future?' hm-f':''}${k===today?' hm-today':''}${k===hmSel?' hm-sel':''}" title="${tip}" onclick="hmPick('${k}')"></div>`;
+    }
+    labels+=`<div class="hm-lab">${lab}</div>`;
+  }
+  const undated=data.lectures.filter(l=>l.done&&!l.completedAt).length;
+  const thisYear=new Date().getFullYear();
+  const stat=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
+  return `<div class="tool-panel" style="margin-bottom:1rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+      <h3 style="margin:0;"><i class="ti ti-calendar-stats"></i>${activeDays} active day${activeDays===1?'':'s'} in ${year}</h3>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button class="btn-sec" style="padding:4px 10px;" onclick="hmYearGo(-1)" ${year<=2024?'disabled':''}><i class="ti ti-chevron-left"></i></button>
+        <strong style="min-width:42px;text-align:center;">${year}</strong>
+        <button class="btn-sec" style="padding:4px 10px;" onclick="hmYearGo(1)" ${year>=thisYear?'disabled':''}><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div class="hm-days"><span></span><span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span></div>
+      <div id="hmScroll" style="overflow-x:auto;flex:1;padding-bottom:6px;">
+        <div class="hm-grid hm-labels" style="grid-template-columns:repeat(${weeks},13px);">${labels}</div>
+        <div class="hm-grid" style="grid-template-columns:repeat(${weeks},13px);">${cells}</div>
+      </div>
+    </div>
+    <div class="hm-legend"><span>Less</span><i class="hm-cell l0"></i><i class="hm-cell l1"></i><i class="hm-cell l2"></i><i class="hm-cell l3"></i><i class="hm-cell l4"></i><span>More</span>
+      <span style="margin-left:auto;">Day score = lecture minutes + 30 min per DPP</span></div>
+    <div class="hm-stats">${stat(hmDur(totalMin),'lecture time')}${stat(lecCount,'lectures')}${stat(dppCount,'DPPs')}${stat(longest+' day'+(longest===1?'':'s'),'longest streak')}${stat(best.k?hmPretty(best.k):'—','busiest day')}</div>
+    ${hmDetail(act)}
+    ${undated?`<div class="tool-caption" style="margin-top:10px;">${undated} completed lecture${undated===1?'':'s'} ha${undated===1?'s':'ve'} no completion date, so ${undated===1?'it isn’t':'they aren’t'} on the map.</div>`:''}
+  </div>`;
+}
+function hmDetail(act,sel=hmSel){
+  if(!sel)return '<div class="tool-caption" style="margin-top:12px;">Tap a day to see what you did.</div>';
+  const a=act[sel];
+  let h=`<div class="hm-detail"><div style="font-weight:700;margin-bottom:6px;">${hmPretty(sel,true)}</div>`;
+  if(!a)return h+'<div class="tool-caption">Nothing logged on this day.</div></div>';
+  h+=`<div class="tool-caption" style="margin-bottom:8px;">${hmDur(a.min)} of lectures · ${a.lec.length} lecture${a.lec.length===1?'':'s'} · ${a.dpp.length} DPP${a.dpp.length===1?'':'s'}</div>`;
+  h+=a.lec.map(l=>`<div class="hm-row"><i class="ti ti-player-play"></i><span>${escH(subjectName(l.subjectId))} · ${escH(l.title)}</span><em>${escH(l.duration||'')}</em></div>`).join('');
+  h+=a.dpp.map(d=>`<div class="hm-row"><i class="ti ti-file-text"></i><span>${escH(subjectName(d.subjectId))} · ${escH(d.category?d.category+' · ':'')}${escH(d.label)}</span><em>${d.result?d.result.correct+'/'+d.result.total:''}</em></div>`).join('');
+  return h+'</div>';
+}
+
+
+/* ---- Stats: month calendar ---- */
+let mcY=new Date().getFullYear(),mcM=new Date().getMonth(),mcSel=todayKey();
+function mcGo(n){const d=new Date(mcY,mcM+n,1);mcY=d.getFullYear();mcM=d.getMonth();mcSel='';hmRedraw();}
+function mcToday(){const n=new Date();mcY=n.getFullYear();mcM=n.getMonth();mcSel=todayKey();hmRedraw();}
+function mcPick(k){mcSel=mcSel===k?'':k;hmRedraw();}
+function monthCalHtml(){
+  const act=dayActivity(),today=todayKey(),target=Number(data.settings.dailyTarget)||0;
+  const first=new Date(mcY,mcM,1),days=new Date(mcY,mcM+1,0).getDate(),lead=(first.getDay()+6)%7;
+  let cells='',lec=0,min=0,dpp=0,hit=0,elapsed=0,activeDays=0,best={s:0,k:''};
+  for(let i=0;i<lead;i++)cells+='<div class="mc-cell mc-x"></div>';
+  for(let d=1;d<=days;d++){
+    const k=todayKey(new Date(mcY,mcM,d)),a=act[k],lvl=hmLevel(a),future=k>today;
+    const isHit=target>0&&a&&a.lec.length>=target;
+    if(!future)elapsed++;
+    if(a){lec+=a.lec.length;min+=a.min;dpp+=a.dpp.length;if(hmScore(a)>0)activeDays++;if(hmScore(a)>best.s)best={s:hmScore(a),k};}
+    if(isHit)hit++;
+    cells+=`<div class="mc-cell l${lvl}${future?' mc-f':''}${k===today?' mc-today':''}${k===mcSel?' mc-sel':''}" onclick="mcPick('${k}')">
+      <span class="mc-d">${d}</span>${isHit?'<i class="ti ti-check mc-hit"></i>':''}
+      ${a?`<div class="mc-info">${a.lec.length?`<b>${a.lec.length}</b> lec · ${hmDur(a.min)}`:''}${a.dpp.length?`<div>${a.dpp.length} DPP${a.dpp.length>1?'s':''}</div>`:''}</div>`:''}</div>`;
+  }
+  const stat=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
+  const name=first.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  return `<div class="tool-panel" style="margin-bottom:1rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+      <h3 style="margin:0;"><i class="ti ti-calendar-month"></i>${name}</h3>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <button class="btn-sec" style="padding:4px 10px;" onclick="mcGo(-1)"><i class="ti ti-chevron-left"></i></button>
+        <button class="btn-sec" style="padding:4px 10px;font-size:12px;" onclick="mcToday()">Today</button>
+        <button class="btn-sec" style="padding:4px 10px;" onclick="mcGo(1)"><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="mc-grid mc-head">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div>${x}</div>`).join('')}</div>
+    <div class="mc-grid">${cells}</div>
+    <div class="hm-stats">${stat(lec,'lectures')}${stat(hmDur(min),'lecture time')}${stat(dpp,'DPPs')}${stat(target>0?`${hit} / ${elapsed}`:'—','days hit target'+(target>0?` (${target}/day)`:''))}${stat(activeDays?(lec/activeDays).toFixed(1):'—','lectures per active day')}${stat(best.k?hmPretty(best.k):'—','busiest day')}</div>
+    ${hmDetail(act,mcSel)}
+  </div>`;
+}
+
+
+/* ---- Weekly bars ---- */
+function weeklyHtml(){
+  const act=dayActivity(),mon=isoWeekStart(),todayIdx=(new Date().getDay()+6)%7;
+  const at=(off,i)=>{const d=new Date(mon);d.setDate(d.getDate()+off+i);return act[todayKey(d)];};
+  const cur=[],prev=[];let lecs=0;
+  for(let i=0;i<7;i++){cur.push(at(0,i)?at(0,i).min:0);prev.push(at(-7,i)?at(-7,i).min:0);lecs+=at(0,i)?at(0,i).lec.length:0;}
+  const sum=a=>a.reduce((x,y)=>x+y,0),curT=sum(cur),prevT=sum(prev),prevSame=sum(prev.slice(0,todayIdx+1));
+  const max=Math.max(60,...cur,...prev),D=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const diff=curT-prevSame,pct=prevSame?Math.round(diff/prevSame*100):null;
+  const delta=pct===null?'no data last week':`${diff>=0?'▲':'▼'} ${Math.abs(pct)}% vs same days last week`;
+  return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-chart-bar"></i>This week vs last week</h3>
+    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 14px;"><span class="tool-stat" style="margin:0;">${hmDur(curT)}</span>
+    <span class="tool-caption" style="color:${diff>=0?'var(--green)':'var(--red-text,#dc2626)'};font-weight:600;">${delta}</span><span class="tool-caption">· ${lecs} lectures · last week ${hmDur(prevT)}</span></div>
+    <div class="wk-chart">${D.map((n,i)=>`<div class="wk-col"><div class="wk-bars"><i class="wk-b prev" style="height:${prev[i]/max*100}%" title="Last week ${n}: ${hmDur(prev[i])}"></i><i class="wk-b cur" style="height:${cur[i]/max*100}%;animation-delay:${i*60}ms" title="${n}: ${hmDur(cur[i])}"></i></div><span class="${i===todayIdx?'wk-today':''}">${n}</span></div>`).join('')}</div>
+    <div class="hm-legend"><i class="hm-cell l4"></i><span>This week</span><i class="hm-cell l1"></i><span>Last week</span></div></div>`;
+}
+
+/* ---- Gamification: XP, levels, badges, rewards ---- */
+const QUOTES=["Small hours, stacked daily, beat big plans never started.","You don't need motivation today. You need one lecture.","Future you is already grateful for this session.","Consistency is a quiet superpower. You're using it.","Every tick is proof you showed up.","Discipline is just choosing what you want most over what you want now.","Rank lists are built on ordinary Tuesdays like this one.","Progress, not perfection. Keep the streak breathing."];
+const BREAKS=["Drink a glass of water.","Step outside for 5 minutes.","Stretch your back and neck.","Message a friend and say hi.","Have a snack you actually like.","Put on one favourite song.","Look at something far away for a minute."];
+function dayTarget(){return Number(data.settings.dailyTarget)||0;}
+function targetDayCount(){const t=dayTarget();return t>0?Object.values(dayActivity()).filter(a=>a.lec.length>=t).length:0;}
+function totalXp(){
+  let xp=0;
+  data.lectures.filter(l=>l.done).forEach(l=>xp+=20+Math.round(durToMins(l.duration)/6));
+  data.dpps.filter(d=>d.done).forEach(d=>{xp+=15;if(d.result){xp+=10;const att=d.result.correct+d.result.wrong;if(att&&d.result.correct/att>=.8)xp+=10;}});
+  return xp+targetDayCount()*25;
+}
+function levelInfo(xp){const level=Math.floor(Math.sqrt(xp/50))+1,base=50*(level-1)**2,next=50*level**2;return{level,base,next,toNext:next-xp,pct:Math.round((xp-base)/(next-base)*100)};}
+function levelTitle(l){return l>=30?'Legend':l>=20?'IIT Bound':l>=15?'Topper':l>=10?'Ranker':l>=6?'Scholar':l>=3?'Grinder':'Rookie';}
+function rewardVal(r){return r.type==='streak'?bestStreak():r.type==='level'?levelInfo(totalXp()).level:r.type==='lectures'?completedLectures().length:targetDayCount();}
+const RW_LABEL={streak:'day streak',level:'level',lectures:'lectures done',targetdays:'target days'};
+function rewardUnlockedIds(){return data.rewards.filter(r=>rewardVal(r)>=r.value).map(r=>r.id);}
+function snap(){const xp=totalXp(),a=dayActivity()[todayKey()];return{xp,lvl:levelInfo(xp).level,hit:dayTarget()>0&&!!a&&a.lec.length>=dayTarget(),unlocked:rewardUnlockedIds()};}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function confetti(n=150){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=document.createElement('canvas');cv.className='confetti';cv.width=innerWidth;cv.height=innerHeight;document.body.appendChild(cv);
+  const g=cv.getContext('2d'),cols=['#16c47f','#6c5ce7','#ffb020','#ff5722','#0ea5e9','#ec4899'];
+  const ps=Array.from({length:n},()=>({x:innerWidth/2+(Math.random()-.5)*160,y:innerHeight*.62,vx:(Math.random()-.5)*15,vy:-Math.random()*17-6,s:5+Math.random()*6,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.4}));
+  let t=0;(function f(){t++;g.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=p.vr;g.save();g.translate(p.x,p.y);g.rotate(p.r);g.fillStyle=p.c;g.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);g.restore();});if(t<140)requestAnimationFrame(f);else cv.remove();})();
+}
+function showToast(icon,title,sub,extra){
+  const t=document.createElement('div');t.className='gm-toast';
+  t.innerHTML=`<div class="gm-ico">${icon}</div><div><div class="gm-t">${title}</div><div class="gm-s">${sub||''}</div>${extra?`<div class="gm-x">${extra}</div>`:''}</div>`;
+  document.body.appendChild(t);setTimeout(()=>t.classList.add('out'),4300);setTimeout(()=>t.remove(),4800);
+}
+function afterProgress(s1){
+  const s2=snap(),gain=s2.xp-s1.xp;if(gain<=0)return;
+  const newR=s2.unlocked.filter(id=>!s1.unlocked.includes(id));
+  if(s2.lvl>s1.lvl){confetti(240);showToast('🚀',`Level ${s2.lvl}: ${levelTitle(s2.lvl)}`,`+${gain} XP · ${pick(QUOTES)}`,'Break idea: '+pick(BREAKS));}
+  else if(newR.length){const r=data.rewards.find(x=>x.id===newR[0]);confetti(220);showToast('🎁','Reward unlocked!',`${escH(r.label)}. Claim it in the Streaks tab.`,'You earned it.');}
+  else if(s2.hit&&!s1.hit){confetti(170);showToast('🎯','Daily target hit!',`+${gain} XP · ${pick(QUOTES)}`,'Break idea: '+pick(BREAKS));}
+  else showToast('⚡',`+${gain} XP`,`Level ${s2.lvl} · ${levelInfo(s2.xp).toNext} XP to next level`);
+}
+function addReward(){
+  const label=document.getElementById('rw-label').value.trim(),type=document.getElementById('rw-type').value,v=Number(document.getElementById('rw-val').value);
+  if(!label||!(v>0)){alert('Add a reward name and a goal number above 0.');return;}
+  data.rewards.push({id:uid(),label,type,value:v,claimed:false});save();renderStreaks();
+}
+function claimReward(id){data.rewards=data.rewards.map(r=>r.id===id?{...r,claimed:true}:r);save();confetti(260);showToast('🎉','Reward claimed!','Go enjoy it. You earned every bit.','Then come back stronger.');renderStreaks();}
+function deleteReward(id){if(!confirm('Remove this reward?'))return;data.rewards=data.rewards.filter(r=>r.id!==id);save();renderStreaks();}
+function badgeList(){
+  const lec=completedLectures().length,hrs=completedLectures().reduce((a,l)=>a+durToMins(l.duration),0)/60,best=bestStreak();
+  const dppDone=data.dpps.filter(d=>d.done).length,perfect=data.dpps.some(d=>d.result&&d.result.correct>0&&d.result.wrong===0&&d.result.correct===d.result.total);
+  return [
+    ['🌱','First step','Complete your first lecture',lec>=1],['🔥','On a roll','3-day streak',best>=3],['⚔️','Week warrior','7-day streak',best>=7],['🏔️','Unstoppable','30-day streak',best>=30],
+    ['💯','Century','100 lectures done',lec>=100],['⏱️','100 hour club','100 hours of lectures',hrs>=100],['🎯','Target crusher','Hit your daily target 10 times',targetDayCount()>=10],
+    ['📝','DPP machine','25 DPPs done',dppDone>=25],['🏹','Sharpshooter','A DPP with every question correct',perfect]];
+}
+function gameHtml(){
+  const xp=totalXp(),L=levelInfo(xp),t=dayTarget(),a=dayActivity()[todayKey()],today=a?a.lec.length:0;
+  const q=QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length];
+  const badges=badgeList();
+  const rewards=data.rewards.map(r=>{
+    const v=rewardVal(r),ok=v>=r.value,p=Math.min(100,Math.round(v/r.value*100));
+    return `<div class="rw-row ${ok&&!r.claimed?'rw-ready':''}"><div style="flex:1;min-width:0;"><div style="font-weight:600;">${escH(r.label)}</div>
+      <div class="tool-caption">${Math.min(v,r.value)} / ${r.value} ${RW_LABEL[r.type]}</div><div class="hm-bar"><div style="width:${p}%"></div></div></div>
+      ${r.claimed?'<span class="badge b-ok">Claimed ✓</span>':ok?`<button class="btn-primary" onclick="claimReward(${r.id})">Claim 🎉</button>`:''}
+      <button class="btn-ghost danger" onclick="deleteReward(${r.id})"><i class="ti ti-trash"></i></button></div>`;}).join('');
+  return `<div class="tool-panel gm-hero" style="margin-bottom:1rem;">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <div class="gm-lvl">${L.level}</div>
+      <div style="flex:1;min-width:180px;"><div style="font-weight:800;font-size:18px;">${levelTitle(L.level)}</div>
+        <div class="tool-caption">${xp} XP · ${L.toNext} XP to level ${L.level+1}</div>
+        <div class="gm-xpbar"><div style="width:${L.pct}%"></div></div></div>
+      <div class="gm-flame"><span>🔥</span><b>${currentStreak()}</b><small>day streak</small></div>
+    </div>
+    ${t>0?`<div class="gm-quest ${today>=t?'done':''}"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;"><span>${today>=t?'✅ Daily quest complete (+25 XP)':'🎯 Daily quest: '+t+' lectures'}</span><span>${Math.min(today,t)} / ${t}</span></div><div class="hm-bar"><div style="width:${Math.min(100,today/t*100)}%"></div></div></div>`:''}
+    <div class="gm-quote">“${q}”</div>
+    <div class="tool-caption" style="margin-top:8px;">XP: lecture 20 + 1 per 6 min · DPP 15 · logged result +10 · 80%+ accuracy +10 · daily target +25</div>
+  </div>
+  <div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-medal"></i>Badges · ${badges.filter(b=>b[3]).length}/${badges.length}</h3>
+    <div class="gm-badges">${badges.map(b=>`<div class="gm-badge ${b[3]?'on':''}" title="${b[2]}"><div>${b[3]?b[0]:'🔒'}</div><b>${b[1]}</b><small>${b[2]}</small></div>`).join('')}</div></div>
+  <div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-gift"></i>Real-life rewards</h3>
+    <div class="tool-caption" style="margin-bottom:10px;">Promise yourself something real for hitting a goal. It unlocks automatically.</div>
+    ${rewards||'<div class="tool-caption" style="margin-bottom:10px;">No rewards yet. Add one below, like “Movie night” at a 7 day streak.</div>'}
+    <div class="rw-form"><input id="rw-label" type="text" placeholder="Reward, e.g. Movie night"><select id="rw-type"><option value="streak">Best streak (days)</option><option value="lectures">Lectures done</option><option value="targetdays">Target days</option><option value="level">Reach level</option></select><input id="rw-val" type="number" min="1" placeholder="Goal" style="max-width:90px;"><button class="btn-primary" onclick="addReward()"><i class="ti ti-plus"></i> Add</button></div></div>`;
+}
+
+
+/* ---- Stats: DPP analytics ---- */
+let dpaSub='all',dpaPeriod='all';
+function setDpa(k,v){if(k==='sub')dpaSub=v;else dpaPeriod=v;hmRedraw();}
+function accColor(p){return p>=75?'var(--hm3)':p>=50?'#ffb020':'#ef4444';}
+function dppAnalyticsHtml(){
+  const cut=dpaPeriod==='all'?'':todayKey(new Date(Date.now()-(dpaPeriod==='7'?7:30)*864e5));
+  const rowDate=d=>d.result.loggedAt||d.completedAt||'';
+  const all=data.dpps.filter(d=>d.result&&(dpaSub==='all'||d.subjectId===dpaSub));
+  const rows=all.filter(d=>!cut||rowDate(d)>=cut);
+  const pill=(on,fn)=>`class="cat-pill ${on?'active':''}" onclick="${fn}"`;
+  const filters=`<div class="cat-row" style="margin-bottom:8px;"><button ${pill(dpaSub==='all',"setDpa('sub','all')")}>All subjects</button>${data.subjects.map(s=>`<button ${pill(dpaSub===s.id,`setDpa('sub','${s.id}')`)}>${escH(s.name)}</button>`).join('')}</div>
+    <div class="cat-row" style="margin-bottom:14px;">${[['all','All time'],['30','Last 30 days'],['7','Last 7 days']].map(([v,t])=>`<button ${pill(dpaPeriod===v,`setDpa('period','${v}')`)}>${t}</button>`).join('')}</div>`;
+  const head=`<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-chart-line"></i>DPP analytics</h3>${filters}`;
+  if(!rows.length)return head+`<div class="empty" style="padding:1.5rem 0;"><i class="ti ti-chart-line"></i>${data.dpps.some(d=>d.result)?'No logged results in this view.':'Tap 📊 on a DPP to log a result and the charts will appear.'}</div></div>`;
+  let C=0,W=0,Q=0,M=0;rows.forEach(d=>{C+=d.result.correct;W+=d.result.wrong;Q+=d.result.total;M+=d.result.minutes||0;});
+  const acc=C+W?Math.round(C/(C+W)*100):0,spq=M&&Q?Math.round(M*60/Q):0;
+  const stat=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
+  // trend: one point per day (weighted accuracy)
+  const by={};rows.forEach(d=>{const k=rowDate(d);if(!k)return;const o=by[k]=by[k]||{c:0,w:0,n:0,q:0};o.c+=d.result.correct;o.w+=d.result.wrong;o.q+=d.result.total;o.n++;});
+  const pts=Object.keys(by).sort().map(k=>({k,acc:by[k].c+by[k].w?Math.round(by[k].c/(by[k].c+by[k].w)*100):0,n:by[k].n,c:by[k].c,q:by[k].q}));
+  const Wd=640,Ht=210,L=34,R=14,T=12,B=26,pw=Wd-L-R,ph=Ht-T-B;
+  const t0=pts.length?+new Date(pts[0].k+'T00:00:00'):0,t1=pts.length?+new Date(pts[pts.length-1].k+'T00:00:00'):0;
+  const X=p=>L+(t1===t0?pw/2:(+new Date(p.k+'T00:00:00')-t0)/(t1-t0)*pw),Y=a=>T+ph-a/100*ph;
+  const line=pts.map((p,i)=>(i?'L':'M')+X(p).toFixed(1)+' '+Y(p.acc).toFixed(1)).join(' ');
+  const area=pts.length>1?line+` L${X(pts[pts.length-1]).toFixed(1)} ${T+ph} L${X(pts[0]).toFixed(1)} ${T+ph} Z`:'';
+  const grid=[0,25,50,75,100].map(v=>`<line x1="${L}" x2="${Wd-R}" y1="${Y(v)}" y2="${Y(v)}" style="stroke:var(--border);"/><text x="${L-6}" y="${Y(v)+3}" text-anchor="end" style="fill:var(--text3);font-size:10px;">${v}</text>`).join('');
+  const dots=pts.map(p=>`<circle cx="${X(p).toFixed(1)}" cy="${Y(p.acc).toFixed(1)}" r="4.5" style="fill:var(--surface);stroke:${accColor(p.acc)};stroke-width:2.5;"><title>${hmPretty(p.k)} · ${p.acc}% · ${p.c}/${p.q} correct · ${p.n} DPP${p.n>1?'s':''}</title></circle>`).join('');
+  const xl=pts.length?`<text x="${L}" y="${Ht-6}" style="fill:var(--text3);font-size:10px;">${hmPretty(pts[0].k)}</text>${pts.length>1?`<text x="${Wd-R}" y="${Ht-6}" text-anchor="end" style="fill:var(--text3);font-size:10px;">${hmPretty(pts[pts.length-1].k)}</text>`:''}`:'';
+  const chart=`<svg viewBox="0 0 ${Wd} ${Ht}" style="width:100%;height:auto;display:block;">${grid}<line x1="${L}" x2="${Wd-R}" y1="${Y(acc)}" y2="${Y(acc)}" style="stroke:var(--accent);stroke-dasharray:4 4;opacity:.6;"/>${area?`<path d="${area}" style="fill:var(--hm2);opacity:.16;"/>`:''}<path d="${line}" class="dpa-line" style="fill:none;stroke:var(--hm3);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;"/>${dots}${xl}</svg>`;
+  // mistakes
+  const tags={};rows.forEach(d=>(d.result.mistakes||[]).forEach(t=>tags[t]=(tags[t]||0)+1));
+  const tl=Object.entries(tags).sort((a,b)=>b[1]-a[1]),tmax=tl.length?tl[0][1]:1;
+  const mist=tl.length?tl.map(([t,n])=>`<div class="dpa-row"><span class="dpa-name">${escH(t)}</span><div class="hm-bar" style="flex:1;margin:0;"><div style="width:${n/tmax*100}%;background:linear-gradient(90deg,#ffb020,#ef4444);"></div></div><b>${n}</b></div>`).join(''):'<div class="tool-caption">No mistake tags logged in this view.</div>';
+  // weakest categories
+  const cat={};rows.forEach(d=>{const k=(dpaSub==='all'?subjectName(d.subjectId)+' · ':'')+(d.category||'Uncategorised');const o=cat[k]=cat[k]||{c:0,w:0,n:0,redo:0};o.c+=d.result.correct;o.w+=d.result.wrong;o.n++;if(d.result.redo)o.redo++;});
+  const cl=Object.entries(cat).filter(([k,o])=>o.c+o.w>0).map(([k,o])=>({k,a:Math.round(o.c/(o.c+o.w)*100),n:o.n,redo:o.redo})).sort((a,b)=>a.a-b.a).slice(0,8);
+  const weak=cl.length?cl.map(o=>`<div class="dpa-row"><span class="dpa-name" title="${escH(o.k)}">${escH(o.k)}</span><div class="hm-bar" style="flex:1;margin:0;"><div style="width:${o.a}%;background:${accColor(o.a)};"></div></div><b>${o.a}%</b><small>${o.n} DPP${o.n>1?'s':''}${o.redo?` · ${o.redo} redo`:''}</small></div>`).join(''):'<div class="tool-caption">Not enough data yet.</div>';
+  return head+`<div class="hm-stats" style="margin:0 0 14px;">${stat(rows.length,'DPPs logged')}${stat(acc+'%','accuracy')}${stat(Q,'questions solved')}${stat(spq?spq+'s':'—','per question')}${stat(rows.filter(d=>d.result.redo).length,'flagged to redo')}</div>
+    <div class="dpa-title">Accuracy over time <small>dashed line = your average (${acc}%)</small></div>${chart}
+    <div class="dpa-cols"><div><div class="dpa-title">Where you lose marks</div>${mist}</div><div><div class="dpa-title">Weakest categories</div>${weak}</div></div></div>`;
+}
+
+
+/* ---- Today screen ---- */
+function todayTick(id){toggleDone(id);renderToday();}
+function markRedone(id){data.dpps=data.dpps.map(d=>d.id===id&&d.result?{...d,result:{...d.result,redo:false}}:d);save();renderToday();}
+function renderToday(){
+  const el=document.getElementById('todayContent');if(!el)return;
+  const tk=todayKey(),a=dayActivity()[tk],doneToday=a?a.lec.length:0,t=dayTarget();
+  const xp=totalXp(),L=levelInfo(xp),h=new Date().getHours();
+  const hello=h<5?'Late night grind':h<12?'Good morning':h<17?'Good afternoon':h<21?'Good evening':'Night owl mode';
+  const q=QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length];
+  const pending=data.lectures.filter(l=>!l.done).sort((x,y)=>+parseDate(fullDate(x.date))-+parseDate(fullDate(y.date)));
+  const newToday=pending.filter(l=>l.date&&todayKey(parseDate(fullDate(l.date)))===tk);
+  const nextBy=data.subjects.map(s=>pending.find(l=>l.subjectId===s.id)).filter(Boolean);
+  const dppsWait=data.dpps.filter(d=>!d.done).sort((x,y)=>+parseDate(fullDate(x.date))-+parseDate(fullDate(y.date)));
+  const redo=data.dpps.filter(d=>d.result&&d.result.redo),revise=data.lectures.filter(l=>l.revision);
+  const leftMin=pending.reduce((s,l)=>s+durToMins(l.duration),0);
+  const exam=data.settings.examDate?Math.max(0,daysBetween(tk,data.settings.examDate)):0;
+  const needPerDay=exam>0?(pending.length/exam):0;
+  const row=(icon,title,sub,btn)=>`<div class="td-row"><i class="ti ${icon}"></i><div class="td-main"><div class="td-t">${title}</div><div class="td-s">${sub}</div></div>${btn||''}</div>`;
+  const sec=(title,icon,n,body,empty)=>`<div class="tool-panel td-sec"><h3><i class="ti ${icon}"></i>${title}${n?` <span class="td-n">${n}</span>`:''}</h3>${body||`<div class="td-empty">${empty}</div>`}</div>`;
+  const lecRow=l=>row('ti-player-play',escH(l.title),`${escH(subjectName(l.subjectId))}${l.duration?' · '+escH(l.duration):''}${l.date?' · '+escH(l.date):''}`,`<button class="td-btn" title="Mark done" onclick="todayTick(${l.id})"><i class="ti ti-check"></i></button>`);
+  const more=(n,v)=>n>5?`<button class="td-more" onclick="setView('${v}')">+${n-5} more</button>`:'';
+  const dppRow=(d,btn)=>row('ti-file-text',escH(d.label)+(d.tag?' · '+escH(d.tag):''),`${escH(subjectName(d.subjectId))}${d.category?' · '+escH(d.category):''}${d.date?' · '+escH(fullDate(d.date)):''}`,btn);
+  const logBtn=d=>`<button class="td-btn" title="Log result" onclick="openDppResult(${jid(d.id)})"><i class="ti ti-chart-bar"></i></button>`;
+  el.innerHTML=`
+  <div class="tool-panel gm-hero td-head">
+    <div class="td-date">${new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</div>
+    <div class="td-hello">${hello}, let’s get today done.</div>
+    <div class="td-chips"><span class="td-chip">🔥 ${currentStreak()} day streak</span><span class="td-chip">⭐ Level ${L.level} · ${levelTitle(L.level)}</span>${exam?`<span class="td-chip">⏳ ${exam} days to exam</span>`:''}</div>
+    ${t>0?`<div class="gm-quest ${doneToday>=t?'done':''}" style="margin-top:14px;"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;"><span>${doneToday>=t?'✅ Target hit. Anything more is bonus.':'🎯 Today’s target'}</span><span>${Math.min(doneToday,t)} / ${t}</span></div><div class="hm-bar"><div style="width:${Math.min(100,doneToday/t*100)}%"></div></div></div>`:''}
+    <div class="gm-quote">“${q}”</div>
+  </div>
+  <div class="td-grid">
+    ${sec('New today','ti-sparkles',newToday.length,newToday.slice(0,5).map(lecRow).join('')+more(newToday.length,'tracker'),'Nothing dropped today.')}
+    ${sec('Up next','ti-arrow-right',nextBy.length,nextBy.map(lecRow).join(''),'Every lecture is done. Remarkable.')}
+    ${sec('DPPs waiting','ti-file-text',dppsWait.length,dppsWait.slice(0,5).map(d=>dppRow(d,logBtn(d))).join('')+more(dppsWait.length,'dpp'),'No pending DPPs.')}
+    ${sec('Redo','ti-repeat',redo.length+revise.length,redo.slice(0,4).map(d=>dppRow(d,`<button class="td-btn" title="Mark redone" onclick="markRedone(${jid(d.id)})"><i class="ti ti-check"></i></button>`)).join('')+revise.slice(0,4).map(l=>row('ti-bookmark',escH(l.title),escH(subjectName(l.subjectId))+' · marked for revision',`<button class="td-btn" title="Done revising" onclick="toggleRevision(${l.id})"><i class="ti ti-check"></i></button>`)).join(''),'Nothing flagged for redo.')}
+  </div>
+  <div class="tool-panel"><h3><i class="ti ti-hourglass"></i>Backlog</h3>
+    <div class="hm-stats" style="margin-top:8px;"><div class="hm-stat"><div class="hm-stat-v">${pending.length}</div><div class="hm-stat-t">lectures left</div></div><div class="hm-stat"><div class="hm-stat-v">${hmDur(leftMin)}</div><div class="hm-stat-t">watch time left</div></div>${t>0?`<div class="hm-stat"><div class="hm-stat-v">${Math.ceil(pending.length/t)} days</div><div class="hm-stat-t">to clear at ${t}/day</div></div>`:''}${exam?`<div class="hm-stat"><div class="hm-stat-v">${needPerDay.toFixed(1)}/day</div><div class="hm-stat-t">needed before exam</div></div>`:''}</div></div>`;
 }
 
 /* ---- View ---- */
-const VIEWS=['dashboard','tracker','streaks','dpp','revision','stats','export'];
+const VIEWS=['today','dashboard','tracker','streaks','dpp','revision','stats','export'];
 function setView(v){
   currentView=v;
   VIEWS.forEach(name=>{
@@ -861,7 +1259,8 @@ function setView(v){
   document.querySelectorAll('.dock-item').forEach(btn=>{
     btn.classList.toggle('active',btn.dataset.view===v);
   });
-  if(v==='dashboard')renderDashboard();
+  if(v==='today')renderToday();
+  else if(v==='dashboard')renderDashboard();
   else if(v==='tracker')renderTracker();
   else if(v==='streaks')renderStreaks();
   else if(v==='dpp')renderDpp();
@@ -870,7 +1269,7 @@ function setView(v){
   else if(v==='export')renderExport();
 }
 
-function renderAll(){ensureDataShape(data);renderDashboard();renderSubTabs();render();renderStreaks();renderDpp();renderRevision();renderStats();renderExport();}
+function renderAll(){ensureDataShape(data);renderToday();renderDashboard();renderSubTabs();render();renderStreaks();renderDpp();renderRevision();renderStats();renderExport();}
 
 /* ---- Dashboard ---- */
 function getStats(subId){
@@ -994,7 +1393,7 @@ function renderStreaks(){
   const el=document.getElementById('streakContent');if(!el)return;
   const pace=paceStats();
   const todayDone=watchedCountSince(new Date(new Date().setHours(0,0,0,0)));
-  el.innerHTML=`
+  el.innerHTML=gameHtml()+`
     <div class="tool-grid">
       <div class="tool-panel"><h3><i class="ti ti-flame"></i>Study streak</h3><div class="tool-stat">${currentStreak()}</div><div class="tool-caption">days in a row with at least one completed lecture</div></div>
       <div class="tool-panel"><h3><i class="ti ti-trophy"></i>Best streak</h3><div class="tool-stat">${bestStreak()}</div><div class="tool-caption">best streak recorded from completion dates</div></div>
@@ -1026,11 +1425,12 @@ function renderDpp(){
   let dpps=data.dpps.filter(d=>d.subjectId===activeDppSub);
   const total=dpps.length,done=dpps.filter(d=>d.done).length;
   const q=(document.getElementById('dppSearchBox')?.value||'').toLowerCase();
-  if(q)dpps=dpps.filter(d=>(d.chapter+' '+d.label+' '+d.tag).toLowerCase().includes(q));
+  if(q)dpps=dpps.filter(d=>((d.category||'')+' '+d.label+' '+d.tag).toLowerCase().includes(q));
   if(dppHideDone)dpps=dpps.filter(d=>!d.done);
   const groups={};
-  dpps.forEach(d=>{const key=d.chapter||'Unsorted';if(!groups[key])groups[key]=[];groups[key].push(d);});
-  const chapterOrder=Object.keys(groups).sort();
+  dpps.forEach(d=>{const key=d.category||'Uncategorised';if(!groups[key])groups[key]=[];groups[key].push(d);});
+  const _order=((data.subjects.find(s=>s.id===activeDppSub)||{}).categories)||[];
+  const chapterOrder=Object.keys(groups).sort((a,b)=>{const ia=_order.indexOf(a),ib=_order.indexOf(b);return (ia<0?9999:ia)-(ib<0?9999:ib);});
   let html=`<div class="tool-grid" style="margin-bottom:1rem;">
     <div class="tool-panel"><h3><i class="ti ti-file-text"></i>Pending DPPs</h3><div class="tool-stat">${total-done}</div><div class="tool-caption">${done}/${total} completed in this subject</div></div>
     <div class="tool-panel"><h3><i class="ti ti-circle-check"></i>DPP progress</h3><div class="tool-stat">${total?Math.round(done/total*100):0}%</div><div class="tool-caption">tracked independently of lectures</div></div>
@@ -1048,11 +1448,11 @@ function renderDpp(){
           <svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>
         </button>
         <div class="lec-body">
-          <div class="lec-title ${d.done?'striked':''}">${d.chapter}${d.chapter?' : ':''}${d.label}${d.tag?` <span style="color:var(--text3);font-weight:400;">(${d.tag})</span>`:''}</div>
+          <div class="lec-title ${d.done?'striked':''}">${d.label}${d.tag?` <span style="color:var(--text3);font-weight:400;">(${d.tag})</span>`:''}</div>
           <div class="lec-meta">
             ${d.date?`<span class="badge b-date"><i class="ti ti-calendar" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${d.date}</span>`:''}
             ${linked?`<span class="badge b-ch"><i class="ti ti-link" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${linked.title}</span>`:''}
-            ${d.category?`<span class="badge b-cat">${escH(d.category)}</span>`:''}${marksStr}${resultBadges(d)}
+            ${marksStr}${resultBadges(d)}
           </div>
           ${d.result&&d.result.notes?`<div style="font-size:12px;color:var(--text3);margin-top:6px;white-space:pre-wrap;">${escH(d.result.notes)}</div>`:''}
         </div>
@@ -1080,11 +1480,13 @@ function renderStats(){
   const weekMins=watchedMinsSince(weekStart),monthMins=watchedMinsSince(mStart);
   const weekCount=watchedCountSince(weekStart),monthCount=watchedCountSince(mStart);
   const totalWatched=completedLectures().reduce((a,l)=>a+durToMins(l.duration),0);
-  el.innerHTML=`<div class="tool-grid">
+  el.innerHTML=heatmapHtml()+weeklyHtml()+monthCalHtml()+dppAnalyticsHtml()+`<div class="tool-grid">
     <div class="tool-panel"><h3><i class="ti ti-clock"></i>This week</h3><div class="tool-stat">${minsToStr(weekMins)}</div><div class="tool-caption">${weekCount} lectures completed since Monday</div></div>
     <div class="tool-panel"><h3><i class="ti ti-calendar-month"></i>This month</h3><div class="tool-stat">${minsToStr(monthMins)}</div><div class="tool-caption">${monthCount} lectures completed this month</div></div>
     <div class="tool-panel"><h3><i class="ti ti-player-play"></i>Total watched</h3><div class="tool-stat">${minsToStr(totalWatched)}</div><div class="tool-caption">based on lectures marked done</div></div>
   </div><div class="tool-panel"><h3><i class="ti ti-info-circle"></i>Note</h3><div class="tool-caption">Week/month stats become accurate from the day this update is used. Older completed lectures had no completion date saved.</div></div>`;
+
+  const sc=document.getElementById('hmScroll');if(sc&&hmFirst){hmFirst=false;sc.scrollLeft=hmYear===new Date().getFullYear()?Math.max(0,(new Date().getMonth()-1)/12*sc.scrollWidth):0;}
 }
 function renderExport(){
   const el=document.getElementById('exportContent');if(!el)return;
@@ -1164,7 +1566,6 @@ function lecCardHtml(l){return `
           ${l.date?`<span class="badge b-date"><i class="ti ti-calendar" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${l.date}</span>`:''}
           ${l.duration?`<span class="badge b-dur"><i class="ti ti-clock" style="font-size:10px;vertical-align:-1px;margin-right:2px;"></i>${l.duration}</span>`:''}
           ${l.category?`<span class="badge b-cat">${l.category}</span>`:''}
-          ${l.chapter?`<span class="badge b-ch">${l.chapter}</span>`:''}
           ${dppBadgeForLecture(l.id)}
           ${l.revision?`<span class="badge b-rev">Revision</span>`:''}
         </div>
@@ -1271,8 +1672,6 @@ function buildManualForm(cats,l){
       <select id="f-cat">${cats.map(c=>`<option value="${c}"${c===preselect?' selected':''}>${c}</option>`).join('')}</select></div>
     <div class="fr"><label>Title</label>
       <input type="text" id="f-title" value="${l?l.title.replace(/"/g,'&quot;'):''}" placeholder="e.g. Motion in a Straight Line 01"></div>
-    <div class="fr"><label>Chapter (optional)</label>
-      <input type="text" id="f-chapter" value="${l?l.chapter:''}" placeholder="e.g. Mathematical Tools"></div>
     <div class="f2">
       <div class="fr"><label>Date</label><input type="text" id="f-date" value="${l?l.date:''}" placeholder="29 Apr 2026"></div>
       <div class="fr"><label>Duration</label><input type="text" id="f-dur" value="${l?l.duration:''}" placeholder="2h 10m"></div>
@@ -1307,9 +1706,9 @@ function openEditModal(id){
 function submitManual(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){alert('Title is required.');return;}
-  data.lectures.push({id:uid(),subjectId:activeSub,done:false,
+  data.lectures.push({id:uid(),chapter:'',subjectId:activeSub,done:false,
     category:document.getElementById('f-cat').value,
-    title,chapter:document.getElementById('f-chapter').value.trim(),
+    title,
     date:document.getElementById('f-date').value.trim(),
     duration:document.getElementById('f-dur').value.trim(),
     revision:false,completedAt:''});
@@ -1321,7 +1720,7 @@ function submitEdit(id){
   if(!title){alert('Title is required.');return;}
   data.lectures=data.lectures.map(l=>l.id===id?{...l,
     category:document.getElementById('f-cat').value,
-    title,chapter:document.getElementById('f-chapter').value.trim(),
+    title,
     date:document.getElementById('f-date').value.trim(),
     duration:document.getElementById('f-dur').value.trim()}:l);
   save();closeModal();renderAll();
@@ -1353,27 +1752,10 @@ function parsePW(raw,cat){
       }
       if(i<lines.length&&durRe.test(lines[i])){const m=lines[i].match(durRe);l.duration=m[1]+'h '+m[2]+'m';i++;}
       while(i<lines.length&&!/^Lecture$/i.test(lines[i]))i++;
-      if(l.title){l.chapter=guessChapter(l.title);res.push(l);}
+      if(l.title){res.push(l);}
     }else{i++;}
   }
   return res;
-}
-
-function guessChapter(t){
-  const map=[
-    [/error in meas/i,'Error in Measurements'],[/mathematical tool/i,'Mathematical Tools'],
-    [/motion in a straight/i,'Motion in a Straight Line'],[/motion in a plane/i,'Motion in a Plane'],
-    [/relative motion/i,'Relative Motion'],[/laws of motion/i,'Laws of Motion'],
-    [/work.*energy/i,'Work, Energy and Power'],[/circular/i,'Circular Motion'],
-    [/centre of mass/i,'Centre of Mass'],[/gravitation/i,'Gravitation'],
-    [/trigono/i,'Trigonometry'],[/differenti/i,'Differentiation'],[/integrat/i,'Integration'],
-    [/limit/i,'Limits'],[/function/i,'Functions'],[/sets/i,'Sets'],
-    [/mole concept/i,'Mole Concept'],[/atomic/i,'Atomic Structure'],
-    [/chemical bonding/i,'Chemical Bonding'],[/thermodynamics/i,'Thermodynamics'],
-    [/equilibrium/i,'Equilibrium'],[/hydrocarbon/i,'Hydrocarbons'],
-  ];
-  for(const[r,c]of map)if(r.test(t))return c;
-  const mm=t.match(/^(.*?)\s+\d+\s*[:\-]/);return mm?mm[1].trim():'';
 }
 
 /* ---- DPP Modal ---- */
@@ -1411,7 +1793,6 @@ function buildDppManualForm(sub,d){
   return`
     <div class="fr"><label>Subject</label>
       <select id="d-sub" onchange="rebuildDppModalForSub()">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
-    <div class="fr"><label>Chapter</label><div id="d-chwrap">${chapterPicker(sub?sub.id:activeDppSub,d?d.chapter:'')}</div></div>
     <div class="fr"><label>Category</label><select id="d-cat"><option value="">— None —</option>${(sub?sub.categories:[]).map(x=>`<option value="${escH(x)}"${d&&d.category===x?' selected':''}>${escH(x)}</option>`).join('')}</select></div>
     <div class="f2">
       <div class="fr"><label>DPP label</label><input type="text" id="d-label" value="${d?d.label.replace(/"/g,'&quot;'):''}" placeholder="e.g. DPP 06"></div>
@@ -1429,44 +1810,31 @@ function buildDppManualForm(sub,d){
     </div>`;
 }
 function escH(s){return String(s==null?'':s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
-function chapterPicker(subId,val){
-  const list=subChapters(subId),v=(val||'').trim();
-  const hit=list.find(x=>x.toLowerCase()===v.toLowerCase());
-  const isNew=!hit&&(v||!list.length);
-  return `<select id="d-chsel" onchange="pickChapter(this)"><option value="">— Select chapter —</option>${list.map(x=>`<option value="${escH(x)}"${hit===x?' selected':''}>${escH(x)}</option>`).join('')}<option value="__new__"${isNew?' selected':''}>＋ New chapter…</option></select>
-  <input type="text" id="d-chapter" value="${escH(hit||v)}" placeholder="Type chapter name" style="margin-top:6px;${isNew?'':'display:none;'}">`;
-}
-function pickChapter(sel){const i=document.getElementById('d-chapter');if(sel.value==='__new__'){i.style.display='';i.value='';i.focus();}else{i.style.display='none';i.value=sel.value;}}
 function buildDppPasteForm(sub){
   const sid=sub?sub.id:activeDppSub;
   return`
     <div class="fr"><label>Subject</label>
       <select id="d-sub-paste" onchange="rebuildDppPasteSub()">${data.subjects.map(s=>`<option value="${s.id}"${sub&&s.id===sub.id?' selected':''}>${s.name}</option>`).join('')}</select></div>
-    <div class="fr"><label>Category</label>
+    <div class="fr"><label>Category (chapter)</label>
       <select id="d-pcat"><option value="">— None —</option>${(sub?sub.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('')}</select></div>
-    <div class="fr"><label>Chapter</label>
-      <select id="d-pch"><option value="">Read each chapter from the pasted text</option>${subChapters(sid).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('')}</select></div>
     <div class="fr">
-      <p class="parse-hint">Paste from the PW DPP PDFs page: date, then a title like "Chapter : DPP 06", repeating. Pick a chapter above if the text doesn't name one. Chapters are matched to your lecture chapters, and repeats are skipped.</p>
+      <p class="parse-hint">Paste from the PW DPP PDFs page: date, then a title containing "DPP 06", repeating. Every DPP goes into the category you pick above. Repeats are skipped.</p>
       <textarea id="d-paste" placeholder="DPP PDF&#10;13 May&#10;Motion in a Straight Line : DPP 06&#10;View DPP PDF&#10;..."></textarea>
       <div class="err-msg" id="dpp-parse-err">No DPPs found. Check that each entry has a date and a title containing "DPP".</div>
     </div>`;
 }
 function rebuildDppPasteSub(){
   const id=document.getElementById('d-sub-paste').value;
-  document.getElementById('d-pch').innerHTML='<option value="">Read each chapter from the pasted text</option>'+subChapters(id).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
   const s=data.subjects.find(x=>x.id===id);
   document.getElementById('d-pcat').innerHTML='<option value="">— None —</option>'+(s?s.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
 }
 function rebuildDppModalForSub(){
   const id=document.getElementById('d-sub').value;
-  document.getElementById('d-chwrap').innerHTML=chapterPicker(id,'');
   const _s=data.subjects.find(x=>x.id===id);
   document.getElementById('d-cat').innerHTML='<option value="">— None —</option>'+(_s?_s.categories:[]).map(x=>`<option value="${escH(x)}">${escH(x)}</option>`).join('');
   document.getElementById('d-linked').innerHTML='<option value="">— None —</option>'+lecturesForSub(id).map(l=>`<option value="${l.id}">${escH(l.title)}</option>`).join('');
 }
 function submitDppManual(){
-  const chapter=document.getElementById('d-chapter').value.trim();
   const label=document.getElementById('d-label').value.trim();
   if(!label){alert('DPP label is required.');return;}
   const marksVal=document.getElementById('d-marks').value;
@@ -1475,7 +1843,7 @@ function submitDppManual(){
     id:uid(),
     subjectId:document.getElementById('d-sub').value,
     category:document.getElementById('d-cat').value,
-    chapter,label,
+    chapter:'',label,
     tag:document.getElementById('d-tag').value.trim(),
     date:document.getElementById('d-date').value.trim(),
     linkedLectureId:document.getElementById('d-linked').value||null,
@@ -1486,7 +1854,6 @@ function submitDppManual(){
   save();closeModal();renderDpp();render();renderDashboard();
 }
 function submitDppEdit(id){
-  const chapter=document.getElementById('d-chapter').value.trim();
   const label=document.getElementById('d-label').value.trim();
   if(!label){alert('DPP label is required.');return;}
   const marksVal=document.getElementById('d-marks').value;
@@ -1494,7 +1861,7 @@ function submitDppEdit(id){
   data.dpps=data.dpps.map(d=>d.id===id?{...d,
     subjectId:document.getElementById('d-sub').value,
     category:document.getElementById('d-cat').value,
-    chapter,label,
+    label,
     tag:document.getElementById('d-tag').value.trim(),
     date:document.getElementById('d-date').value.trim(),
     linkedLectureId:document.getElementById('d-linked').value||null,
@@ -1506,12 +1873,11 @@ function submitDppEdit(id){
 function submitDppPaste(){
   const raw=document.getElementById('d-paste').value.trim();
   const subId=document.getElementById('d-sub-paste').value;
-  const over=document.getElementById('d-pch').value,cat=document.getElementById('d-pcat').value;
+  const cat=document.getElementById('d-pcat').value;
   if(!raw){alert('Please paste some text.');return;}
-  const canon=subChapters(subId);
-  const parsed=parseDppPaste(raw,subId).map(d=>({...d,category:cat,chapter:over||canon.find(x=>x.toLowerCase()===d.chapter.toLowerCase())||d.chapter}));
+  const parsed=parseDppPaste(raw,subId).map(d=>({...d,category:cat}));
   if(!parsed.length){document.getElementById('dpp-parse-err').style.display='block';return;}
-  const key=d=>(d.chapter+'|'+d.label+'|'+d.date).toLowerCase();
+  const key=d=>((d.category||'')+'|'+d.label+'|'+d.date).toLowerCase();
   const seen=new Set(data.dpps.filter(d=>d.subjectId===subId).map(key));
   const fresh=parsed.filter(d=>!seen.has(key(d)));
   data.dpps.push(...fresh);
@@ -1531,7 +1897,7 @@ function parseDppPaste(raw,subId){
     const t=L[j]||'';
     if(j<L.length&&/dpp/i.test(t)&&!dateRe.test(t)){
       const m=t.match(titleRe);
-      res.push({id:uid()+res.length,subjectId:subId,chapter:m?m[1].trim():'',label:m?'DPP '+m[2]:t,tag:m&&m[3]?m[3].trim():'',date,linkedLectureId:null,done:false,completedAt:'',marks:null,totalMarks:null,result:null});
+      res.push({id:uid()+res.length,subjectId:subId,chapter:'',label:m?'DPP '+m[2]:t,tag:m&&m[3]?m[3].trim():'',date,linkedLectureId:null,done:false,completedAt:'',marks:null,totalMarks:null,result:null});
       i=j+1;
     }else i++;
   }
@@ -1628,6 +1994,8 @@ window.addEventListener('focus',refreshFromCloud);
 document.addEventListener('visibilitychange',function(){
   if(document.visibilityState==='visible')refreshFromCloud();
 });
+
+['toggleDone','toggleDppDone','submitDppResult'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;window[n]=function(){const s1=snap();const r=f.apply(this,arguments);afterProgress(s1);return r;};});
 
 init();
 </script>
