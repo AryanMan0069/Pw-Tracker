@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>PW Lecture Tracker</title>
 <meta name="application-name" content="PW Lecture Tracker">
 <meta name="apple-mobile-web-app-title" content="PW Tracker">
@@ -495,6 +495,164 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
 .sk-badge{background:linear-gradient(135deg,var(--green),var(--accent));box-shadow:0 4px 10px rgba(108,92,231,.35);}
 .sk-badge.saver{background:var(--surface);border:2px solid var(--accent);box-shadow:none;}
 .sk-info{color:var(--text3);opacity:1;border-top:1px dashed var(--border);}
+/* Timer */
+.timer-bar{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:2500;display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:8px 10px 8px 16px;box-shadow:var(--shadow-md);max-width:94vw;}
+.timer-bar.paused{opacity:.85;}
+.tb-txt{display:flex;flex-direction:column;line-height:1.15;}.tb-txt b{font-size:11px;color:var(--text3);font-weight:600;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.tb-txt span{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;}
+.timer-bar button{border:1px solid var(--border-strong);background:var(--surface2);color:var(--text);border-radius:99px;padding:7px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.timer-bar button.stop{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tm-dot{width:9px;height:9px;border-radius:50%;background:#16c47f;box-shadow:0 0 0 0 rgba(22,196,127,.6);animation:tmping 1.6s infinite;display:inline-block;}.tm-dot.off{background:var(--text3);animation:none;}
+@keyframes tmping{70%{box-shadow:0 0 0 8px rgba(22,196,127,0);}100%{box-shadow:0 0 0 0 rgba(22,196,127,0);}}
+.tm-big{font-size:44px;font-weight:900;font-variant-numeric:tabular-nums;margin:10px 0;}.tm-mid{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;}
+.tm-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap;}.tm-ring{position:relative;width:92px;height:92px;}.tm-min{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;}
+.idle-prompt{position:fixed;inset:0;z-index:3500;background:rgba(10,8,30,.6);align-items:center;justify-content:center;padding:1rem;}
+.idle-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:1.6rem;text-align:center;max-width:340px;box-shadow:var(--shadow-md);animation:gmpop .4s cubic-bezier(.2,1.4,.4,1) both;}
+.idle-card h3{font-size:20px;margin:6px 0;}.idle-card p{color:var(--text2);font-size:13px;margin:2px 0;}.idle-count b{color:var(--accent);font-variant-numeric:tabular-nums;}
+/* Focus page + flip clock */
+body.no-scroll{overflow:hidden;}
+.focus-page{position:fixed;inset:0;z-index:2800;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 18px 22px;overflow:hidden;background:radial-gradient(900px 500px at 50% -10%,var(--accent-soft),transparent 70%),var(--bg);opacity:0;visibility:hidden;transform:translateY(24px) scale(.985);transition:opacity .45s,transform .45s cubic-bezier(.2,.9,.2,1),visibility 0s .45s;}
+.focus-page.open{opacity:1;visibility:visible;transform:none;transition:opacity .45s,transform .45s cubic-bezier(.2,.9,.2,1);}
+.fp-orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none;animation:fporb 14s ease-in-out infinite;}
+.fp-orb.o1{width:340px;height:340px;background:var(--accent);left:-90px;top:12%;}
+.fp-orb.o2{width:300px;height:300px;background:#16c47f;right:-80px;bottom:8%;animation-delay:-5s;}
+.fp-orb.o3{width:220px;height:220px;background:#ffb020;left:46%;top:58%;opacity:.18;animation-delay:-9s;}
+@keyframes fporb{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.12);}66%{transform:translate(-30px,40px) scale(.94);}}
+.fp-top{position:relative;width:100%;max-width:760px;display:flex;align-items:center;justify-content:space-between;}
+.fp-min{width:42px;height:42px;border-radius:14px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:20px;cursor:pointer;box-shadow:var(--shadow);}
+.fp-live{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);}
+.fp-chip{font-size:12px;font-weight:700;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:7px 12px;box-shadow:var(--shadow);}
+.fp-mid{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px;width:100%;}
+.fp-sub{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--text);}.fp-sub i{color:var(--accent);}
+.fp-clock{display:flex;align-items:center;gap:clamp(4px,1.2vw,10px);--w:clamp(38px,11.5vw,96px);}
+.fc{position:relative;width:var(--w);height:calc(var(--w)*1.5);perspective:600px;font-size:calc(var(--w)*1.18);font-weight:900;font-variant-numeric:tabular-nums;color:var(--text);filter:drop-shadow(0 10px 18px rgba(40,30,100,.18));}
+.fc>div{position:absolute;left:0;width:100%;height:50%;overflow:hidden;background:linear-gradient(180deg,var(--surface),var(--surface2));border:1px solid var(--border);}
+.fc-top,.fc-ft{top:0;border-radius:calc(var(--w)*.2) calc(var(--w)*.2) 0 0;border-bottom:0!important;}
+.fc-bot,.fc-fb{bottom:0;border-radius:0 0 calc(var(--w)*.2) calc(var(--w)*.2);border-top:0!important;background:linear-gradient(180deg,var(--surface2),var(--surface))!important;}
+.fc span{position:absolute;left:0;width:100%;height:200%;display:flex;align-items:center;justify-content:center;line-height:1;}
+.fc-top span,.fc-ft span{top:0;}.fc-bot span,.fc-fb span{bottom:0;}
+.fc-ft{transform-origin:50% 100%;backface-visibility:hidden;z-index:3;}
+.fc-fb{transform-origin:50% 0;transform:rotateX(90deg);backface-visibility:hidden;z-index:2;}
+.fc.flip .fc-ft{animation:fcft .32s cubic-bezier(.5,0,.9,.6) forwards;}
+.fc.flip .fc-fb{animation:fcfb .32s cubic-bezier(.1,.6,.4,1) .32s forwards;}
+@keyframes fcft{to{transform:rotateX(-90deg);}}
+@keyframes fcfb{to{transform:rotateX(0);}}
+.fc::after{content:'';position:absolute;left:0;right:0;top:calc(50% - 1px);height:2px;background:var(--bg);z-index:6;}
+.fc::before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;border-radius:calc(var(--w)*.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.35);z-index:7;pointer-events:none;}
+.fc-sep{display:flex;flex-direction:column;gap:calc(var(--w)*.28);padding:0 2px;}
+.fc-sep b{width:calc(var(--w)*.14);height:calc(var(--w)*.14);border-radius:50%;background:var(--accent);animation:fcblink 1s steps(2,start) infinite;}
+@keyframes fcblink{50%{opacity:.15;}}
+.focus-page.paused .fc{opacity:.55;filter:grayscale(.5);}.focus-page.paused .fc-sep b{animation:none;opacity:.3;}
+.focus-page.paused .fp-live{color:var(--accent);}
+.fp-status{font-size:14px;font-weight:600;color:var(--text2);min-height:20px;}
+.fp-ring{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:10px 18px 10px 12px;box-shadow:var(--shadow);}
+.fp-ring small{color:var(--text3);font-size:11px;}.fp-min-t{position:static;font-size:16px;font-weight:800;display:block;}
+.fp-ctrl{display:flex;align-items:center;gap:14px;}
+.fp-btn{border:none;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s;}
+.fp-btn:hover{transform:translateY(-2px) scale(1.04);}.fp-btn:active{transform:scale(.96);}
+.fp-btn.big{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:#fff;font-size:32px;box-shadow:0 12px 28px rgba(108,92,231,.45);}
+.fp-btn.stop{display:flex;align-items:center;gap:8px;height:52px;padding:0 20px;border-radius:99px;background:var(--surface);color:var(--text);border:1px solid var(--border-strong);font-weight:700;font-size:14px;box-shadow:var(--shadow);}
+.fp-quote{position:relative;font-style:italic;color:var(--text3);font-size:13px;text-align:center;max-width:420px;}
+@media(max-height:640px){.fp-mid{gap:12px;}.fp-ring{display:none;}}
+@media(prefers-reduced-motion:reduce){.fp-orb,.fc.flip .fc-ft,.fc.flip .fc-fb{animation:none;}}
+/* Timer tab, pomodoro, top-right download */
+.hud-chip.icon{padding:7px 9px;font-size:15px;}
+.tm-hero{padding:1.4rem;}.tm-hero .tm-big{text-align:left;margin:4px 0;}
+.tm-sets{display:flex;gap:8px;flex-wrap:wrap;}
+.tm-set{display:flex;flex-direction:column;gap:3px;font-size:11px;color:var(--text3);font-weight:600;}
+.tm-set select{font-size:13px;padding:7px 10px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;}
+.focus-page.brk .fc-sep b{background:#16c47f;}.focus-page.brk .fp-live{color:#16c47f;}
+.focus-page.brk .fp-orb.o1{background:#16c47f;}
+.dock{max-width:96vw;}
+/* ===== Polish pass ===== */
+:root{color-scheme:light dark;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;}
+button,select,input,textarea,label{touch-action:manipulation;}
+::selection{background:var(--accent-soft);color:var(--text);}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px;}
+input:focus-visible,select:focus-visible,textarea:focus-visible{outline:none;}
+::-webkit-scrollbar{width:10px;height:10px;}::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:99px;border:2px solid transparent;background-clip:padding-box;}::-webkit-scrollbar-track{background:transparent;}
+.lec-title,.td-t,.dpa-name,.rw-row,.gm-badge small{overflow-wrap:anywhere;}
+.stat-val,.hm-stat-v,.dash-mini-val,.subj-stat-val,.ch-pct{font-variant-numeric:tabular-nums;}
+button:disabled{opacity:.45;cursor:not-allowed;}
+.btn-primary:active,.btn-sec:active,.cat-pill:active,.filter-btn:active,.hud-chip:active,.fp-btn:active,.td-btn:active{transform:scale(.96);}
+#appShell>[id^="view-"]{animation:viewin .38s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes viewin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.modal-overlay{z-index:2600;animation:ovfade .2s ease both;}
+@keyframes ovfade{from{opacity:0;}to{opacity:1;}}
+.container{padding-bottom:calc(8.5rem + env(safe-area-inset-bottom));}
+body.timer-on .container{padding-bottom:calc(12.5rem + env(safe-area-inset-bottom));}
+.timer-bar{bottom:calc(108px + env(safe-area-inset-bottom));}
+.gm-stack{bottom:calc(108px + env(safe-area-inset-bottom));}
+body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
+.focus-page{padding-top:calc(18px + env(safe-area-inset-top));padding-bottom:calc(22px + env(safe-area-inset-bottom));}
+.dock{max-width:min(96vw,470px);}
+.dock-item.active .dock-label{opacity:1;max-height:12px;}
+@media(hover:none){
+  .dock-item:hover{transform:none;background:transparent;}.dock-item.active:hover{background:var(--accent-soft);}
+  .dock-item .dock-label{opacity:.85;max-height:12px;}
+  .lec-card:hover,.subj-card:hover,.mc-cell:hover,.hud-chip:hover,.btn-primary:hover{transform:none;}
+}
+@media(max-width:560px){
+  .topbar{margin-bottom:1rem;gap:8px;}
+  .topbar-right{flex-wrap:wrap;justify-content:flex-end;gap:6px;width:100%;}
+  .app-sub{display:none;}
+  .sync-pill{padding:4px 8px;font-size:11px;}
+  .hud-chip{padding:3px 8px;font-size:11px;}
+  .container{padding-left:12px;padding-right:12px;}
+}
+@media(max-width:480px){
+  .dock{gap:0;padding:7px 5px;}
+  .dock-item{width:auto;flex:1 1 0;min-width:0;max-width:56px;height:52px;}
+  .dock-item i{font-size:19px;}
+  .dock-item .dock-label{font-size:8.5px;}
+}
+@media(max-width:520px){
+  .modal-overlay{align-items:flex-end;padding:0;}
+  .modal{max-width:none;width:100%;border-radius:22px 22px 0 0;max-height:88vh;padding-bottom:calc(1.4rem + env(safe-area-inset-bottom));animation:sheet .35s cubic-bezier(.2,.9,.2,1) both;}
+  .fr input,.fr select,.fr textarea,.search-wrap input,.rw-form input,.rw-form select{font-size:16px;}
+  .lec-card{padding:12px;}
+}
+@keyframes sheet{from{transform:translateY(100%);}to{transform:none;}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+/* ===== Timer tab redesign ===== */
+#timerContent{max-width:560px;margin:0 auto;}
+.tmx-card{background:linear-gradient(160deg,var(--surface) 55%,var(--accent-soft));border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow-md);padding:22px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.tmx-seg{display:inline-flex;background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:4px;gap:2px;}
+.tmx-seg button{display:flex;align-items:center;gap:6px;border:none;background:transparent;color:var(--text2);font-weight:700;font-size:13px;font-family:inherit;padding:8px 16px;border-radius:99px;cursor:pointer;transition:all .2s;}
+.tmx-seg button.on{background:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(108,92,231,.35);}
+.tmx-dial{position:relative;width:min(74vw,270px);aspect-ratio:1;margin:6px 0;}
+.tmx-dial svg{position:absolute;inset:0;width:100%;height:100%;}
+.tmx-track{fill:none;stroke:var(--border);stroke-width:10;}
+.tmx-arc{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 6px rgba(108,92,231,.35));}
+.tmx-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:0 22px;}
+.tmx-big{font-size:clamp(30px,9vw,44px);font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;}
+.tmx-cap{font-size:12px;color:var(--text3);font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tmx-cap .tm-min{position:static;display:inline;color:var(--accent);font-weight:800;font-size:12px;}
+.tmx-pill{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:4px 11px;}
+.tmx-pill.brk{background:rgba(22,196,127,.16);color:#16c47f;}
+.tmx-label{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-top:2px;}
+.tmx-chips{align-self:stretch;display:flex;flex-wrap:wrap;gap:8px;}
+.tmx-chip{border:1px solid var(--border-strong);background:var(--surface);color:var(--text2);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .18s;}
+.tmx-chip:hover{border-color:var(--accent);color:var(--accent);}
+.tmx-chip.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 12px rgba(108,92,231,.3);}
+.tmx-more{align-self:stretch;font-size:13px;color:var(--text2);}
+.tmx-more summary{cursor:pointer;font-weight:600;color:var(--accent);list-style:none;}.tmx-more summary::-webkit-details-marker{display:none;}
+.tmx-sets{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}.tmx-sets label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--text3);font-weight:600;flex:1;min-width:140px;}
+.tmx-sets select{font-size:14px;padding:9px 10px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;}
+.tmx-note{font-size:12px;color:var(--text3);text-align:center;max-width:380px;line-height:1.5;}
+.tmx-start{align-self:stretch;display:flex;align-items:center;justify-content:center;gap:10px;border:none;border-radius:18px;padding:16px;font-size:16px;font-weight:800;font-family:inherit;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent-hover));box-shadow:0 12px 28px rgba(108,92,231,.4);transition:transform .15s,box-shadow .15s;margin-top:2px;}
+.tmx-start:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(108,92,231,.5);}.tmx-start:active{transform:scale(.98);}
+.tmx-ctrl{display:flex;align-items:center;gap:12px;}
+.tmx-round{width:72px;height:72px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:#fff;font-size:30px;cursor:pointer;box-shadow:0 10px 24px rgba(108,92,231,.45);transition:transform .15s;}
+.tmx-round:hover{transform:scale(1.06);}.tmx-round:active{transform:scale(.95);}
+.tmx-pillbtn{display:flex;align-items:center;gap:8px;height:48px;padding:0 20px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;}
+.tmx-pillbtn:hover{border-color:var(--accent);}
+.tmx-sq{width:48px;height:48px;border-radius:16px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:19px;cursor:pointer;}.tmx-sq:hover{border-color:var(--accent);color:var(--accent);}
+.tmx-stats{margin-top:14px;}
+.tmx-val{min-height:13px;font-size:9.5px;color:var(--text3);font-weight:600;}
+@media(max-width:420px){.tmx-card{padding:18px 14px;border-radius:24px;}.tmx-pillbtn span{display:none;}}
+.stats-timer .st-lec-only{display:none;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -524,9 +682,11 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
       <div><div class="app-title">PW Lecture Tracker</div><div class="app-sub">Dropper · IIT JEE</div></div>
     </div>
     <div class="topbar-right">
+      <button class="hud-chip" id="hudTimer" onclick="openTimerModal()" title="Study timer">⏱ <b>Study</b></button>
       <button class="hud-chip" id="hudStreak" onclick="setView('streaks')" title="Study streak"></button>
       <button class="hud-chip" id="hudLevel" onclick="setView('streaks')" title="Your level"></button>
       <div class="sync-pill" id="syncStatus"><span class="sync-dot warn"></span><span>Starting</span></div>
+      <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
       <button class="btn-sec" onclick="lockTracker()" title="Lock"><i class="ti ti-lock"></i></button>
     </div>
@@ -565,6 +725,8 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
   </div>
 
   <!-- DPP -->
+  <div id="view-timer" style="display:none;"><div id="timerContent"></div></div>
+
   <div id="view-dpp" style="display:none;">
     <div class="sub-row" id="dppSubRow"></div>
     <div class="ctrl-row">
@@ -606,6 +768,10 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
       <i class="ti ti-flame"></i>
       <span class="dock-label">Streaks</span>
     </button>
+    <button class="dock-item" data-view="timer" onclick="setView('timer')">
+      <i class="ti ti-hourglass-high"></i>
+      <span class="dock-label">Timer</span>
+    </button>
     <button class="dock-item" data-view="dpp" onclick="setView('dpp')">
       <i class="ti ti-file-text"></i>
       <span class="dock-label">DPP</span>
@@ -617,10 +783,6 @@ body{font-family:'Plus Jakarta Sans','Inter',system-ui,sans-serif;background:rad
     <button class="dock-item" data-view="stats" onclick="setView('stats')">
       <i class="ti ti-chart-bar"></i>
       <span class="dock-label">Stats</span>
-    </button>
-    <button class="dock-item" data-view="export" onclick="setView('export')">
-      <i class="ti ti-download"></i>
-      <span class="dock-label">Export</span>
     </button>
   </div>
 </nav>
@@ -722,12 +884,16 @@ function ensureDataShape(obj){
     if(hits.length===1)d.category=hits[0];
   });
   obj.rewards=(Array.isArray(obj.rewards)?obj.rewards:[]).filter(r=>r&&r.label).map(r=>({id:r.id,label:r.label,type:r.type||'streak',value:Number(r.value)||1,claimed:!!r.claimed}));
+  obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
+  obj.settings.checkMin=Number(obj.settings.checkMin)||45;
+  obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
 function refreshCurrentView(){
   if(currentView==='dashboard')renderDashboard();
   else if(currentView==='tracker')renderTracker();
+  else if(currentView==='timer')renderTimer();
   else if(currentView==='streaks')renderStreaks();
   else if(currentView==='dpp')renderDpp();
   else if(currentView==='revision')renderRevision();
@@ -1049,13 +1215,28 @@ const HM_MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','No
 function hmDur(m){const h=Math.floor(m/60),mn=m%60;return h?(mn?h+'h '+mn+'m':h+'h'):mn+'m';}
 function hmPretty(k,long){return new Date(k+'T00:00:00').toLocaleDateString('en-GB',long?{weekday:'long',day:'numeric',month:'long',year:'numeric'}:{day:'numeric',month:'short'});}
 function dayActivity(){
-  const map={},get=k=>map[k]=map[k]||{min:0,lec:[],dpp:[]};
+  const map={},get=k=>map[k]=map[k]||{min:0,st:0,lec:[],dpp:[],sess:[]};
   data.lectures.filter(l=>l.done&&l.completedAt).forEach(l=>{const m=get(l.completedAt);m.min+=durToMins(l.duration);m.lec.push(l);});
   data.dpps.filter(d=>d.done&&d.completedAt).forEach(d=>get(d.completedAt).dpp.push(d));
+  (data.sessions||[]).forEach(s=>{const m=get(s.date);m.st+=s.minutes;m.sess.push(s);});
   return map;
 }
-function hmScore(a){return a?a.min+a.dpp.length*30:0;}
-function hmLevel(a){const s=hmScore(a);return s<=0?0:s<120?1:s<240?2:s<360?3:4;}
+let statsMode='lec';
+function setStatsMode(m){statsMode=m;hmRedraw();}
+function sv(a){return statsMode==='timer'?a.st:a.min;}
+function hmScore(a){return a?(statsMode==='timer'?a.st:a.min+a.dpp.length*30):0;}
+function hmLevel(a){const s=hmScore(a);return statsMode==='timer'?(s<=0?0:s<30?1:s<90?2:s<180?3:4):(s<=0?0:s<120?1:s<240?2:s<360?3:4);}
+function hmTip(k,a){
+  const pl=(n,w)=>n+' '+w+(n===1?'':'s');
+  if(statsMode==='timer')return hmPretty(k)+(a&&a.st?` · ${hmDur(a.st)} · ${pl(a.sess.length,'session')}`:' · no study time');
+  return hmPretty(k)+(a&&(a.lec.length||a.dpp.length)?` · ${hmDur(a.min)} · ${pl(a.lec.length,'lecture')} · ${pl(a.dpp.length,'DPP')}`:' · no activity');
+}
+function mcInfo(a){
+  const pl=(n,w)=>n+' '+w+(n===1?'':'s');
+  if(statsMode==='timer')return a.st?`<div class="mc-info"><b>${hmDur(a.st)}</b><div>${pl(a.sess.length,'session')}</div></div>`:'';
+  const t=(a.lec.length?`<b>${a.lec.length}</b> lec · ${hmDur(a.min)}`:'')+(a.dpp.length?`<div>${pl(a.dpp.length,'DPP')}</div>`:'');
+  return t?`<div class="mc-info">${t}</div>`:'';
+}
 function hmPick(k){hmSel=hmSel===k?'':k;hmRedraw();}
 function hmYearGo(n){hmYear+=n;hmSel=hmYear===new Date().getFullYear()?todayKey():'';hmFirst=true;hmRedraw();}
 function hmRedraw(){const sc=document.getElementById('hmScroll');const x=sc?sc.scrollLeft:0;renderStats();const s2=document.getElementById('hmScroll');if(s2)s2.scrollLeft=x;}
@@ -1072,8 +1253,8 @@ function heatmapHtml(){
       if(d.getFullYear()!==year){cells+='<div class="hm-cell hm-x"></div>';continue;}
       const k=todayKey(d),a=act[k],lvl=hmLevel(a),future=k>today;
       if(d.getDate()===1)lab=HM_MONTHS[d.getMonth()];
-      if(lvl>0){activeDays++;totalMin+=a.min;lecCount+=a.lec.length;dppCount+=a.dpp.length;run++;longest=Math.max(longest,run);if(hmScore(a)>best.s)best={s:hmScore(a),k};}else if(!future)run=0;
-      const tip=hmPretty(k)+(a?` · ${hmDur(a.min)} · ${a.lec.length} lecture${a.lec.length===1?'':'s'} · ${a.dpp.length} DPP${a.dpp.length===1?'':'s'}`:' · no activity');
+      if(lvl>0){activeDays++;totalMin+=sv(a);lecCount+=statsMode==='timer'?a.sess.length:a.lec.length;dppCount+=statsMode==='timer'?0:a.dpp.length;run++;longest=Math.max(longest,run);if(hmScore(a)>best.s)best={s:hmScore(a),k};}else if(!future)run=0;
+      const tip=hmTip(k,a);
       cells+=`<div class="hm-cell l${lvl}${future?' hm-f':''}${k===today?' hm-today':''}${k===hmSel?' hm-sel':''}" title="${tip}" onclick="hmPick('${k}')"></div>`;
     }
     labels+=`<div class="hm-lab">${lab}</div>`;
@@ -1098,17 +1279,23 @@ function heatmapHtml(){
       </div>
     </div>
     <div class="hm-legend"><span>Less</span><i class="hm-cell l0"></i><i class="hm-cell l1"></i><i class="hm-cell l2"></i><i class="hm-cell l3"></i><i class="hm-cell l4"></i><span>More</span>
-      <span style="margin-left:auto;">Day score = lecture minutes + 30 min per DPP</span></div>
-    <div class="hm-stats">${stat(hmDur(totalMin),'lecture time')}${stat(lecCount,'lectures')}${stat(dppCount,'DPPs')}${stat(longest+' day'+(longest===1?'':'s'),'longest streak')}${stat(best.k?hmPretty(best.k):'—','busiest day')}</div>
+      <span style="margin-left:auto;">${statsMode==='timer'?'Darker = more study time (1m, 30m, 90m, 3h+)':'Day score = lecture minutes + 30 per DPP'}</span></div>
+    <div class="hm-stats">${stat(hmDur(totalMin),statsMode==='timer'?'study time':'lecture time')}${stat(lecCount,statsMode==='timer'?'sessions':'lectures')}${statsMode==='timer'?stat(activeDays?hmDur(Math.round(totalMin/activeDays)):'—','per active day'):stat(dppCount,'DPPs')}${stat(longest+' day'+(longest===1?'':'s'),'longest streak')}${stat(best.k?hmPretty(best.k):'—','busiest day')}</div>
     ${hmDetail(act)}
-    ${undated?`<div class="tool-caption" style="margin-top:10px;">${undated} completed lecture${undated===1?'':'s'} ha${undated===1?'s':'ve'} no completion date, so ${undated===1?'it isn’t':'they aren’t'} on the map.</div>`:''}
+    ${undated&&statsMode!=='timer'?`<div class="tool-caption" style="margin-top:10px;">${undated} completed lecture${undated===1?'':'s'} ha${undated===1?'s':'ve'} no completion date, so ${undated===1?'it isn’t':'they aren’t'} on the map.</div>`:''}
   </div>`;
 }
 function hmDetail(act,sel=hmSel){
   if(!sel)return '<div class="tool-caption" style="margin-top:12px;">Tap a day to see what you did.</div>';
-  const a=act[sel];
+  const a=act[sel],tm=statsMode==='timer';
   let h=`<div class="hm-detail"><div style="font-weight:700;margin-bottom:6px;">${hmPretty(sel,true)}</div>`;
-  if(!a)return h+'<div class="tool-caption">Nothing logged on this day.</div></div>';
+  if(!a||(tm?!a.sess.length:!(a.lec.length||a.dpp.length)))return h+`<div class="tool-caption">${tm?'No study time logged on this day.':'Nothing logged on this day.'}</div></div>`;
+  if(tm){
+    const bs={};a.sess.forEach(x=>bs[x.subjectId]=(bs[x.subjectId]||0)+x.minutes);
+    h+=`<div class="tool-caption" style="margin-bottom:8px;">${hmDur(a.st)} studied · ${a.sess.length} session${a.sess.length===1?'':'s'}</div>`;
+    h+=Object.entries(bs).sort((x,y)=>y[1]-x[1]).map(([id,m])=>`<div class="hm-row"><i class="ti ti-clock"></i><span>${escH(subjectName(id))}</span><em>${hmDur(m)}</em></div>`).join('');
+    return h+'</div>';
+  }
   h+=`<div class="tool-caption" style="margin-bottom:8px;">${hmDur(a.min)} of lectures · ${a.lec.length} lecture${a.lec.length===1?'':'s'} · ${a.dpp.length} DPP${a.dpp.length===1?'':'s'}</div>`;
   h+=a.lec.map(l=>`<div class="hm-row"><i class="ti ti-player-play"></i><span>${escH(subjectName(l.subjectId))} · ${escH(l.title)}</span><em>${escH(l.duration||'')}</em></div>`).join('');
   h+=a.dpp.map(d=>`<div class="hm-row"><i class="ti ti-file-text"></i><span>${escH(subjectName(d.subjectId))} · ${escH(d.category?d.category+' · ':'')}${escH(d.label)}</span><em>${d.result?d.result.correct+'/'+d.result.total:''}</em></div>`).join('');
@@ -1128,13 +1315,13 @@ function monthCalHtml(){
   for(let i=0;i<lead;i++)cells+='<div class="mc-cell mc-x"></div>';
   for(let d=1;d<=days;d++){
     const k=todayKey(new Date(mcY,mcM,d)),a=act[k],lvl=hmLevel(a),future=k>today;
-    const isHit=target>0&&a&&a.lec.length>=target;
+    const isHit=statsMode==='timer'?!!(a&&a.st>=STUDY_GOAL):!!(target>0&&a&&a.lec.length>=target);
     if(!future)elapsed++;
-    if(a){lec+=a.lec.length;min+=a.min;dpp+=a.dpp.length;if(hmScore(a)>0)activeDays++;if(hmScore(a)>best.s)best={s:hmScore(a),k};}
+    if(a){lec+=statsMode==='timer'?a.sess.length:a.lec.length;min+=sv(a);dpp+=statsMode==='timer'?0:a.dpp.length;if(hmScore(a)>0)activeDays++;if(hmScore(a)>best.s)best={s:hmScore(a),k};}
     if(isHit)hit++;
     cells+=`<div class="mc-cell l${lvl}${future?' mc-f':''}${k===today?' mc-today':''}${k===mcSel?' mc-sel':''}" onclick="mcPick('${k}')">
       <span class="mc-d">${d}</span>${isHit?'<i class="ti ti-check mc-hit"></i>':''}
-      ${a?`<div class="mc-info">${a.lec.length?`<b>${a.lec.length}</b> lec · ${hmDur(a.min)}`:''}${a.dpp.length?`<div>${a.dpp.length} DPP${a.dpp.length>1?'s':''}</div>`:''}</div>`:''}</div>`;
+      ${a?mcInfo(a):''}</div>`;
   }
   const stat=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
   const name=first.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
@@ -1149,7 +1336,7 @@ function monthCalHtml(){
     </div>
     <div class="mc-grid mc-head">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x=>`<div>${x}</div>`).join('')}</div>
     <div class="mc-grid">${cells}</div>
-    <div class="hm-stats">${stat(lec,'lectures')}${stat(hmDur(min),'lecture time')}${stat(dpp,'DPPs')}${stat(target>0?`${hit} / ${elapsed}`:'—','days hit target'+(target>0?` (${target}/day)`:''))}${stat(activeDays?(lec/activeDays).toFixed(1):'—','lectures per active day')}${stat(best.k?hmPretty(best.k):'—','busiest day')}</div>
+    <div class="hm-stats">${statsMode==='timer'?`${stat(hmDur(min),'study time')}${stat(lec,'sessions')}${stat(`${hit} / ${elapsed}`,'days with 10m+')}${stat(activeDays?hmDur(Math.round(min/activeDays)):'—','per active day')}${stat(best.k?hmPretty(best.k):'—','busiest day')}`:`${stat(lec,'lectures')}${stat(hmDur(min),'lecture time')}${stat(dpp,'DPPs')}${stat(target>0?`${hit} / ${elapsed}`:'—','days hit target'+(target>0?` (${target}/day)`:''))}${stat(activeDays?(lec/activeDays).toFixed(1):'—','lectures per active day')}${stat(best.k?hmPretty(best.k):'—','busiest day')}`}</div>
     ${hmDetail(act,mcSel)}
   </div>`;
 }
@@ -1160,14 +1347,14 @@ function weeklyHtml(){
   const act=dayActivity(),mon=isoWeekStart(),todayIdx=(new Date().getDay()+6)%7;
   const at=(off,i)=>{const d=new Date(mon);d.setDate(d.getDate()+off+i);return act[todayKey(d)];};
   const cur=[],prev=[];let lecs=0;
-  for(let i=0;i<7;i++){cur.push(at(0,i)?at(0,i).min:0);prev.push(at(-7,i)?at(-7,i).min:0);lecs+=at(0,i)?at(0,i).lec.length:0;}
+  for(let i=0;i<7;i++){cur.push(at(0,i)?sv(at(0,i)):0);prev.push(at(-7,i)?sv(at(-7,i)):0);lecs+=at(0,i)?(statsMode==='timer'?at(0,i).sess.length:at(0,i).lec.length):0;}
   const sum=a=>a.reduce((x,y)=>x+y,0),curT=sum(cur),prevT=sum(prev),prevSame=sum(prev.slice(0,todayIdx+1));
   const max=Math.max(60,...cur,...prev),D=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
   const diff=curT-prevSame,pct=prevSame?Math.round(diff/prevSame*100):null;
   const delta=pct===null?'no data last week':`${diff>=0?'▲':'▼'} ${Math.abs(pct)}% vs same days last week`;
   return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-chart-bar"></i>This week vs last week</h3>
     <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 14px;"><span class="tool-stat" style="margin:0;">${hmDur(curT)}</span>
-    <span class="tool-caption" style="color:${diff>=0?'var(--green)':'var(--red-text,#dc2626)'};font-weight:600;">${delta}</span><span class="tool-caption">· ${lecs} lectures · last week ${hmDur(prevT)}</span></div>
+    <span class="tool-caption" style="color:${diff>=0?'var(--green)':'var(--red-text,#dc2626)'};font-weight:600;">${delta}</span><span class="tool-caption">· ${lecs} ${statsMode==='timer'?'sessions':'lectures'} · last week ${hmDur(prevT)}</span></div>
     <div class="wk-chart">${D.map((n,i)=>`<div class="wk-col"><div class="wk-bars"><i class="wk-b prev" style="height:${prev[i]/max*100}%" title="Last week ${n}: ${hmDur(prev[i])}"></i><i class="wk-b cur" style="height:${cur[i]/max*100}%;animation-delay:${i*60}ms" title="${n}: ${hmDur(cur[i])}"></i></div><span class="${i===todayIdx?'wk-today':''}">${n}</span></div>`).join('')}</div>
     <div class="hm-legend"><i class="hm-cell l4"></i><span>This week</span><i class="hm-cell l1"></i><span>Last week</span></div></div>`;
 }
@@ -1181,6 +1368,7 @@ function totalXp(){
   let xp=0;
   data.lectures.filter(l=>l.done).forEach(l=>xp+=20+Math.round(durToMins(l.duration)/6));
   data.dpps.filter(d=>d.done).forEach(d=>{xp+=15;if(d.result){xp+=10;const att=d.result.correct+d.result.wrong;if(att&&d.result.correct/att>=.8)xp+=10;}});
+  Object.values((()=>{const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});return m;})()).forEach(m=>xp+=Math.floor(Math.min(m,180)/3));
   return xp+targetDayCount()*25;
 }
 const XPK=512;
@@ -1388,8 +1576,253 @@ function updateHud(){
   l.innerHTML=levelBadgeSvg(tierOf(L),L,22)+`<b>Lv ${L}</b>`;
 }
 
+
+/* ---- Study timer ---- */
+function tState(){try{return JSON.parse(localStorage.getItem(TK)||'null');}catch(e){return null;}}
+function tSave(s){try{s?localStorage.setItem(TK,JSON.stringify(s)):localStorage.removeItem(TK);}catch(e){}}
+function tElapsed(s,now=Date.now()){return s?s.acc+(s.running&&(s.mode!=='pomo'||s.phase==='focus')?now-s.startedAt:0):0;}
+function pomoCfg(){return data.settings.pomo||{focus:25,brk:5,lng:15,cycles:4};}
+function displayMs(s,now){return s.mode==='pomo'?(s.running?Math.max(0,s.phaseEnd-now):(s.phaseLeft||0)):tElapsed(s,now);}
+function phaseLabel(s){if(s.mode!=='pomo')return '';return s.phase==='break'?'Break':s.phase==='long'?'Long break':s.waiting?'Ready for round '+((s.cycle||0)+1):'Focus '+((s.cycle||0)+1)+'/'+pomoCfg().cycles;}
+function refreshTimerView(){if(typeof currentView!=='undefined'&&currentView==='timer')renderTimer();}
+function timerLiveMin(){const s=tState();return s?Math.floor(tElapsed(s)/60000):0;}
+function everyMs(){return(Number(data.settings&&data.settings.checkMin)||45)*60000;}
+function clockStr(ms){const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function notify(title,body){
+  try{if('Notification' in window&&Notification.permission==='granted'){const n=new Notification(title,{body,tag:'pw-timer',requireInteraction:true});n.onclick=()=>{window.focus();n.close();};}}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate([200,100,200]);}catch(e){}
+  try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.setValueAtTime(.15,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.6);o.start();o.stop(a.currentTime+.6);}catch(e){}
+}
+function openTimerModal(){if(tState())openFocus();else setView('timer');}
+function startTimer(){
+  const sub=tmSub||(document.getElementById('tmv-sub')||{}).value||activeSub||(data.subjects[0]||{}).id,now=Date.now(),P=pomoCfg();
+  if(!sub){alert('Add a subject first.');return;}
+  tSave(tmMode==='pomo'?{subjectId:sub,mode:'pomo',phase:'focus',running:true,startedAt:now,acc:0,cycle:0,phaseEnd:now+P.focus*60000,phaseLeft:0}:{subjectId:sub,mode:'free',running:true,startedAt:now,acc:0,nextCheck:now+everyMs(),promptAt:0});
+  try{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission();}catch(e){}
+  timerTick();refreshTimerView();openFocus();
+}
+function pauseTimer(){
+  const s=tState();if(!s||!s.running)return;const now=Date.now();
+  if(s.mode==='pomo'){if(s.phase==='focus')s.acc+=now-s.startedAt;s.phaseLeft=Math.max(0,s.phaseEnd-now);}else s.acc+=now-s.startedAt;
+  s.running=false;s.promptAt=0;tSave(s);hideIdle();timerTick();refreshTimerView();
+}
+function resumeTimer(){
+  const s=tState();if(!s||s.running)return;const n=Date.now();
+  s.running=true;s.startedAt=n;s.paused='';s.waiting=false;
+  if(s.mode==='pomo')s.phaseEnd=n+(s.phaseLeft||pomoCfg().focus*60000);else{s.nextCheck=n+everyMs();s.promptAt=0;}
+  tSave(s);timerTick();refreshTimerView();
+}
+function stopTimer(trimMs){
+  const s=tState();if(!s)return;
+  const ms=typeof trimMs==='number'?trimMs:tElapsed(s),min=Math.round(ms/60000),s1=snap();
+  tSave(null);hideIdle();
+  if(min>=1){data.sessions.push({id:uid(),subjectId:s.subjectId,date:todayKey(),minutes:min});save();afterProgress(s1);showToast('⏱️','Session saved',`${min} min · ${escH(subjectName(s.subjectId))}`);}
+  else showToast('⏱️','Under a minute','Not saved.');
+  timerTick();if(typeof refreshCurrentView==='function')refreshCurrentView();
+}
+function autoPause(s){
+  const at=s.promptAt||s.nextCheck;
+  s.acc+=Math.max(0,at-s.startedAt);s.running=false;s.promptAt=0;s.paused='idle';tSave(s);hideIdle();
+  notify('Timer paused','No answer, so I paused it and left out the idle time.');
+  showToast('⏸️','Timer paused','No answer, so the idle time was left out.','',{label:'Resume',fn:resumeTimer});
+  timerTick();
+}
+function confirmTimer(){const s=tState();if(!s)return;s.promptAt=0;s.nextCheck=Date.now()+everyMs();tSave(s);hideIdle();}
+function stopFromPrompt(){const s=tState();if(!s)return;stopTimer(s.acc+Math.max(0,(s.promptAt||Date.now())-s.startedAt));}
+function hideIdle(){const e=document.getElementById('idlePrompt');if(e)e.style.display='none';}
+function raisePrompt(s){
+  const e=document.getElementById('idlePrompt');if(!e)return;
+  document.getElementById('idleSub').textContent=subjectName(s.subjectId);e.style.display='flex';
+  notify('Still studying?','Tap to confirm, or the timer pauses in 5 minutes.');
+}
+let _prevMin=null;
+function pomoTick(s,now){
+  const P=pomoCfg();let ch=false;
+  while(s.running&&now>=s.phaseEnd){
+    ch=true;
+    if(s.phase==='focus'){
+      s.acc+=s.phaseEnd-s.startedAt;s.cycle=(s.cycle||0)+1;
+      const long=s.cycle%P.cycles===0;s.phase=long?'long':'break';
+      s.startedAt=s.phaseEnd;s.phaseEnd=s.phaseEnd+(long?P.lng:P.brk)*60000;
+      notify(long?'Long break':'Break time',long?'A full set done. Rest properly.':'Stand up, drink water, look far away.');
+      showToast('☕',long?'Long break':'Break time',long?'You finished a full set. Rest properly.':'Round done. Stretch and look away from the screen.');
+    }else{
+      s.phase='focus';s.running=false;s.phaseLeft=P.focus*60000;s.waiting=true;
+      notify('Break over','Ready for the next round?');
+      showToast('🍅','Break over','Tap resume when you are ready for the next round.','',{label:'Start',fn:resumeTimer});
+    }
+  }
+  if(ch){tSave(s);refreshTimerView();}
+}
+function timerTick(){
+  const s=tState(),now=Date.now();
+  if(s&&s.mode==='pomo')pomoTick(s,now);
+  else if(s&&s.running){
+    if(!s.promptAt&&now>=s.nextCheck){if(now-s.nextCheck>=IDLE_GRACE){autoPause(s);return;}s.promptAt=s.nextCheck;tSave(s);raisePrompt(s);}
+    else if(s.promptAt&&now-s.promptAt>=IDLE_GRACE){autoPause(s);return;}
+  }
+  const live=tState(),shell=document.getElementById('appShell');
+  const visible=!shell||shell.style.display!=='none';
+  const bar=document.getElementById('timerBar'),chip=document.getElementById('hudTimer');
+  const dm=live?displayMs(live,now):0,cl=clockStr(dm);
+  document.body.classList.toggle('timer-on',!!live&&visible);
+  if(bar){bar.style.display=live&&visible?'flex':'none';if(live){bar.classList.toggle('paused',!live.running);document.getElementById('tbSub').textContent=subjectName(live.subjectId)+(live.mode==='pomo'?' · '+phaseLabel(live):'')+(live.running||live.waiting?'':' · paused');document.getElementById('tbClock').textContent=cl;document.getElementById('tbPause').textContent=live.running?'Pause':'Resume';}}
+  if(chip)chip.innerHTML=live?`<span class="tm-dot ${live.running?'':'off'}"></span><b>${cl.replace(/^00:/,'')}</b>`:'⏱ <b>Study</b>';
+  document.querySelectorAll('.tm-clock').forEach(x=>x.textContent=cl);
+  const today=studyMinToday(),pct=Math.min(1,today/STUDY_GOAL);
+  document.querySelectorAll('.tm-min').forEach(x=>x.textContent=Math.min(today,STUDY_GOAL)+' / '+STUDY_GOAL);
+  document.querySelectorAll('.tm-arc').forEach(x=>x.style.strokeDashoffset=String(213.6*(1-pct)));
+  document.querySelectorAll('.tm-dial').forEach(x=>{let q=pct;if(live&&live.mode==='pomo'){const P=pomoCfg(),tot=(live.phase==='focus'?P.focus:live.phase==='long'?P.lng:P.brk)*60000;q=live.waiting?0:Math.min(1,Math.max(0,1-dm/tot));}x.style.strokeDashoffset=String(553*(1-q));});
+  const ip=document.getElementById('idlePrompt');
+  if(ip&&ip.style.display!=='none'&&live&&live.promptAt){const left=Math.max(0,IDLE_GRACE-(now-live.promptAt));document.getElementById('idleLeft').textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');}
+  focusUpdate(live,dm,now);
+  if(_prevMin!==null&&_prevMin<STUDY_GOAL&&today>=STUDY_GOAL){
+    _noLive=true;const before=currentStreak();_noLive=false;const after=currentStreak();
+    const mile=MILESTONES.find(m=>before<m&&after>=m);
+    if(!REDUCE()){if(mile)fxMilestone(mile);else if(after>before)fxFlame(after);}
+    showToast('🔥',after>before?`${after}-day streak`:'10 minutes done',after>before?'Studied 10 minutes. The flame is lit for today.':'Your streak is safe for today.');
+    updateHud();
+  }
+  _prevMin=today;
+}
+function setCheckMin(v){data.settings.checkMin=Number(v)||45;save();}
+function initTimerUi(){
+  const bar=document.createElement('div');bar.id='timerBar';bar.className='timer-bar';bar.style.display='none';
+  bar.innerHTML='<span class="tm-dot"></span><div class="tb-txt" onclick="openFocus()" style="cursor:pointer;" title="Open full screen"><b id="tbSub"></b><span id="tbClock">00:00:00</span></div><button id="tbPause" onclick="(tState()||{}).running?pauseTimer():resumeTimer()">Pause</button><button class="stop" onclick="stopTimer()">Stop</button>';
+  document.body.appendChild(bar);
+  const ip=document.createElement('div');ip.id='idlePrompt';ip.className='idle-prompt';ip.style.display='none';
+  ip.innerHTML='<div class="idle-card"><div style="font-size:34px;">⏱️</div><h3>Still studying?</h3><p id="idleSub"></p><p class="idle-count">Pausing in <b id="idleLeft">5:00</b></p><div class="modal-btns" style="justify-content:center;"><button class="btn-primary" onclick="confirmTimer()">Yes, still going</button><button class="btn-sec" onclick="stopFromPrompt()">Stop &amp; save</button></div></div>';
+  document.body.appendChild(ip);
+  buildFocusPage();
+  setInterval(timerTick,1000);document.addEventListener('visibilitychange',timerTick);timerTick();
+}
+
+/* ---- Full-screen focus page with flip clock ---- */
+function mmss(ms){ms=Math.max(0,ms);return Math.floor(ms/60000)+':'+String(Math.floor(ms%60000/1000)).padStart(2,'0');}
+function flipTo(card,v){
+  const o=card.dataset.v,q=s=>card.querySelector(s+' span');
+  if(o===v)return;
+  if(o===undefined||document.hidden||REDUCE()){['.fc-top','.fc-bot','.fc-ft','.fc-fb'].forEach(s=>q(s).textContent=v);card.dataset.v=v;return;}
+  clearTimeout(card._t);
+  q('.fc-top').textContent=v;q('.fc-ft').textContent=o;q('.fc-fb').textContent=v;q('.fc-bot').textContent=o;
+  card.classList.remove('flip');void card.offsetWidth;card.classList.add('flip');card.dataset.v=v;
+  card._t=setTimeout(()=>{q('.fc-bot').textContent=v;q('.fc-ft').textContent=v;card.classList.remove('flip');},640);
+}
+function openFocus(){
+  const s=tState(),f=document.getElementById('focusPage');if(!s||!f)return;
+  f.classList.add('open');document.body.classList.add('no-scroll');
+  f.querySelectorAll('.fc').forEach(x=>delete x.dataset.v);
+  document.getElementById('fcQuote').textContent='“'+QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length]+'”';
+  _fsT=0;timerTick();
+}
+function closeFocus(){const f=document.getElementById('focusPage');if(f)f.classList.remove('open');document.body.classList.remove('no-scroll');}
+let _fsT=0;
+function focusUpdate(live,el,now){
+  const f=document.getElementById('focusPage');if(!f||!f.classList.contains('open'))return;
+  if(!live){closeFocus();return;}
+  const d=clockStr(el).replace(/:/g,'');
+  f.querySelectorAll('.fc').forEach((x,i)=>flipTo(x,d[i]));
+  const pm=live.mode==='pomo',onBreak=pm&&(live.phase==='break'||live.phase==='long');
+  f.classList.toggle('paused',!live.running&&!live.waiting);f.classList.toggle('brk',onBreak);
+  document.getElementById('fcLive').textContent=onBreak?(live.phase==='long'?'Long break':'Break time'):pm?'Pomodoro · '+phaseLabel(live):'Focus mode';
+  document.getElementById('fcSub').textContent=subjectName(live.subjectId);
+  document.getElementById('fcStatus').textContent=pm?(live.waiting?'Break over. Press play when you are ready.':onBreak?'Rest: stretch, drink water, look away from the screen.':live.running?'Stay with one thing until the clock ends.':'Paused'):live.running?(live.promptAt?'Waiting for your answer…':'Next check-in in '+mmss(live.nextCheck-now)):(live.paused==='idle'?'Paused: no answer to the check-in':'Paused');
+  document.getElementById('fcPause').innerHTML=live.running?'<i class="ti ti-player-pause-filled"></i>':'<i class="ti ti-player-play-filled"></i>';
+  if(now-_fsT>10000){_fsT=now;document.getElementById('fcStreak').textContent='🔥 '+currentStreak()+' day streak';}
+}
+function buildFocusPage(){
+  const card='<div class="fc"><div class="fc-top"><span></span></div><div class="fc-bot"><span></span></div><div class="fc-ft"><span></span></div><div class="fc-fb"><span></span></div></div>';
+  const f=document.createElement('div');f.id='focusPage';f.className='focus-page';
+  f.innerHTML=`<div class="fp-orb o1"></div><div class="fp-orb o2"></div><div class="fp-orb o3"></div>
+  <div class="fp-top"><button class="fp-min" onclick="closeFocus()" title="Minimize"><i class="ti ti-chevron-down"></i></button><div class="fp-live"><span class="tm-dot"></span><span id="fcLive">Focus mode</span></div><div class="fp-chip" id="fcStreak">🔥</div></div>
+  <div class="fp-mid"><div class="fp-sub"><i class="ti ti-book-2"></i><span id="fcSub"></span></div>
+    <div class="fp-clock">${card}${card}<i class="fc-sep"><b></b><b></b></i>${card}${card}<i class="fc-sep"><b></b><b></b></i>${card}${card}</div>
+    <div class="fp-status" id="fcStatus"></div>
+    <div class="fp-ring"><svg viewBox="0 0 80 80" width="74" height="74"><defs><linearGradient id="fcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16c47f"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs><circle cx="40" cy="40" r="34" fill="none" style="stroke:var(--border);" stroke-width="7"/><circle class="tm-arc" cx="40" cy="40" r="34" fill="none" stroke="url(#fcg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="213.6" style="stroke-dashoffset:213.6;transition:stroke-dashoffset .6s;" transform="rotate(-90 40 40)"/></svg><div><div class="tm-min fp-min-t">0 / ${STUDY_GOAL}</div><small>minutes today</small></div></div>
+    <div class="fp-ctrl"><button class="fp-btn big" id="fcPause" onclick="(tState()||{}).running?pauseTimer():resumeTimer()"></button><button class="fp-btn stop" onclick="stopTimer()"><i class="ti ti-player-stop-filled"></i><span>Stop &amp; save</span></button></div></div>
+  <div class="fp-quote" id="fcQuote"></div>`;
+  document.body.appendChild(f);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFocus();});
+}
+
+
+/* ---- Timer tab (stopwatch + pomodoro) ---- */
+let tmMode='free',tmSub=null;
+function setTmMode(m){tmMode=m;renderTimer();}
+function setPomo(k,v){data.settings.pomo[k]=Number(v);save();}
+function setTmSub(id){tmSub=id;renderTimer();}
+function setPomoPreset(f,b){const P=data.settings.pomo;P.focus=f;P.brk=b;save();renderTimer();}
+function setPomoVal(k,v){setPomo(k,v);renderTimer();}
+function setCheckChip(v){setCheckMin(v);renderTimer();}
+function renderTimer(){
+  const el=document.getElementById('timerContent');if(!el)return;
+  const s=tState(),now=Date.now(),P=pomoCfg(),today=studyMinToday(),pct=Math.min(1,today/STUDY_GOAL);
+  const mon=isoWeekStart(),todayIdx=(new Date().getDay()+6)%7;
+  const days=[...Array(7)].map((_,i)=>{const d=new Date(mon);d.setDate(d.getDate()+i);return todayKey(d);});
+  const byDay=studyByDate(),wk=days.map(k=>byDay[k]||0),wkTotal=wk.reduce((a,b)=>a+b,0),wmax=Math.max(30,...wk);
+  const sessions=(data.sessions||[]).slice(),todaySess=sessions.filter(x=>x.date===todayKey()).length;
+  const subjMin={};sessions.filter(x=>days.includes(x.date)).forEach(x=>subjMin[x.subjectId]=(subjMin[x.subjectId]||0)+x.minutes);
+  const smax=Math.max(1,...Object.values(subjMin));
+  const selSub=tmSub||activeSub||(data.subjects[0]||{}).id;
+  const dial=(inner,p)=>`<div class="tmx-dial"><svg viewBox="0 0 200 200"><defs><linearGradient id="tmxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16c47f"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs><circle cx="100" cy="100" r="88" class="tmx-track"/><circle class="tm-dial tmx-arc" cx="100" cy="100" r="88" stroke="url(#tmxg)" style="stroke-dasharray:553;stroke-dashoffset:${553*(1-p)}" transform="rotate(-90 100 100)"/></svg><div class="tmx-center">${inner}</div></div>`;
+  const chip=(on,fn,label)=>`<button class="tmx-chip ${on?'on':''}" onclick="${fn}">${label}</button>`;
+  let body;
+  if(s){
+    const pm=s.mode==='pomo',tot=pm?((s.phase==='focus'?P.focus:s.phase==='long'?P.lng:P.brk)*60000):0;
+    const dm=displayMs(s,now),p=pm?(s.waiting?0:Math.min(1,Math.max(0,1-dm/tot))):pct;
+    const onBreak=pm&&(s.phase==='break'||s.phase==='long');
+    body=`${dial(`<div class="tmx-big tm-clock">${clockStr(dm)}</div><div class="tmx-cap">${escH(subjectName(s.subjectId))}</div><div class="tmx-pill ${onBreak?'brk':''}">${pm?escH(phaseLabel(s)):'Stopwatch'}</div>`,p)}
+      <div class="tmx-ctrl"><button class="tmx-round" onclick="${s.running?'pauseTimer()':'resumeTimer()'}" aria-label="${s.running?'Pause':'Resume'}"><i class="ti ${s.running?'ti-player-pause-filled':'ti-player-play-filled'}"></i></button>
+      <button class="tmx-pillbtn" onclick="stopTimer()"><i class="ti ti-player-stop-filled"></i>Stop &amp; save</button>
+      <button class="tmx-sq" onclick="openFocus()" aria-label="Full screen" title="Full screen"><i class="ti ti-arrows-maximize"></i></button></div>
+      <div class="tmx-note">${today>=STUDY_GOAL?'Streak secured for today.':`${Math.max(0,STUDY_GOAL-today)} more minute${STUDY_GOAL-today===1?'':'s'} to secure today’s streak.`}</div>`;
+  }else{
+    const pm=tmMode==='pomo';
+    body=`<div class="tmx-seg"><button class="${!pm?'on':''}" onclick="setTmMode('free')"><i class="ti ti-stopwatch"></i>Stopwatch</button><button class="${pm?'on':''}" onclick="setTmMode('pomo')">🍅 Pomodoro</button></div>
+      ${dial(`<div class="tmx-big">${pm?String(P.focus).padStart(2,'0')+':00':'00:00'}</div><div class="tmx-cap"><span class="tm-min">${Math.min(today,STUDY_GOAL)} / ${STUDY_GOAL}</span> min today</div>`,pct)}
+      <div class="tmx-label">Subject</div>
+      <div class="tmx-chips">${data.subjects.map(x=>chip(x.id===selSub,`setTmSub('${x.id}')`,escH(x.name))).join('')}</div>
+      ${pm?`<div class="tmx-label">Focus / break</div><div class="tmx-chips">${[[25,5],[50,10],[15,3],[90,15]].map(([f,b])=>chip(P.focus===f&&P.brk===b,`setPomoPreset(${f},${b})`,`${f} / ${b}`)).join('')}</div>
+        <details class="tmx-more"><summary>More settings</summary><div class="tmx-sets">
+          <label>Long break<select onchange="setPomoVal('lng',this.value)">${[15,20,30].map(v=>`<option value="${v}"${P.lng===v?' selected':''}>${v} min</option>`).join('')}</select></label>
+          <label>Rounds before long break<select onchange="setPomoVal('cycles',this.value)">${[2,3,4,6].map(v=>`<option value="${v}"${P.cycles===v?' selected':''}>${v}</option>`).join('')}</select></label></div></details>
+        <div class="tmx-note">Only focus time counts. After each break the timer waits for you, so it never counts time you were away.</div>`
+      :`<div class="tmx-label">Ask “Still studying?” every</div><div class="tmx-chips">${[30,45,60,90].map(v=>chip((Number(data.settings.checkMin)||45)===v,`setCheckChip(${v})`,v+' min')).join('')}</div>
+        <div class="tmx-note">If you don’t answer within 5 minutes, it pauses and leaves out the idle time.</div>`}
+      <button class="tmx-start" onclick="startTimer()"><i class="ti ti-player-play-filled"></i>Start ${pm?'pomodoro':'studying'}</button>`;
+  }
+  const D=['M','T','W','T','F','S','S'];
+  const bars=wk.map((m,i)=>`<div class="wk-col"><small class="tmx-val">${m?hmDur(m):''}</small><div class="wk-bars"><i class="wk-b cur" style="height:${m/wmax*100}%;animation-delay:${i*50}ms" title="${hmPretty(days[i])}: ${hmDur(m)}"></i></div><span class="${i===todayIdx?'wk-today':''}">${D[i]}</span></div>`).join('');
+  const subs=Object.entries(subjMin).sort((a,b)=>b[1]-a[1]).map(([id,m])=>{const i=Math.max(0,data.subjects.findIndex(x=>x.id===id));return `<div class="dpa-row"><span class="dpa-name">${escH(subjectName(id))}</span><div class="hm-bar" style="flex:1;margin:0;"><div style="width:${m/smax*100}%;background:${COLORS[i%COLORS.length]};"></div></div><b>${hmDur(m)}</b></div>`;}).join('')||'<div class="tool-caption">Nothing logged this week yet.</div>';
+  const recent=sessions.sort((a,b)=>(b.date>a.date?1:b.date<a.date?-1:0)).slice(0,6).map(x=>`<div class="hm-row"><i class="ti ti-clock"></i><span>${escH(subjectName(x.subjectId))} · ${hmPretty(x.date)}</span><em>${hmDur(x.minutes)}</em></div>`).join('')||'<div class="tool-caption">No sessions yet. Your first one will show up here.</div>';
+  const st=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
+  el.innerHTML=`<div class="tmx-card">${body}</div>
+  <div class="hm-stats tmx-stats">${st(hmDur(today)||'0m','studied today')}${st(todaySess,'sessions today')}${st(hmDur(wkTotal)||'0m','this week')}${st(currentStreak()+' 🔥','day streak')}</div>
+  <div class="tool-panel" style="margin-top:12px;"><h3><i class="ti ti-chart-bar"></i>This week</h3><div class="wk-chart" style="margin-top:14px;">${bars}</div></div>
+  <div class="tool-panel" style="margin-top:12px;"><h3><i class="ti ti-books"></i>By subject this week</h3><div style="margin-top:12px;">${subs}</div></div>
+  <div class="tool-panel" style="margin:12px 0;"><h3><i class="ti ti-history"></i>Recent sessions</h3><div style="margin-top:8px;">${recent}</div></div>`;
+}
+
+
+function statsSwitchHtml(){
+  return `<div class="tmx-seg" style="margin-bottom:14px;"><button class="${statsMode==='lec'?'on':''}" onclick="setStatsMode('lec')"><i class="ti ti-player-play"></i>Lectures</button><button class="${statsMode==='timer'?'on':''}" onclick="setStatsMode('timer')"><i class="ti ti-hourglass-high"></i>Study timer</button></div>`;
+}
+function timerInsightsHtml(){
+  const ss=data.sessions||[];
+  if(!ss.length)return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-hourglass-high"></i>Study timer insights</h3><div class="empty" style="padding:1.5rem 0;"><i class="ti ti-hourglass-high"></i>Start the timer to see study stats here.</div></div>`;
+  const total=ss.reduce((a,x)=>a+x.minutes,0),byDay={},bySub={};
+  ss.forEach(x=>{byDay[x.date]=(byDay[x.date]||0)+x.minutes;bySub[x.subjectId]=(bySub[x.subjectId]||0)+x.minutes;});
+  const days=Object.keys(byDay),best=days.sort((a,b)=>byDay[b]-byDay[a])[0],longest=Math.max(...ss.map(x=>x.minutes));
+  const stat=(v,t)=>`<div class="hm-stat"><div class="hm-stat-v">${v}</div><div class="hm-stat-t">${t}</div></div>`;
+  const smax=Math.max(...Object.values(bySub));
+  const bars=Object.entries(bySub).sort((a,b)=>b[1]-a[1]).map(([id,m])=>{const i=Math.max(0,data.subjects.findIndex(x=>x.id===id));return `<div class="dpa-row"><span class="dpa-name">${escH(subjectName(id))}</span><div class="hm-bar" style="flex:1;margin:0;"><div style="width:${m/smax*100}%;background:${COLORS[i%COLORS.length]};"></div></div><b>${hmDur(m)}</b></div>`;}).join('');
+  return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-hourglass-high"></i>Study timer insights</h3>
+    <div class="hm-stats" style="margin:12px 0 16px;">${stat(hmDur(total),'total study time')}${stat(ss.length,'sessions')}${stat(hmDur(Math.round(total/ss.length)),'average session')}${stat(hmDur(longest),'longest session')}${stat(days.length,'days studied')}${stat(hmPretty(best),'best day ('+hmDur(byDay[best])+')')}</div>
+    <div class="dpa-title">All-time by subject</div>${bars}</div>`;
+}
+
 /* ---- View ---- */
-const VIEWS=['dashboard','tracker','streaks','dpp','revision','stats','export'];
+const VIEWS=['dashboard','tracker','streaks','timer','dpp','revision','stats','export'];
 function setView(v){
   currentView=v;
   VIEWS.forEach(name=>{
@@ -1403,6 +1836,7 @@ function setView(v){
   if(v==='dashboard')renderDashboard();
   else if(v==='tracker')renderTracker();
   else if(v==='streaks')renderStreaks();
+  else if(v==='timer')renderTimer();
   else if(v==='dpp')renderDpp();
   else if(v==='revision')renderRevision();
   else if(v==='stats')renderStats();
@@ -1491,9 +1925,18 @@ function goToSubject(id){activeSub=id;activeCat='all';setView('tracker');}
 
 /* ---- Study tools ---- */
 function completedLectures(){return data.lectures.filter(l=>l.done);}
+let _noLive=false;
+const STUDY_GOAL=10,TK='pw_timer_v1',IDLE_GRACE=5*60000;
+function studyByDate(){
+  const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});
+  if(!_noLive){const t=timerLiveMin();if(t>0){const k=todayKey();m[k]=(m[k]||0)+t;}}
+  return m;
+}
+function studyMinToday(){return studyByDate()[todayKey()]||0;}
 function completionDates(){
   const s=new Set(completedLectures().map(l=>l.completedAt).filter(Boolean));
   data.dpps.filter(d=>d.done&&d.completedAt).forEach(d=>s.add(d.completedAt));
+  Object.entries(studyByDate()).forEach(([k,m])=>{if(m>=STUDY_GOAL)s.add(k);});
   return s;
 }
 function streakActiveToday(){return completionDates().has(todayKey());}
@@ -1630,7 +2073,8 @@ function renderStats(){
   const weekMins=watchedMinsSince(weekStart),monthMins=watchedMinsSince(mStart);
   const weekCount=watchedCountSince(weekStart),monthCount=watchedCountSince(mStart);
   const totalWatched=completedLectures().reduce((a,l)=>a+durToMins(l.duration),0);
-  el.innerHTML=heatmapHtml()+weeklyHtml()+monthCalHtml()+dppAnalyticsHtml()+`<div class="tool-grid">
+  el.classList.toggle('stats-timer',statsMode==='timer');
+  el.innerHTML=statsSwitchHtml()+heatmapHtml()+weeklyHtml()+monthCalHtml()+(statsMode==='timer'?timerInsightsHtml():dppAnalyticsHtml())+`<div class="tool-grid st-lec-only">
     <div class="tool-panel"><h3><i class="ti ti-clock"></i>This week</h3><div class="tool-stat">${minsToStr(weekMins)}</div><div class="tool-caption">${weekCount} lectures completed since Monday</div></div>
     <div class="tool-panel"><h3><i class="ti ti-calendar-month"></i>This month</h3><div class="tool-stat">${minsToStr(monthMins)}</div><div class="tool-caption">${monthCount} lectures completed this month</div></div>
     <div class="tool-panel"><h3><i class="ti ti-player-play"></i>Total watched</h3><div class="tool-stat">${minsToStr(totalWatched)}</div><div class="tool-caption">based on lectures marked done</div></div>
@@ -2155,6 +2599,9 @@ document.addEventListener('visibilitychange',function(){
 {const _sv=save;window.save=function(){const r=_sv.apply(this,arguments);try{updateHud();}catch(e){}return r;};}
 
 {const _rs=renderStreaks;window.renderStreaks=function(){_rs.apply(this,arguments);countUp();};}
+
+{const fixA11y=()=>document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));let _at;new MutationObserver(()=>{clearTimeout(_at);_at=setTimeout(fixA11y,200);}).observe(document.body,{childList:true,subtree:true});fixA11y();}
+initTimerUi();
 
 init();
 </script>
