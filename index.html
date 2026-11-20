@@ -653,6 +653,48 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
 .tmx-val{min-height:13px;font-size:9.5px;color:var(--text3);font-weight:600;}
 @media(max-width:420px){.tmx-card{padding:18px 14px;border-radius:24px;}.tmx-pillbtn span{display:none;}}
 .stats-timer .st-lec-only{display:none;}
+/* ===== Quests, chest, lucky drop ===== */
+.qs-strip{margin-bottom:1rem;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.qs-strip:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.qs-strip.ready{border-color:var(--green);animation:gmpulse 2s ease-in-out infinite;box-shadow:0 0 0 4px rgba(22,196,127,.15);}
+.qs-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}.qs-chest{font-size:12px;font-weight:700;color:var(--accent);}
+.td-n{margin-left:6px;font-size:11px;background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 8px;}
+.qs-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--border);}.qs-row:last-of-type{border-bottom:none;}
+.qs-ic{width:26px;height:26px;border-radius:50%;border:2px solid var(--border-strong);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--text3);flex-shrink:0;}
+.qs-row.done .qs-ic{background:var(--green);border-color:var(--green);color:#fff;animation:gmpop .45s cubic-bezier(.2,1.6,.4,1) both;}
+.qs-main{flex:1;min-width:0;}.qs-t{font-size:13px;font-weight:600;}.qs-row.done .qs-t{color:var(--text3);text-decoration:line-through;}.qs-main .hm-bar{margin-top:6px;}
+.qs-v{font-size:12px;font-weight:700;color:var(--text2);font-variant-numeric:tabular-nums;white-space:nowrap;}.qs-row.done .qs-v{color:var(--green);}
+.chest-slot{display:flex;align-items:center;gap:14px;margin-top:12px;padding:14px;border:1px dashed var(--border-strong);border-radius:18px;}
+.chest-slot.ready{border-style:solid;border-color:var(--green);background:linear-gradient(135deg,var(--surface),rgba(22,196,127,.1));}
+.chest-slot.opened{opacity:.7;}.chest-ic{font-size:38px;}.chest-ic.locked{filter:grayscale(1);opacity:.5;}
+.chest-slot.ready .chest-ic{animation:chestwob 1.3s ease-in-out infinite;}
+@keyframes chestwob{0%,100%{transform:rotate(-6deg) scale(1);}50%{transform:rotate(6deg) scale(1.12);}}
+.chest-pips{display:flex;gap:6px;}.chest-pips i{width:12px;height:12px;border-radius:50%;background:var(--border);}.chest-pips i.on{background:var(--green);box-shadow:0 0 8px rgba(22,196,127,.6);}
+.chest-ov{position:fixed;inset:0;z-index:3600;background:rgba(10,8,30,.72);display:flex;align-items:center;justify-content:center;animation:ovfade .25s both;}
+.chest-rays{position:absolute;width:150vmax;height:150vmax;background:repeating-conic-gradient(rgba(255,214,102,.22) 0 8deg,transparent 8deg 22deg);animation:fxspin 8s linear infinite;mask-image:radial-gradient(circle,#000 0,transparent 55%);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 55%);}
+.chest-box{position:relative;font-size:130px;animation:chestshake 1.7s ease both;filter:drop-shadow(0 0 40px rgba(255,214,102,.7));}
+@keyframes chestshake{0%{transform:scale(.3) rotate(0);opacity:0;}15%{transform:scale(1) rotate(0);opacity:1;}25%{transform:rotate(-9deg);}35%{transform:rotate(9deg);}45%{transform:rotate(-12deg) scale(1.05);}55%{transform:rotate(12deg) scale(1.08);}70%{transform:rotate(-14deg) scale(1.12);}85%{transform:rotate(14deg) scale(1.18);}100%{transform:scale(1.5);opacity:0;}}
+.chest-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);color:var(--text);border:2px solid var(--border);border-radius:26px;padding:28px 40px;min-width:280px;box-shadow:0 0 60px var(--glow,rgba(255,214,102,.5));animation:chestcard .6s cubic-bezier(.2,1.5,.4,1) both;}
+.chest-card small{letter-spacing:.3em;font-weight:800;font-size:12px;color:var(--rc,var(--text3));}
+.chest-card b{font-size:64px;font-weight:900;letter-spacing:-.03em;background:linear-gradient(135deg,var(--rc),var(--text));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.chest-card span{color:var(--text2);font-size:14px;margin-bottom:10px;}
+.chest-card.com{--rc:#7a8aa8;--glow:rgba(122,138,168,.45);border-color:#7a8aa8;}
+.chest-card.rare{--rc:#3b82f6;--glow:rgba(59,130,246,.55);border-color:#3b82f6;}
+.chest-card.epic{--rc:#a855f7;--glow:rgba(168,85,247,.65);border-color:#a855f7;}
+.chest-card.leg{--rc:#f59e0b;--glow:rgba(245,158,11,.8);border-color:#f59e0b;animation:chestcard .6s cubic-bezier(.2,1.5,.4,1) both,legpulse 1.4s ease-in-out infinite .6s;}
+@keyframes chestcard{from{transform:scale(.4) translateY(40px);opacity:0;}to{transform:none;opacity:1;}}
+@keyframes legpulse{50%{box-shadow:0 0 110px rgba(245,158,11,1);}}
+.fx-gold{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,214,102,.55),transparent 65%);animation:goldflash 1.6s ease-out both;}
+@keyframes goldflash{0%{opacity:0;}15%{opacity:1;}100%{opacity:0;}}
+.fx-lucky{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;animation:fxflame 2.4s ease both;}
+.fx-lucky span{font-size:84px;filter:drop-shadow(0 0 24px rgba(22,196,127,.8));}
+.fx-lucky b{font-size:30px;font-weight:900;letter-spacing:.12em;color:#ffd666;text-shadow:0 2px 14px rgba(0,0,0,.55);}
+.fx-lucky em{font-style:normal;font-size:44px;font-weight:900;color:#fff;-webkit-text-stroke:3px #16a34a;paint-order:stroke fill;}
+.risk-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(255,176,32,.16),rgba(239,68,68,.12));border:1px solid rgba(239,68,68,.35);border-radius:20px;padding:14px 16px;margin-bottom:1rem;animation:riskpulse 2.4s ease-in-out infinite;}
+.risk-banner.final{border-color:#ef4444;background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(255,176,32,.14));}
+.risk-ic{font-size:30px;animation:skflick 1.2s ease-in-out infinite;}
+.risk-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}.risk-t b{font-size:14px;}.risk-t span{font-size:12px;color:var(--text2);line-height:1.45;}
+@keyframes riskpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.25);}50%{box-shadow:0 0 0 7px rgba(239,68,68,0);}}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -686,6 +728,7 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
       <button class="hud-chip" id="hudStreak" onclick="setView('streaks')" title="Study streak"></button>
       <button class="hud-chip" id="hudLevel" onclick="setView('streaks')" title="Your level"></button>
       <div class="sync-pill" id="syncStatus"><span class="sync-dot warn"></span><span>Starting</span></div>
+      <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
       <button class="btn-sec" onclick="lockTracker()" title="Lock"><i class="ti ti-lock"></i></button>
@@ -694,6 +737,7 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
 
   <!-- DASHBOARD -->
   <div id="view-dashboard">
+    <div id="dashQuests"></div>
     <div class="dash-overall" id="dashOverall"></div>
     <div id="dashSubjects"></div>
   </div>
@@ -887,6 +931,7 @@ function ensureDataShape(obj){
   obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
   obj.settings.checkMin=Number(obj.settings.checkMin)||45;
   obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
+  obj.game=Object.assign({bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
@@ -1369,7 +1414,7 @@ function totalXp(){
   data.lectures.filter(l=>l.done).forEach(l=>xp+=20+Math.round(durToMins(l.duration)/6));
   data.dpps.filter(d=>d.done).forEach(d=>{xp+=15;if(d.result){xp+=10;const att=d.result.correct+d.result.wrong;if(att&&d.result.correct/att>=.8)xp+=10;}});
   Object.values((()=>{const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});return m;})()).forEach(m=>xp+=Math.floor(Math.min(m,180)/3));
-  return xp+targetDayCount()*25;
+  return xp+targetDayCount()*25+((data.game&&data.game.bonusXp)||0);
 }
 const XPK=512;
 function xpForLevel(L){return Math.round(XPK*Math.pow(L-1,1.5));}
@@ -1446,7 +1491,7 @@ function badgeList(){
     ['📝','DPP machine','25 DPPs done',dppDone>=25],['🏹','Sharpshooter','A DPP with every question correct',perfect]];
 }
 function gameHtml(){
-  return streakCardHtml()+gameHtml2();
+  return streakCardHtml()+questsHtml()+gameHtml2();
 }
 function gameHtml2(){
   const xp=totalXp(),L=levelInfo(xp),t=dayTarget(),a=dayActivity()[todayKey()],today=a?a.lec.length:0;
@@ -1595,6 +1640,7 @@ function notify(title,body){
 }
 function openTimerModal(){if(tState())openFocus();else setView('timer');}
 function startTimer(){
+  sfx('tick');
   const sub=tmSub||(document.getElementById('tmv-sub')||{}).value||activeSub||(data.subjects[0]||{}).id,now=Date.now(),P=pomoCfg();
   if(!sub){alert('Add a subject first.');return;}
   tSave(tmMode==='pomo'?{subjectId:sub,mode:'pomo',phase:'focus',running:true,startedAt:now,acc:0,cycle:0,phaseEnd:now+P.focus*60000,phaseLeft:0}:{subjectId:sub,mode:'free',running:true,startedAt:now,acc:0,nextCheck:now+everyMs(),promptAt:0});
@@ -1635,21 +1681,21 @@ function raisePrompt(s){
   document.getElementById('idleSub').textContent=subjectName(s.subjectId);e.style.display='flex';
   notify('Still studying?','Tap to confirm, or the timer pauses in 5 minutes.');
 }
-let _prevMin=null;
+let _prevMin=null,_qT=0;
 function pomoTick(s,now){
   const P=pomoCfg();let ch=false;
   while(s.running&&now>=s.phaseEnd){
     ch=true;
     if(s.phase==='focus'){
-      s.acc+=s.phaseEnd-s.startedAt;s.cycle=(s.cycle||0)+1;
+      s.acc+=s.phaseEnd-s.startedAt;s.cycle=(s.cycle||0)+1;maybeLucky(20,'pomo');
       const long=s.cycle%P.cycles===0;s.phase=long?'long':'break';
       s.startedAt=s.phaseEnd;s.phaseEnd=s.phaseEnd+(long?P.lng:P.brk)*60000;
       notify(long?'Long break':'Break time',long?'A full set done. Rest properly.':'Stand up, drink water, look far away.');
-      showToast('☕',long?'Long break':'Break time',long?'You finished a full set. Rest properly.':'Round done. Stretch and look away from the screen.');
+      sfx('quest');showToast('☕',long?'Long break':'Break time',long?'You finished a full set. Rest properly.':'Round done. Stretch and look away from the screen.');
     }else{
       s.phase='focus';s.running=false;s.phaseLeft=P.focus*60000;s.waiting=true;
       notify('Break over','Ready for the next round?');
-      showToast('🍅','Break over','Tap resume when you are ready for the next round.','',{label:'Start',fn:resumeTimer});
+      sfx('ready');showToast('🍅','Break over','Tap resume when you are ready for the next round.','',{label:'Start',fn:resumeTimer});
     }
   }
   if(ch){tSave(s);refreshTimerView();}
@@ -1676,10 +1722,11 @@ function timerTick(){
   const ip=document.getElementById('idlePrompt');
   if(ip&&ip.style.display!=='none'&&live&&live.promptAt){const left=Math.max(0,IDLE_GRACE-(now-live.promptAt));document.getElementById('idleLeft').textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');}
   focusUpdate(live,dm,now);
+  if(now-_qT>5000){_qT=now;checkQuests();}
   if(_prevMin!==null&&_prevMin<STUDY_GOAL&&today>=STUDY_GOAL){
     _noLive=true;const before=currentStreak();_noLive=false;const after=currentStreak();
     const mile=MILESTONES.find(m=>before<m&&after>=m);
-    if(!REDUCE()){if(mile)fxMilestone(mile);else if(after>before)fxFlame(after);}
+    sfx(mile?'level':'streak');if(!REDUCE()){if(mile)fxMilestone(mile);else if(after>before)fxFlame(after);}
     showToast('🔥',after>before?`${after}-day streak`:'10 minutes done',after>before?'Studied 10 minutes. The flame is lit for today.':'Your streak is safe for today.');
     updateHud();
   }
@@ -1819,6 +1866,143 @@ function timerInsightsHtml(){
   return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-hourglass-high"></i>Study timer insights</h3>
     <div class="hm-stats" style="margin:12px 0 16px;">${stat(hmDur(total),'total study time')}${stat(ss.length,'sessions')}${stat(hmDur(Math.round(total/ss.length)),'average session')}${stat(hmDur(longest),'longest session')}${stat(days.length,'days studied')}${stat(hmPretty(best),'best day ('+hmDur(byDay[best])+')')}</div>
     <div class="dpa-title">All-time by subject</div>${bars}</div>`;
+}
+
+
+/* ---- Quests, chest, lucky drops, sound ---- */
+const QUEST_XP=15;
+let _ac=null;
+function soundOn(){try{return localStorage.getItem('pw_sound')!=='0';}catch(e){return true;}}
+function ac(){if(!_ac){try{_ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(_ac&&_ac.state==='suspended')_ac.resume();return _ac;}
+function tone(f,t,d,type,v,slide){
+  const a=ac();if(!a)return;const o=a.createOscillator(),g=a.createGain(),n=a.currentTime+t;
+  o.type=type||'sine';o.frequency.setValueAtTime(f,n);if(slide)o.frequency.exponentialRampToValueAtTime(slide,n+d);
+  g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v||.1,n+.01);g.gain.exponentialRampToValueAtTime(.0001,n+d);
+  o.connect(g);g.connect(a.destination);o.start(n);o.stop(n+d+.03);
+}
+function sfx(k){
+  if(!soundOn())return;
+  try{(({
+    tick:()=>tone(1500,0,.06,'square',.04,500),
+    xp:()=>{tone(660,0,.12,'triangle',.11);tone(990,.09,.18,'triangle',.11);},
+    quest:()=>[523,659,784].forEach((f,i)=>tone(f,i*.09,.22,'triangle',.12)),
+    streak:()=>[392,523,659,784].forEach((f,i)=>tone(f,i*.08,.24,'sawtooth',.06)),
+    level:()=>{[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.11,.32,'triangle',.13));tone(262,0,.9,'sine',.09);},
+    ready:()=>[784,988,1175,1568].forEach((f,i)=>tone(f,i*.1,.3,'sine',.11)),
+    chest:()=>{tone(110,0,1.4,'sawtooth',.1,45);for(let i=0;i<8;i++)tone(70+i*6,i*.17,.14,'square',.05);},
+    reveal:()=>[784,988,1175,1568,1976].forEach((f,i)=>tone(f,i*.07,.34,'sine',.12)),
+    lucky:()=>[1047,1319,1568,2093,1568,2093,2637].forEach((f,i)=>tone(f,i*.06,.15,'sine',.1)),
+    pop:()=>tone(520,0,.1,'triangle',.1,900)
+  })[k]||(()=>{}))();}catch(e){}
+}
+function toggleSound(){try{localStorage.setItem('pw_sound',soundOn()?'0':'1');}catch(e){}updateSoundIcon();if(soundOn())sfx('pop');}
+function updateSoundIcon(){const b=document.getElementById('hudSound');if(b)b.innerHTML=`<i class="ti ${soundOn()?'ti-volume':'ti-volume-off'}"></i>`;}
+
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){let a=seed;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const QSTUDY=[{id:'study25',kind:'study',target:25,label:'Study 25 minutes with the timer'},{id:'study45',kind:'study',target:45,label:'Study 45 minutes with the timer'},{id:'study60',kind:'study',target:60,label:'Study an hour with the timer'}];
+const QOTHER=[{id:'lec1',kind:'lec',target:1,label:'Complete 1 lecture'},{id:'lec2',kind:'lec',target:2,label:'Complete 2 lectures'},{id:'dpp1',kind:'dpp',target:1,label:'Complete 1 DPP'},{id:'res1',kind:'res',target:1,label:'Log a DPP result with your score'},{id:'sess2',kind:'sess',target:2,label:'Finish 2 timer sessions'}];
+function todayQuests(){
+  const r=rng(hashStr(todayKey()+'|quests')),s=QSTUDY[Math.floor(r()*QSTUDY.length)],pool=QOTHER.slice(),out=[s];
+  while(out.length<3){const q=pool.splice(Math.floor(r()*pool.length),1)[0];if(!out.some(x=>x.kind===q.kind))out.push(q);}
+  return out;
+}
+function questProgress(q){
+  const k=todayKey(),a=dayActivity()[k];
+  if(q.kind==='study')return studyMinToday();
+  if(q.kind==='lec')return a?a.lec.length:0;
+  if(q.kind==='dpp')return a?a.dpp.length:0;
+  if(q.kind==='res')return data.dpps.filter(d=>d.result&&d.result.loggedAt===k).length;
+  return(data.sessions||[]).filter(x=>x.date===k).length;
+}
+function gameState(){return data.game=data.game||{bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};}
+function chestReady(){const G=gameState(),aw=G.awarded[todayKey()]||[];return aw.length>=3&&G.chestDay!==todayKey();}
+function checkQuests(){
+  if(!data.subjects||!data.subjects.length)return;
+  const G=gameState(),k=todayKey(),aw=G.awarded[k]=G.awarded[k]||[];let fresh=[];
+  todayQuests().forEach(q=>{if(!aw.includes(q.id)&&questProgress(q)>=q.target){aw.push(q.id);G.bonusXp+=QUEST_XP;fresh.push(q);}});
+  Object.keys(G.awarded).forEach(d=>{if(d<todayKey(new Date(Date.now()-8*864e5)))delete G.awarded[d];});
+  if(!fresh.length)return;
+  save();
+  const all=aw.length>=3&&G.chestDay!==k;
+  if(!REDUCE())fxSparkle();
+  sfx(all?'ready':'quest');
+  showToast(all?'🎁':'✅',all?'All quests done: chest ready!':'Quest complete',all?'Open it from the Dashboard or the Streaks tab.':`${escH(fresh[0].label)} · +${QUEST_XP} XP`);
+  refreshQuestUi();updateHud();
+}
+function refreshQuestUi(){renderQuestStrip();if(typeof currentView!=='undefined'&&currentView==='streaks')renderStreaks();}
+function questRows(compact){
+  const G=gameState(),aw=G.awarded[todayKey()]||[];
+  return todayQuests().map(q=>{
+    const v=Math.min(q.target,questProgress(q)),done=aw.includes(q.id)||v>=q.target,pct=Math.round(v/q.target*100);
+    return `<div class="qs-row ${done?'done':''}"><div class="qs-ic">${done?'✓':'◦'}</div><div class="qs-main"><div class="qs-t">${q.label}</div>${compact?'':`<div class="hm-bar"><div style="width:${pct}%"></div></div>`}</div><div class="qs-v">${done?'+'+QUEST_XP+' XP':v+' / '+q.target}</div></div>`;
+  }).join('');
+}
+function chestBlock(){
+  const G=gameState(),k=todayKey(),n=(G.awarded[k]||[]).length;
+  if(G.chestDay===k)return `<div class="chest-slot opened"><div class="chest-ic">🎁</div><div><b>Chest opened today</b><div class="tool-caption">New quests and a new chest tomorrow.</div></div></div>`;
+  if(n>=3)return `<div class="chest-slot ready"><div class="chest-ic">🎁</div><div style="flex:1;"><b>Your chest is ready</b><div class="tool-caption">Contains a random reward. Could be something rare.</div></div><button class="btn-primary" onclick="openChest()">Open chest</button></div>`;
+  return `<div class="chest-slot"><div class="chest-ic locked">🎁</div><div style="flex:1;"><b>Daily chest</b><div class="tool-caption">Finish all 3 quests to unlock it (${n}/3).</div></div><div class="chest-pips">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>`;
+}
+function questsHtml(){
+  return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-target-arrow"></i>Daily quests</h3><div class="tool-caption" style="margin-bottom:10px;">New quests every day. Each is worth ${QUEST_XP} XP, and finishing all three opens a chest.</div>${questRows(false)}${chestBlock()}</div>`;
+}
+function questStripHtml(){
+  const G=gameState(),n=(G.awarded[todayKey()]||[]).length,done=G.chestDay===todayKey();
+  return `<div class="tool-panel qs-strip ${chestReady()?'ready':''}" onclick="${chestReady()?'openChest()':"setView('streaks')"}"><div class="qs-head"><h3 style="margin:0;"><i class="ti ti-target-arrow"></i>Daily quests <span class="td-n">${n}/3</span></h3><span class="qs-chest">${done?'Chest opened 🎁':chestReady()?'Open your chest 🎁':'🎁 locked'}</span></div>${questRows(true)}</div>`;
+}
+const BASE_TITLE=document.title;
+function streakRisk(){
+  const info=streakInfo(),n=info.streak,h=new Date().getHours();
+  if(n<1||streakActiveToday()||h<17)return null;
+  const y=new Date();y.setDate(y.getDate()-1);
+  return{n,left:24-h,final:info.saved.has(todayKey(y))};
+}
+function riskHtml(){
+  const r=streakRisk();if(!r)return '';
+  return `<div class="risk-banner ${r.final?'final':''}"><div class="risk-ic">🔥</div><div class="risk-t"><b>Your ${r.n}-day streak ends tonight</b><span>${r.final?'StreakSaver already covered yesterday, so missing today breaks it. ':''}${r.left} hour${r.left===1?'':'s'} left. 10 minutes with the timer, or any lecture or DPP, saves it.</span></div><button class="btn-primary" onclick="setView('timer')"><i class="ti ti-hourglass-high"></i> Save it</button></div>`;
+}
+function renderQuestStrip(){
+  const e=document.getElementById('dashQuests');if(e)e.innerHTML=riskHtml()+questStripHtml();
+  const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
+}
+
+function rollChest(){
+  const r=Math.random(),j=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  if(r<.02)return{rarity:'Legendary',cls:'leg',xp:500,msg:'A once-in-a-hundred find.'};
+  if(r<.12)return{rarity:'Epic',cls:'epic',xp:j(180,240),msg:'That is a big one.'};
+  if(r<.40)return{rarity:'Rare',cls:'rare',xp:j(80,110),msg:'Nice pull.'};
+  return{rarity:'Common',cls:'com',xp:j(30,50),msg:'Every chest helps.'};
+}
+function openChest(){
+  if(!chestReady())return;
+  const G=gameState(),rw=rollChest(),ov=document.createElement('div');
+  G.chestDay=todayKey();G.bonusXp+=rw.xp;G.log=[{d:todayKey(),r:rw.rarity,xp:rw.xp},...(G.log||[])].slice(0,20);save();
+  ov.className='chest-ov';ov.innerHTML='<div class="chest-rays"></div><div class="chest-box">🎁</div>';document.body.appendChild(ov);
+  sfx('chest');
+  setTimeout(()=>{
+    ov.innerHTML=`<div class="chest-rays"></div><div class="chest-card ${rw.cls}"><small>${rw.rarity.toUpperCase()}</small><b>+${rw.xp} XP</b><span>${rw.msg}</span><button class="btn-primary" onclick="this.closest('.chest-ov').remove()">Collect</button></div>`;
+    sfx('reveal');if(!REDUCE())confetti(rw.cls==='com'?90:rw.cls==='rare'?160:260);
+    updateHud();refreshQuestUi();
+  },1700);
+}
+function fxLucky(amt){
+  const L=fxLayer(2600);
+  L.innerHTML=`<div class="fx-gold"></div><div class="fx-lucky"><span>🍀</span><b>LUCKY DROP</b><em>+${amt} XP</em></div>`+Array.from({length:16},(_,i)=>`<span class="fx-star" style="left:${Math.random()*94}%;animation-delay:${i*90}ms">🍀</span>`).join('');
+}
+function maybeLucky(gain,src){
+  const G=gameState(),k=todayKey();
+  if(G.luckyDate!==k){G.luckyDate=k;G.luckyN=0;}
+  if(G.luckyN>=3||Math.random()>(src==='pomo'?.25:.12))return;
+  const amt=Math.random()<.35?Math.max(10,gain):10+Math.floor(Math.random()*31);
+  G.luckyN++;G.bonusXp+=amt;save();
+  setTimeout(()=>{sfx('lucky');if(!REDUCE())fxLucky(amt);showToast('🍀','Lucky drop!',`${amt===gain?'Double XP: ':'Bonus: '}+${amt} XP`);updateHud();},650);
+}
+function postProgress(s1){
+  const s2=snap(),gain=s2.xp-s1.xp;if(gain<=0)return;
+  const mile=MILESTONES.find(m=>s1.streak<m&&s2.streak>=m),newR=s2.unlocked.filter(id=>!s1.unlocked.includes(id));
+  sfx(s2.lvl>s1.lvl||mile?'level':newR.length?'chest':(s2.hit&&!s1.hit)?'quest':s2.streak>s1.streak?'streak':'xp');
+  checkQuests();maybeLucky(gain,'tick');
 }
 
 /* ---- View ---- */
@@ -2592,6 +2776,7 @@ document.addEventListener('visibilitychange',function(){
 ['toggleDone','toggleDppDone','submitDppResult'].forEach(n=>{const f=window[n];if(typeof f!=='function')return;window[n]=function(id){
   const find=()=>(n==='toggleDone'?data.lectures:data.dpps).find(x=>x.id===id);
   const was=n==='submitDppResult'?true:!!(find()||{}).done;
+  if(!was)sfx('tick');
   const s1=snap();const r=f.apply(this,arguments);afterProgress(s1);
   const it=find();
   if(n!=='submitDppResult'&&it&&it.done&&!was){const nm=(it.title||it.label||'Item');showToast('✅','Marked done',escH(String(nm).slice(0,60)),'',{label:'Undo',fn:()=>window[n](id)});}
@@ -2601,6 +2786,7 @@ document.addEventListener('visibilitychange',function(){
 {const _rs=renderStreaks;window.renderStreaks=function(){_rs.apply(this,arguments);countUp();};}
 
 {const fixA11y=()=>document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));let _at;new MutationObserver(()=>{clearTimeout(_at);_at=setTimeout(fixA11y,200);}).observe(document.body,{childList:true,subtree:true});fixA11y();}
+{const _ap=afterProgress;window.afterProgress=function(s1){_ap.apply(this,arguments);postProgress(s1);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
 initTimerUi();
 
 init();
