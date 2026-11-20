@@ -190,6 +190,10 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .auth-card input:focus{outline:none;border-color:var(--accent);}
 .auth-error{display:none;font-size:12px;color:var(--red-text);background:var(--red-bg);border:1px solid #fecaca;border-radius:var(--radius);padding:8px 10px;margin:8px 0;}
 .auth-note{font-size:12px;color:var(--text3);line-height:1.5;margin-top:11px;}
+#googleSignInBtn{background:#fff;color:#202124;border:1px solid #dadce0;box-shadow:0 1px 2px rgba(0,0,0,.08);}
+#googleSignInBtn:hover{background:#f8faff;border-color:#c6dafc;}
+#googleSignInBtn:disabled{opacity:.65;cursor:wait;}
+.auth-error:not(:empty){display:block;} 
 
 @media(max-width:520px){
   .stats-row{grid-template-columns:repeat(2,1fr);}
@@ -695,25 +699,37 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
 .risk-ic{font-size:30px;animation:skflick 1.2s ease-in-out infinite;}
 .risk-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}.risk-t b{font-size:14px;}.risk-t span{font-size:12px;color:var(--text2);line-height:1.45;}
 @keyframes riskpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.25);}50%{box-shadow:0 0 0 7px rgba(239,68,68,0);}}
+.hud-chip.combo{border-color:#f59e0b;background:linear-gradient(135deg,rgba(245,158,11,.16),var(--surface));cursor:default;animation:riskpulse 2.4s ease-in-out infinite;}
+.hud-chip.combo span{font-size:10px;color:var(--text3);font-weight:600;}.hud-chip.combo.hot{border-color:#ef4444;}.hud-chip.combo.hot span{color:#ef4444;}
+/* Course milestones */
+.crs-strip{display:flex;align-items:center;gap:16px;margin-bottom:1rem;}
+.crs-ring{position:relative;width:64px;height:64px;flex-shrink:0;}.crs-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;}
+.crs-main{flex:1;min-width:0;}.crs-t{font-weight:800;font-size:14px;margin-bottom:2px;}
+.crs-pips{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;margin-top:10px;}.crs-pips i{height:7px;border-radius:3px;background:var(--border);}.crs-pips i.on{background:linear-gradient(90deg,#16c47f,#6c5ce7);animation:gmpop .4s both;}
+.fxc-wrap{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:30px;padding:26px 44px;box-shadow:0 0 80px rgba(108,92,231,.5);animation:fxcin 4.2s ease both;}
+@keyframes fxcin{0%{opacity:0;transform:translate(-50%,-40%) scale(.6);}10%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}16%{transform:translate(-50%,-50%) scale(1);}85%{opacity:1;}100%{opacity:0;transform:translate(-50%,-56%) scale(.96);}}
+.fxc-ring{position:relative;width:170px;height:170px;}.fxc-ring svg{width:100%;height:100%;}
+.fxc-track{fill:none;stroke:var(--border);stroke-width:12;}.fxc-arc{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 8px rgba(108,92,231,.5));}
+.fxc-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}.fxc-num b{font-size:44px;font-weight:900;letter-spacing:-.03em;}
+.fxc-t{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);}.fxc-s{font-size:22px;font-weight:900;color:var(--green);}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="auth-screen" id="passcodeScreen">
+<div class="auth-screen" id="authScreen">
   <div class="auth-card">
     <div class="auth-logo">
       <div class="pw-logo">PW</div>
       <div>
         <h1>PW Lecture Tracker</h1>
-        <p>Enter your passcode to unlock sync.</p>
+        <p>Sign in to access your personal study workspace.</p>
       </div>
     </div>
-    <input type="password" id="passcodeInput" placeholder="6-digit passcode" inputmode="numeric" autocomplete="off" maxlength="6" onkeydown="if(event.key==='Enter')unlockTracker()">
-    <div class="auth-error" id="passcodeError"></div>
-    <button class="btn-primary" id="unlockBtn" onclick="unlockTracker()" style="width:100%;justify-content:center;padding:10px 15px;">
-      <i class="ti ti-lock"></i> Unlock
+    <div class="auth-error" id="authError" role="alert"></div>
+    <button class="btn-primary" id="googleSignInBtn" onclick="signInWithGoogle()" style="width:100%;justify-content:center;padding:12px 15px;gap:10px;">
+      <i class="ti ti-brand-google" style="font-size:18px;"></i> Continue with Google
     </button>
-    <div class="auth-note">This keeps the tracker private from casual visitors on your public GitHub Pages URL.</div>
+    <div class="auth-note">Each Google account has its own private tracker. Your study data is synced securely across your devices.</div>
   </div>
 </div>
 
@@ -724,6 +740,7 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
       <div><div class="app-title">PW Lecture Tracker</div><div class="app-sub">Dropper · IIT JEE</div></div>
     </div>
     <div class="topbar-right">
+      <button class="hud-chip combo" id="hudCombo" style="display:none" title="Combo"></button>
       <button class="hud-chip" id="hudTimer" onclick="openTimerModal()" title="Study timer">⏱ <b>Study</b></button>
       <button class="hud-chip" id="hudStreak" onclick="setView('streaks')" title="Study streak"></button>
       <button class="hud-chip" id="hudLevel" onclick="setView('streaks')" title="Your level"></button>
@@ -731,7 +748,7 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
       <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
-      <button class="btn-sec" onclick="lockTracker()" title="Lock"><i class="ti ti-lock"></i></button>
+      <button class="btn-sec" onclick="signOutTracker()" title="Sign out"><i class="ti ti-logout"></i></button>
     </div>
   </div>
 
@@ -837,250 +854,146 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
 const SUPABASE_CONFIG={
   url:'https://pxcwqhlgvgahopqodkwz.supabase.co',
   anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4Y3dxaGxndmdhaG9wcW9ka3d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MDU5MDIsImV4cCI6MjA5ODI4MTkwMn0.ATkL9GDo_FFoE_Y0wZ3VkLooQaothzozs92i6uCu2VM',
-  table:'pw_tracker_state',
-  rowId:'tracker_dac754b235b0869271bdf6c6e71ff2d8e871dbf9890b25c4546c9adcb91f1c88'
+  table:'pw_tracker_users'
 };
-const PASSCODE_CONFIG={
-  hash:'dac754b235b0869271bdf6c6e71ff2d8e871dbf9890b25c4546c9adcb91f1c88',
-  sessionKey:'pw_tracker_unlocked'
-};
-
 let data={subjects:[],lectures:[]};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
-let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false;
-
-const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
-
-const DEFAULTS=[
-  {id:'phy27',name:"Physics",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
-  {id:'mat27',name:"Maths",       categories:['Regular Lectures']},
-  {id:'pc27', name:"Physical Chemistry", categories:['Regular Lectures']},
-  {id:'oc27', name:"Organic Chemistry",  categories:['Regular Lectures']},
-  {id:'ic27', name:"Inorganic Chemistry",categories:['Regular Lectures']},
-];
-
-const DEMO=[
-  {id:1,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 07 : Vector (Part-02)",chapter:'Mathematical Tools',date:'29 Apr 2026',duration:'2h 10m',hasDPP:true,done:false},
-  {id:2,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 06 : Vector",chapter:'Mathematical Tools',date:'28 Apr 2026',duration:'2h 7m',hasDPP:true,done:false},
-  {id:3,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 05 : Basic Math || Binomial Approximation",chapter:'Mathematical Tools',date:'27 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
-  {id:4,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 04 : Basic Math || Approximation",chapter:'Mathematical Tools',date:'25 Apr 2026',duration:'2h 8m',hasDPP:true,done:false},
-  {id:5,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 03 : Basic Math || Trigonometry",chapter:'Mathematical Tools',date:'24 Apr 2026',duration:'2h 7m',hasDPP:false,done:false},
-  {id:6,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 02 : Basic Math",chapter:'Mathematical Tools',date:'23 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
-  {id:7,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 01 : Basic Baat Chit || Basic Math",chapter:'Mathematical Tools',date:'22 Apr 2026',duration:'2h 6m',hasDPP:false,done:false},
-];
-
-function uid(){return Date.now()+Math.floor(Math.random()*99999);}
-function durToMins(s){if(!s)return 0;const h=s.match(/(\d+)h/),m=s.match(/(\d+)m/);return(h?+h[1]*60:0)+(m?+m[1]:0);}
-function minsToStr(m){if(!m)return'—';const h=Math.floor(m/60),mn=m%60;return h>0?(mn>0?h+'h '+mn+'m':h+'h'):mn+'m';}
-function parseDate(d){if(!d)return new Date(0);const mo={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Sept:8,Oct:9,Nov:10,Dec:11};const p=d.split(' ');return new Date(+p[2],mo[p[1]],+p[0]);}
-function todayKey(date=new Date()){const d=new Date(date);const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
-function isoWeekStart(date=new Date()){const d=new Date(date);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d;}
-function monthStart(date=new Date()){return new Date(date.getFullYear(),date.getMonth(),1);}
-function daysBetween(a,b){const ms=24*60*60*1000;const ad=new Date(a);const bd=new Date(b);ad.setHours(0,0,0,0);bd.setHours(0,0,0,0);return Math.round((bd-ad)/ms);}
-function subjectName(id){return data.subjects.find(s=>s.id===id)?.name||'Unknown subject';}
-
-function defaultData(){
-  return ensureDataShape({subjects:DEFAULTS.map(s=>({...s,categories:[...s.categories]})),lectures:DEMO.map(l=>({...l})),dpps:[]});
-}
-function ensureDataShape(obj){
-  if(!obj||typeof obj!=='object')obj={};
-  obj.subjects=Array.isArray(obj.subjects)?obj.subjects:[];
-  obj.lectures=Array.isArray(obj.lectures)?obj.lectures:[];
-  obj.dpps=Array.isArray(obj.dpps)?obj.dpps:[];
-  // Remove '26 batch, strip "'27" from subject names
-  const drop26=new Set(obj.subjects.filter(s=>/\s*'26$/.test(s.name||'')).map(s=>s.id));
-  if(drop26.size){
-    obj.subjects=obj.subjects.filter(s=>!drop26.has(s.id));
-    obj.lectures=obj.lectures.filter(l=>!drop26.has(l.subjectId));
-    if(Array.isArray(obj.dpps))obj.dpps=obj.dpps.filter(d=>!drop26.has(d.subjectId));
-  }
-  obj.subjects=obj.subjects.map(s=>({...s,name:(s.name||'').replace(/\s*'27$/,'')}));
-  obj.settings={dailyTarget:3,examDate:'2027-01-15',...(obj.settings||{})};
-  obj.lectures=obj.lectures.map(l=>({
-    ...l,
-    revision:!!l.revision,
-    completedAt:l.completedAt||''
-  }));
-  obj.dpps=obj.dpps.map(d=>({
-    id:d.id,
-    subjectId:d.subjectId,
-    chapter:d.chapter||'',
-    label:d.label||'',
-    tag:d.tag||'',
-    date:d.date||'',
-    linkedLectureId:d.linkedLectureId||null,
-    done:!!d.done,
-    completedAt:d.completedAt||'',
-    marks:d.marks===0?0:(d.marks||null),
-    totalMarks:d.totalMarks===0?0:(d.totalMarks||null),
-    result:d.result||null,
-    category:d.category||''
-  }));
-  obj.materials=(Array.isArray(obj.materials)?obj.materials:[]).map(m=>({id:m.id,subjectId:m.subjectId,title:m.title||'',type:m.type||'PDF',chapter:m.chapter||'',date:m.date||'',link:m.link||'',done:!!m.done}));
-  obj.subjects.forEach(s=>{
-    if(!Array.isArray(s.matCategories))s.matCategories=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
-    obj.materials.filter(m=>m.subjectId===s.id&&m.type&&!s.matCategories.includes(m.type)).forEach(m=>s.matCategories.push(m.type));
-  });
-  obj.dpps.forEach(d=>{
-    if(d.category||!d.chapter)return;
-    const s=obj.subjects.find(x=>x.id===d.subjectId);if(!s)return;
-    const hits=s.categories.filter(x=>x.toLowerCase().includes(d.chapter.toLowerCase()));
-    if(hits.length===1)d.category=hits[0];
-  });
-  obj.rewards=(Array.isArray(obj.rewards)?obj.rewards:[]).filter(r=>r&&r.label).map(r=>({id:r.id,label:r.label,type:r.type||'streak',value:Number(r.value)||1,claimed:!!r.claimed}));
-  obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
-  obj.settings.checkMin=Number(obj.settings.checkMin)||45;
-  obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
-  obj.game=Object.assign({bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
-  obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
-  return obj;
-}
-function refreshCurrentView(){
-  if(currentView==='dashboard')renderDashboard();
-  else if(currentView==='tracker')renderTracker();
-  else if(currentView==='timer')renderTimer();
-  else if(currentView==='streaks')renderStreaks();
-  else if(currentView==='dpp')renderDpp();
-  else if(currentView==='revision')renderRevision();
-  else if(currentView==='stats')renderStats();
-  else if(currentView==='export')renderExport();
-}
+let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,currentUser=null;
+let userDataKey=null;
 function isSupabaseConfigured(){
-  return SUPABASE_CONFIG.url.startsWith('https://')&&
-    SUPABASE_CONFIG.anonKey.length>30&&
-    !SUPABASE_CONFIG.url.includes('YOUR_')&&
-    !SUPABASE_CONFIG.anonKey.includes('YOUR_');
+  return SUPABASE_CONFIG.url.startsWith('https://')&&SUPABASE_CONFIG.anonKey.length>30;
 }
 function setSyncStatus(text,state='warn'){
   const el=document.getElementById('syncStatus');if(!el)return;
   const dot=state==='ok'?'ok':state==='bad'?'bad':'warn';
   el.innerHTML=`<span class="sync-dot ${dot}"></span><span>${text}</span>`;
 }
-function saveLocal(){
-  try{localStorage.setItem('pw_tracker_final',JSON.stringify(data));}catch(e){}
-}
-async function sha256(text){
-  const bytes=new TextEncoder().encode(text);
-  const hash=await crypto.subtle.digest('SHA-256',bytes);
-  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-function showPasscode(message=''){
-  document.getElementById('passcodeScreen').style.display='flex';
+function showAuth(message=''){
+  document.getElementById('authScreen').style.display='flex';
   document.getElementById('appShell').style.display='none';
   document.getElementById('dockWrap').style.display='none';
-  const err=document.getElementById('passcodeError');
-  err.style.display=message?'block':'none';
+  const err=document.getElementById('authError');
   err.textContent=message;
-  setTimeout(()=>document.getElementById('passcodeInput')?.focus(),0);
+  err.style.display=message?'block':'none';
 }
 function showApp(){
-  document.getElementById('passcodeScreen').style.display='none';
+  document.getElementById('authScreen').style.display='none';
   document.getElementById('appShell').style.display='';
   document.getElementById('dockWrap').style.display='';
 }
-async function unlockTracker(){
-  const input=document.getElementById('passcodeInput');
-  const btn=document.getElementById('unlockBtn');
-  const code=(input.value||'').trim();
-  if(!code){showPasscode('Enter the passcode.');return;}
-  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> Unlocking';
-  const hash=await sha256(code);
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-lock"></i> Unlock';
-  if(hash!==PASSCODE_CONFIG.hash){
-    input.value='';
-    showPasscode('Wrong passcode.');
-    return;
+function saveLocal(){
+  if(!userDataKey)return;
+  try{localStorage.setItem(userDataKey,JSON.stringify(data));}catch(e){console.warn('Local save failed',e);}
+}
+function legacyLocalData(){
+  if(localStorage.getItem('pw_tracker_legacy_migration_decided')==='1')return null;
+  for(const key of ['pw_tracker_final','pw_tracker_local_backup']){
+    try{const raw=localStorage.getItem(key);if(raw){const parsed=JSON.parse(raw);if(parsed&&typeof parsed==='object')return ensureDataShape(parsed);}}catch(e){}
   }
-  sessionStorage.setItem(PASSCODE_CONFIG.sessionKey,'1');
-  input.value='';
-  showApp();
-  await startSync();
+  return null;
 }
-function lockTracker(){
-  sessionStorage.removeItem(PASSCODE_CONFIG.sessionKey);
+async function signInWithGoogle(){
+  if(!sb){showAuth('Authentication is not configured yet. Please try again after setup.');return;}
+  const btn=document.getElementById('googleSignInBtn');
+  btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> Connecting to Google…';
+  const {error}=await sb.auth.signInWithOAuth({
+    provider:'google',
+    options:{redirectTo:window.location.origin+'/',queryParams:{prompt:'select_account'}}
+  });
+  if(error){showAuth(error.message||'Could not start Google sign-in.');btn.disabled=false;btn.innerHTML='<i class="ti ti-brand-google" style="font-size:18px;"></i> Continue with Google';}
+}
+async function signOutTracker(){
+  if(!sb)return;
+  clearInterval(refreshTimer);clearTimeout(syncTimer);
+  await sb.auth.signOut();
+  currentUser=null;userDataKey=null;remoteUpdatedAt=null;
   data={subjects:[],lectures:[]};
-  showPasscode();
+  showAuth();
 }
+function userStorageKey(userId){return 'pw_tracker_user_'+userId;}
 function save(){
   ensureDataShape(data);
   data.meta.updatedAt=new Date().toISOString();
   saveLocal();
-  if(sb){
+  if(sb&&currentUser){
     setSyncStatus('Saving','warn');
     clearTimeout(syncTimer);
-    syncTimer=setTimeout(syncNow,350);
-  }else{
-    setSyncStatus('Local only',isSupabaseConfigured()?'warn':'bad');
-  }
+    syncTimer=setTimeout(syncNow,400);
+  }else setSyncStatus('Offline','bad');
 }
 async function syncNow(){
-  if(!sb||isSyncing)return;
+  if(!sb||!currentUser||isSyncing)return;
   isSyncing=true;
   ensureDataShape(data);
-  const payload={tracker_id:SUPABASE_CONFIG.rowId,data,updated_at:new Date().toISOString()};
-  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'tracker_id'}).select('updated_at').single();
-  if(error){isSyncing=false;setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
-  remoteUpdatedAt=row?.updated_at||payload.updated_at;
+  const payload={user_id:currentUser.id,data,updated_at:new Date().toISOString()};
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'user_id'}).select('updated_at').single();
   isSyncing=false;
+  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  remoteUpdatedAt=row?.updated_at||payload.updated_at;
   setSyncStatus('Synced','ok');
 }
 async function load(){
-  let localData=null;
-  try{const r=localStorage.getItem('pw_tracker_final');if(r){data=ensureDataShape(JSON.parse(r));}else throw 0;}
-  catch(e){data=defaultData();}
-  localData=data;
-  try{if((localData.lectures?.length||0)>0)localStorage.setItem('pw_tracker_local_backup',JSON.stringify(localData));}catch(e){}
-  activeSub=data.subjects[0]?.id||null;
-  renderAll();
-
-  if(!sb){setSyncStatus('Local only',isSupabaseConfigured()?'warn':'bad');return;}
+  if(!sb||!currentUser)return;
   setSyncStatus('Loading','warn');
-  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
-  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  const localKey=userStorageKey(currentUser.id);
+  userDataKey=localKey;
+  let localData=null;
+  try{const raw=localStorage.getItem(localKey);if(raw)localData=ensureDataShape(JSON.parse(raw));}catch(e){console.warn('Could not read account cache',e);}
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('user_id',currentUser.id).maybeSingle();
+  if(error){setSyncStatus(error.message||'Could not load your tracker','bad');console.error(error);return;}
   if(row?.data){
     data=ensureDataShape(row.data);
     remoteUpdatedAt=row.updated_at;
-    saveLocal();
   }else{
+    // The previous app kept one shared legacy row. Never copy that row into every new account.
+    // Only offer the data already stored in this browser, and only after the signed-in user confirms.
+    const legacy=legacyLocalData();
+    if(legacy&&confirm('We found tracker data saved in this browser from the previous version. Import it into the Google account '+(currentUser.email||'you just signed in with')+'? Choose Cancel to start with a fresh tracker.')){
+      data=legacy;
+    }else if(localData){
+      data=localData;
+    }else{
+      data=defaultData();
+    }
     await syncNow();
+    if(remoteUpdatedAt){try{localStorage.setItem('pw_tracker_legacy_migration_decided','1');}catch(e){}}
   }
+  saveLocal();
   activeSub=data.subjects[0]?.id||null;
   renderAll();
   setSyncStatus('Synced','ok');
 }
 async function refreshFromCloud(){
-  if(!sb||sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'||isSyncing)return;
-  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('tracker_id',SUPABASE_CONFIG.rowId).maybeSingle();
+  if(!sb||!currentUser||isSyncing||document.visibilityState==='hidden')return;
+  const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('user_id',currentUser.id).maybeSingle();
   if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   if(row?.data&&row.updated_at&&row.updated_at!==remoteUpdatedAt){
-    data=ensureDataShape(row.data);
-    remoteUpdatedAt=row.updated_at;
-    saveLocal();
+    data=ensureDataShape(row.data);remoteUpdatedAt=row.updated_at;saveLocal();
     activeSub=data.subjects.find(s=>s.id===activeSub)?.id||data.subjects[0]?.id||null;
-    renderAll();
-    setSyncStatus('Synced','ok');
+    renderAll();setSyncStatus('Synced','ok');
   }
 }
-
-async function init(){
-  if(sessionStorage.getItem(PASSCODE_CONFIG.sessionKey)!=='1'){
-    showPasscode();
-    return;
-  }
+async function startSync(user){
+  currentUser=user;userDataKey=userStorageKey(user.id);TK='pw_timer_v1_'+user.id;
   showApp();
-  await startSync();
-}
-async function startSync(){
-  if(isSupabaseConfigured()){
-    sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
-    await load();
-    clearInterval(refreshTimer);
-    refreshTimer=setInterval(refreshFromCloud,30000);
-    return;
-  }
   await load();
+  clearInterval(refreshTimer);
+  refreshTimer=setInterval(refreshFromCloud,30000);
 }
-
+async function init(){
+  if(!isSupabaseConfigured()||!window.supabase?.createClient){showAuth('The sign-in service is unavailable. Please check the app configuration.');return;}
+  sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey,{
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+  const {data:{session},error}=await sb.auth.getSession();
+  if(error){showAuth(error.message);return;}
+  if(session?.user){await startSync(session.user);}else showAuth();
+  sb.auth.onAuthStateChange((event,session)=>{
+    if(event==='SIGNED_OUT'){clearInterval(refreshTimer);currentUser=null;userDataKey=null;data={subjects:[],lectures:[]};showAuth();}
+    // OAuth callback/session refresh is handled by getSession on page load. Avoid awaiting
+    // Supabase calls inside this callback to prevent auth lock contention.
+  });
+}
 
 /* ---- Chapters: lectures + DPPs, Study Material ---- */
 let trackerMode='chapters';const chClosed={};
@@ -1722,6 +1635,7 @@ function timerTick(){
   const ip=document.getElementById('idlePrompt');
   if(ip&&ip.style.display!=='none'&&live&&live.promptAt){const left=Math.max(0,IDLE_GRACE-(now-live.promptAt));document.getElementById('idleLeft').textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');}
   focusUpdate(live,dm,now);
+  updateComboChip();
   if(now-_qT>5000){_qT=now;checkQuests();}
   if(_prevMin!==null&&_prevMin<STUDY_GOAL&&today>=STUDY_GOAL){
     _noLive=true;const before=currentStreak();_noLive=false;const after=currentStreak();
@@ -1963,7 +1877,7 @@ function riskHtml(){
   return `<div class="risk-banner ${r.final?'final':''}"><div class="risk-ic">🔥</div><div class="risk-t"><b>Your ${r.n}-day streak ends tonight</b><span>${r.final?'StreakSaver already covered yesterday, so missing today breaks it. ':''}${r.left} hour${r.left===1?'':'s'} left. 10 minutes with the timer, or any lecture or DPP, saves it.</span></div><button class="btn-primary" onclick="setView('timer')"><i class="ti ti-hourglass-high"></i> Save it</button></div>`;
 }
 function renderQuestStrip(){
-  const e=document.getElementById('dashQuests');if(e)e.innerHTML=riskHtml()+questStripHtml();
+  const e=document.getElementById('dashQuests');if(e)seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+questStripHtml();
   const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
 }
 
@@ -2002,7 +1916,63 @@ function postProgress(s1){
   const s2=snap(),gain=s2.xp-s1.xp;if(gain<=0)return;
   const mile=MILESTONES.find(m=>s1.streak<m&&s2.streak>=m),newR=s2.unlocked.filter(id=>!s1.unlocked.includes(id));
   sfx(s2.lvl>s1.lvl||mile?'level':newR.length?'chest':(s2.hit&&!s1.hit)?'quest':s2.streak>s1.streak?'streak':'xp');
-  checkQuests();maybeLucky(gain,'tick');
+  comboApply(gain);checkCourse();checkQuests();maybeLucky(gain,'tick');
+}
+
+
+/* ---- Combo multiplier ---- */
+const COMBO_WINDOW=60*60000,COMBO_KEY='pw_combo_v1';
+function comboGet(){try{const o=JSON.parse(localStorage.getItem(COMBO_KEY)||'null');return o&&Date.now()-o.last<COMBO_WINDOW?o:null;}catch(e){return null;}}
+function comboSet(o){try{o?localStorage.setItem(COMBO_KEY,JSON.stringify(o)):localStorage.removeItem(COMBO_KEY);}catch(e){}}
+function comboMult(n,sb){return Math.min(2.5,+(1+0.1*(n-1)+sb).toFixed(2));}
+function comboHit(gain){
+  const prev=comboGet(),n=prev?prev.n+1:1,sb=Math.min(.25,Math.floor(currentStreak()/7)*.05),m=comboMult(n,sb);
+  comboSet({n,last:Date.now(),sb});
+  return{n,mult:m,sb,bonus:Math.round(gain*(m-1))};
+}
+function comboApply(gain){
+  const r=comboHit(gain);
+  if(r.bonus>0){
+    gameState().bonusXp+=r.bonus;save();
+    if(soundOn()){tone(560+r.n*55,0,.1,'triangle',.1);tone(840+r.n*55,.08,.16,'triangle',.1);}
+    showToast('⚡',`Combo ×${r.mult.toFixed(1)}`,`+${r.bonus} bonus XP${r.n>1?' · '+r.n+' in a row':''}${r.sb?' · streak bonus +'+Math.round(r.sb*100)+'%':''}`);
+  }
+  updateComboChip();
+}
+function updateComboChip(){
+  const b=document.getElementById('hudCombo');if(!b)return;
+  const o=comboGet();
+  if(!o){b.style.display='none';return;}
+  const left=Math.max(0,COMBO_WINDOW-(Date.now()-o.last)),m=comboMult(o.n,o.sb),mm=Math.floor(left/60000);
+  b.style.display='';b.innerHTML=`⚡ <b>×${m.toFixed(1)}</b> <span>${mm}m</span>`;
+  b.title=`Combo: ${o.n} in a row. Keep going within ${mm} min to grow it. Max ×2.5.`;
+  b.classList.toggle('hot',left<10*60000);
+}
+
+
+/* ---- Course milestones ---- */
+function courseStats(){const t=data.lectures.length,d=data.lectures.filter(l=>l.done).length,pct=t?d/t*100:0;return{t,d,pct,step:Math.min(100,Math.floor(pct/5)*5)};}
+function stepXp(s){return s>=100?1000:s%25===0?150:30;}
+function seedCourse(){const G=gameState();if(G.courseMax===undefined&&data.lectures.length){G.courseMax=courseStats().step;save();}}
+function checkCourse(){
+  const G=gameState(),cs=courseStats();if(G.courseMax===undefined||!cs.t)return;
+  if(cs.step<=G.courseMax)return;
+  let xp=0;for(let s=G.courseMax+5;s<=cs.step;s+=5)xp+=stepXp(s);
+  const from=G.courseMax;G.courseMax=cs.step;G.bonusXp+=xp;save();
+  const big=cs.step%25===0;
+  setTimeout(()=>{sfx(big?'level':'reveal');if(!REDUCE())fxCourse(from,cs.step,cs.pct,xp);showToast('🎓',`${cs.step}% of the course complete`,`+${xp} XP · ${cs.d} of ${cs.t} lectures done`,big?'A real milestone. Take a proper break.':'');updateHud();renderQuestStrip();},500);
+}
+function fxCourse(from,step,pct,xp){
+  const L=fxLayer(4200);
+  L.innerHTML=`<div class="fxc-wrap"><div class="fxc-ring"><svg viewBox="0 0 160 160"><defs><linearGradient id="fxcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16c47f"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs><circle cx="80" cy="80" r="70" class="fxc-track"/><circle class="fxc-arc" cx="80" cy="80" r="70" stroke="url(#fxcg)" style="stroke-dasharray:440;stroke-dashoffset:${440*(1-from/100)}" transform="rotate(-90 80 80)"/></svg><div class="fxc-num"><b>${step}%</b></div></div><div class="fxc-t">Course milestone</div><div class="fxc-s">+${xp} XP</div></div>`;
+  setTimeout(()=>{const a=L.querySelector('.fxc-arc');if(a)a.style.strokeDashoffset=440*(1-step/100);},150);
+}
+function courseStripHtml(){
+  const cs=courseStats();if(!cs.t)return '';
+  const G=gameState(),mx=G.courseMax===undefined?cs.step:G.courseMax,next=Math.min(100,(Math.floor(cs.pct/5)+1)*5),need=Math.max(0,Math.ceil(next/100*cs.t-cs.d-1e-9)+(cs.d>=Math.ceil(next/100*cs.t)?0:0));
+  const pips=Array.from({length:20},(_,i)=>`<i class="${(i+1)*5<=mx?'on':''}" title="${(i+1)*5}%"></i>`).join('');
+  return `<div class="tool-panel crs-strip"><div class="crs-ring"><svg viewBox="0 0 80 80" width="64" height="64"><circle cx="40" cy="40" r="34" fill="none" style="stroke:var(--border);" stroke-width="8"/><circle cx="40" cy="40" r="34" fill="none" stroke="url(#fxcg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="213.6" style="stroke-dashoffset:${213.6*(1-cs.pct/100)}" transform="rotate(-90 40 40)"/></svg><b>${Math.round(cs.pct)}%</b></div>
+    <div class="crs-main"><div class="crs-t">Course progress · ${cs.pct.toFixed(1)}%</div><div class="tool-caption">${cs.d} of ${cs.t} lectures done. Next milestone: <b>${next}%</b> in ${need} more lecture${need===1?'':'s'} (+${stepXp(next)} XP).</div><div class="crs-pips">${pips}</div></div></div>`;
 }
 
 /* ---- View ---- */
@@ -2110,7 +2080,7 @@ function goToSubject(id){activeSub=id;activeCat='all';setView('tracker');}
 /* ---- Study tools ---- */
 function completedLectures(){return data.lectures.filter(l=>l.done);}
 let _noLive=false;
-const STUDY_GOAL=10,TK='pw_timer_v1',IDLE_GRACE=5*60000;
+const STUDY_GOAL=10,IDLE_GRACE=5*60000; let TK='pw_timer_v1';
 function studyByDate(){
   const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});
   if(!_noLive){const t=timerLiveMin();if(t>0){const k=todayKey();m[k]=(m[k]||0)+t;}}
@@ -2303,8 +2273,8 @@ function downloadJSON(){
   downloadBlob(`pw-tracker-backup-${todayKey()}.json`,'application/json;charset=utf-8',JSON.stringify(ensureDataShape(data),null,2));
 }
 async function restoreLocalBackup(){
-  const raw=localStorage.getItem('pw_tracker_local_backup')||localStorage.getItem('pw_tracker_final');
-  if(!raw){alert('No local backup found on this device.');return;}
+  const raw=userDataKey?localStorage.getItem(userDataKey):null;
+  if(!raw){alert('No local backup found for this Google account on this device.');return;}
   if(!confirm('Upload this device backup to cloud and replace the cloud copy?'))return;
   data=ensureDataShape(JSON.parse(raw));
   activeSub=data.subjects[0]?.id||null;
