@@ -856,6 +856,8 @@ const SUPABASE_CONFIG={
   anonKey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4Y3dxaGxndmdhaG9wcW9ka3d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3MDU5MDIsImV4cCI6MjA5ODI4MTkwMn0.ATkL9GDo_FFoE_Y0wZ3VkLooQaothzozs92i6uCu2VM',
   table:'pw_tracker_users'
 };
+// Date helper used throughout the tracker (kept before top-level initializers).
+function todayKey(date=new Date()){const d=new Date(date);const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
 let data={subjects:[],lectures:[]};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
 let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,currentUser=null;
