@@ -862,6 +862,101 @@ let data={subjects:[],lectures:[]};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
 let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,currentUser=null;
 let userDataKey=null;
+const COLORS=['#6366f1','#0ea5e9','#10b981','#f59e0b','#ec4899','#8b5cf6','#14b8a6','#f97316','#6366f1','#0ea5e9'];
+
+const DEFAULTS=[
+  {id:'phy27',name:"Physics",     categories:['Regular Lectures','Extra Dose','PYQ Solutions','Interaction Session']},
+  {id:'mat27',name:"Maths",       categories:['Regular Lectures']},
+  {id:'pc27', name:"Physical Chemistry", categories:['Regular Lectures']},
+  {id:'oc27', name:"Organic Chemistry",  categories:['Regular Lectures']},
+  {id:'ic27', name:"Inorganic Chemistry",categories:['Regular Lectures']},
+];
+
+const DEMO=[
+  {id:1,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 07 : Vector (Part-02)",chapter:'Mathematical Tools',date:'29 Apr 2026',duration:'2h 10m',hasDPP:true,done:false},
+  {id:2,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 06 : Vector",chapter:'Mathematical Tools',date:'28 Apr 2026',duration:'2h 7m',hasDPP:true,done:false},
+  {id:3,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 05 : Basic Math || Binomial Approximation",chapter:'Mathematical Tools',date:'27 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
+  {id:4,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 04 : Basic Math || Approximation",chapter:'Mathematical Tools',date:'25 Apr 2026',duration:'2h 8m',hasDPP:true,done:false},
+  {id:5,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 03 : Basic Math || Trigonometry",chapter:'Mathematical Tools',date:'24 Apr 2026',duration:'2h 7m',hasDPP:false,done:false},
+  {id:6,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 02 : Basic Math",chapter:'Mathematical Tools',date:'23 Apr 2026',duration:'2h 5m',hasDPP:false,done:false},
+  {id:7,subjectId:'phy27',category:'Regular Lectures',title:"Mathematical Tools 01 : Basic Baat Chit || Basic Math",chapter:'Mathematical Tools',date:'22 Apr 2026',duration:'2h 6m',hasDPP:false,done:false},
+];
+
+function uid(){return Date.now()+Math.floor(Math.random()*99999);}
+function durToMins(s){if(!s)return 0;const h=s.match(/(\d+)h/),m=s.match(/(\d+)m/);return(h?+h[1]*60:0)+(m?+m[1]:0);}
+function minsToStr(m){if(!m)return'—';const h=Math.floor(m/60),mn=m%60;return h>0?(mn>0?h+'h '+mn+'m':h+'h'):mn+'m';}
+function parseDate(d){if(!d)return new Date(0);const mo={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Sept:8,Oct:9,Nov:10,Dec:11};const p=d.split(' ');return new Date(+p[2],mo[p[1]],+p[0]);}
+function isoWeekStart(date=new Date()){const d=new Date(date);const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);d.setHours(0,0,0,0);return d;}
+function monthStart(date=new Date()){return new Date(date.getFullYear(),date.getMonth(),1);}
+function daysBetween(a,b){const ms=24*60*60*1000;const ad=new Date(a);const bd=new Date(b);ad.setHours(0,0,0,0);bd.setHours(0,0,0,0);return Math.round((bd-ad)/ms);}
+function subjectName(id){return data.subjects.find(s=>s.id===id)?.name||'Unknown subject';}
+
+function defaultData(){
+  return ensureDataShape({subjects:DEFAULTS.map(s=>({...s,categories:[...s.categories]})),lectures:DEMO.map(l=>({...l})),dpps:[]});
+}
+function ensureDataShape(obj){
+  if(!obj||typeof obj!=='object')obj={};
+  obj.subjects=Array.isArray(obj.subjects)?obj.subjects:[];
+  obj.lectures=Array.isArray(obj.lectures)?obj.lectures:[];
+  obj.dpps=Array.isArray(obj.dpps)?obj.dpps:[];
+  // Remove '26 batch, strip "'27" from subject names
+  const drop26=new Set(obj.subjects.filter(s=>/\s*'26$/.test(s.name||'')).map(s=>s.id));
+  if(drop26.size){
+    obj.subjects=obj.subjects.filter(s=>!drop26.has(s.id));
+    obj.lectures=obj.lectures.filter(l=>!drop26.has(l.subjectId));
+    if(Array.isArray(obj.dpps))obj.dpps=obj.dpps.filter(d=>!drop26.has(d.subjectId));
+  }
+  obj.subjects=obj.subjects.map(s=>({...s,name:(s.name||'').replace(/\s*'27$/,'')}));
+  obj.settings={dailyTarget:3,examDate:'2027-01-15',...(obj.settings||{})};
+  obj.lectures=obj.lectures.map(l=>({
+    ...l,
+    revision:!!l.revision,
+    completedAt:l.completedAt||''
+  }));
+  obj.dpps=obj.dpps.map(d=>({
+    id:d.id,
+    subjectId:d.subjectId,
+    chapter:d.chapter||'',
+    label:d.label||'',
+    tag:d.tag||'',
+    date:d.date||'',
+    linkedLectureId:d.linkedLectureId||null,
+    done:!!d.done,
+    completedAt:d.completedAt||'',
+    marks:d.marks===0?0:(d.marks||null),
+    totalMarks:d.totalMarks===0?0:(d.totalMarks||null),
+    result:d.result||null,
+    category:d.category||''
+  }));
+  obj.materials=(Array.isArray(obj.materials)?obj.materials:[]).map(m=>({id:m.id,subjectId:m.subjectId,title:m.title||'',type:m.type||'PDF',chapter:m.chapter||'',date:m.date||'',link:m.link||'',done:!!m.done}));
+  obj.subjects.forEach(s=>{
+    if(!Array.isArray(s.matCategories))s.matCategories=['PDF','Short Notes','PYQ','Extra Lecture','Other'];
+    obj.materials.filter(m=>m.subjectId===s.id&&m.type&&!s.matCategories.includes(m.type)).forEach(m=>s.matCategories.push(m.type));
+  });
+  obj.dpps.forEach(d=>{
+    if(d.category||!d.chapter)return;
+    const s=obj.subjects.find(x=>x.id===d.subjectId);if(!s)return;
+    const hits=s.categories.filter(x=>x.toLowerCase().includes(d.chapter.toLowerCase()));
+    if(hits.length===1)d.category=hits[0];
+  });
+  obj.rewards=(Array.isArray(obj.rewards)?obj.rewards:[]).filter(r=>r&&r.label).map(r=>({id:r.id,label:r.label,type:r.type||'streak',value:Number(r.value)||1,claimed:!!r.claimed}));
+  obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
+  obj.settings.checkMin=Number(obj.settings.checkMin)||45;
+  obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
+  obj.game=Object.assign({bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
+  obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
+  return obj;
+}
+function refreshCurrentView(){
+  if(currentView==='dashboard')renderDashboard();
+  else if(currentView==='tracker')renderTracker();
+  else if(currentView==='timer')renderTimer();
+  else if(currentView==='streaks')renderStreaks();
+  else if(currentView==='dpp')renderDpp();
+  else if(currentView==='revision')renderRevision();
+  else if(currentView==='stats')renderStats();
+  else if(currentView==='export')renderExport();
+}
 function isSupabaseConfigured(){
   return SUPABASE_CONFIG.url.startsWith('https://')&&SUPABASE_CONFIG.anonKey.length>30;
 }
@@ -900,7 +995,7 @@ async function signInWithGoogle(){
   btn.disabled=true;btn.innerHTML='<i class="ti ti-loader-2"></i> Connecting to Google…';
   const {error}=await sb.auth.signInWithOAuth({
     provider:'google',
-    options:{redirectTo:window.location.origin+'/',queryParams:{prompt:'select_account'}}
+    options:{redirectTo:window.location.origin+window.location.pathname,queryParams:{prompt:'select_account'}}
   });
   if(error){showAuth(error.message||'Could not start Google sign-in.');btn.disabled=false;btn.innerHTML='<i class="ti ti-brand-google" style="font-size:18px;"></i> Continue with Google';}
 }
@@ -1879,7 +1974,7 @@ function riskHtml(){
   return `<div class="risk-banner ${r.final?'final':''}"><div class="risk-ic">🔥</div><div class="risk-t"><b>Your ${r.n}-day streak ends tonight</b><span>${r.final?'StreakSaver already covered yesterday, so missing today breaks it. ':''}${r.left} hour${r.left===1?'':'s'} left. 10 minutes with the timer, or any lecture or DPP, saves it.</span></div><button class="btn-primary" onclick="setView('timer')"><i class="ti ti-hourglass-high"></i> Save it</button></div>`;
 }
 function renderQuestStrip(){
-  const e=document.getElementById('dashQuests');if(e)seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+questStripHtml();
+  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+questStripHtml();}
   const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
 }
 
