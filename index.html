@@ -748,7 +748,7 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
       <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
-      <button class="btn-sec" onclick="signOutTracker()" title="Sign out"><i class="ti ti-logout"></i></button>
+      <button class="btn-sec" id="userLogoutBtn" onclick="signOutTracker()" title="Sign out"><i class="ti ti-logout"></i></button>
     </div>
   </div>
 
@@ -1001,6 +1001,7 @@ async function signInWithGoogle(){
 }
 async function signOutTracker(){
   if(!sb)return;
+  try{if(typeof pauseTimer==='function')pauseTimer();}catch(e){}
   clearInterval(refreshTimer);clearTimeout(syncTimer);
   await sb.auth.signOut();
   currentUser=null;userDataKey=null;remoteUpdatedAt=null;
@@ -1072,24 +1073,44 @@ async function refreshFromCloud(){
 }
 async function startSync(user){
   currentUser=user;userDataKey=userStorageKey(user.id);TK='pw_timer_v1_'+user.id;
+  const lBtn=document.getElementById('userLogoutBtn');
+  if(lBtn&&user?.email)lBtn.title=`Signed in as ${user.email} · Click to sign out`;
   showApp();
   await load();
   clearInterval(refreshTimer);
   refreshTimer=setInterval(refreshFromCloud,30000);
+}
+function cleanAuthUrl(){
+  if(window.location.hash.includes('access_token')||window.location.search.includes('code=')||window.location.hash.includes('refresh_token')){
+    window.history.replaceState({},document.title,window.location.pathname);
+  }
 }
 async function init(){
   if(!isSupabaseConfigured()||!window.supabase?.createClient){showAuth('The sign-in service is unavailable. Please check the app configuration.');return;}
   sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey,{
     auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
   });
+  sb.auth.onAuthStateChange((event,session)=>{
+    if(event==='SIGNED_OUT'){
+      try{if(typeof pauseTimer==='function')pauseTimer();}catch(e){}
+      clearInterval(refreshTimer);currentUser=null;userDataKey=null;remoteUpdatedAt=null;data={subjects:[],lectures:[]};
+      showAuth();
+    }else if(event==='SIGNED_IN'||event==='TOKEN_REFRESHED'||event==='USER_UPDATED'){
+      if(session?.user&&(!currentUser||currentUser.id!==session.user.id)){
+        cleanAuthUrl();
+        setTimeout(()=>{if(!currentUser||currentUser.id!==session.user.id)startSync(session.user);},0);
+      }
+    }
+  });
   const {data:{session},error}=await sb.auth.getSession();
   if(error){showAuth(error.message);return;}
-  if(session?.user){await startSync(session.user);}else showAuth();
-  sb.auth.onAuthStateChange((event,session)=>{
-    if(event==='SIGNED_OUT'){clearInterval(refreshTimer);currentUser=null;userDataKey=null;data={subjects:[],lectures:[]};showAuth();}
-    // OAuth callback/session refresh is handled by getSession on page load. Avoid awaiting
-    // Supabase calls inside this callback to prevent auth lock contention.
-  });
+  if(session?.user){
+    if(!currentUser)await startSync(session.user);
+    cleanAuthUrl();
+  }else{
+    const hasAuthTokens=window.location.hash.includes('access_token')||window.location.search.includes('code=');
+    if(!hasAuthTokens)showAuth();
+  }
 }
 
 /* ---- Chapters: lectures + DPPs, Study Material ---- */
