@@ -712,24 +712,81 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
 .fxc-track{fill:none;stroke:var(--border);stroke-width:12;}.fxc-arc{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 0 8px rgba(108,92,231,.5));}
 .fxc-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}.fxc-num b{font-size:44px;font-weight:900;letter-spacing:-.03em;}
 .fxc-t{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);}.fxc-s{font-size:22px;font-weight:900;color:var(--green);}
+
+/* JEE Countdown */
+.jee-banner{background:linear-gradient(135deg,var(--surface) 60%,var(--accent-soft));border:1px solid var(--border);border-radius:20px;padding:16px 18px;margin-bottom:1.2rem;box-shadow:var(--shadow-md);position:relative;overflow:hidden;}
+.jee-badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.jee-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.jee-stat{display:flex;flex-direction:column;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:9px 6px;text-align:center;}
+.jee-val{font-size:17px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;line-height:1.2;}
+.jee-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;margin-top:3px;font-weight:700;letter-spacing:.3px;}
+@media(max-width:540px){.jee-grid{grid-template-columns:repeat(2,1fr);gap:6px;}}
+
+/* Ghost Rival */
+.ghost-pill{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,rgba(108,92,231,.12),var(--surface));border:1px solid rgba(108,92,231,.3);border-radius:99px;padding:5px 12px;font-size:11.5px;font-weight:700;color:var(--text);margin-top:8px;}
+.ghost-pill i{font-size:14px;color:var(--accent);}
+.ghost-pill.ahead{border-color:rgba(22,196,127,.4);background:linear-gradient(135deg,rgba(22,196,127,.12),var(--surface));}
+.ghost-pill.ahead i{color:var(--green);}
+
+/* XP Shop & Inventory */
+.shop-card{background:linear-gradient(135deg,var(--surface) 60%,var(--accent-soft));border:1px solid var(--border);border-radius:22px;padding:1.4rem;box-shadow:var(--shadow-md);margin-bottom:1rem;}
+.shop-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.coin-pill{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1.5px solid #f59e0b;color:#d97706;padding:4px 12px;border-radius:99px;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(245,158,11,.2);}
+@media(prefers-color-scheme:dark){.coin-pill{color:#fbbf24;}}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.shop-item{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;box-shadow:var(--shadow);transition:transform .15s;}
+.shop-item:hover{transform:translateY(-2px);border-color:var(--accent);}
+.shop-top{display:flex;align-items:center;gap:10px;}
+.shop-ico{font-size:26px;width:42px;height:42px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.shop-t{font-size:13px;font-weight:700;line-height:1.2;color:var(--text);}
+.shop-desc{font-size:11px;color:var(--text3);line-height:1.4;}
+.shop-btn{border:none;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;}
+.shop-btn.buy{background:var(--accent);color:#fff;}
+.shop-btn.buy:hover{background:var(--accent-hover);}
+.shop-btn.owned{background:var(--surface2);color:var(--text3);cursor:default;}
+.inv-bar{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);font-size:12px;color:var(--text2);flex-wrap:wrap;}
+.inv-item{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:3px 10px;font-weight:700;}
+
+/* Chapter Mastery */
+.ch-badge-mastered{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:99px;letter-spacing:.3px;box-shadow:0 2px 6px rgba(245,158,11,.35);margin-left:6px;}
+
+/* Ambience Audio Bar in Focus Page */
+.fp-ambience{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:4px 6px;box-shadow:var(--shadow);}
+.fp-amb-btn{border:none;background:transparent;color:var(--text2);font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:99px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;transition:all .15s;}
+.fp-amb-btn.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(108,92,231,.3);}
+
+/* Cyber Neon Theme (Unlockable) */
+body.theme-cyber{--bg:#070710;--surface:#0e0e1c;--surface2:#16162a;--border:#262646;--border-strong:#3b3b6c;--text:#e4e4ff;--text2:#9c9cb8;--text3:#626284;--accent:#00f2fe;--accent-hover:#4facfe;--accent-soft:#07283c;--green:#00ff87;}
+body.theme-cyber .pw-logo{background:linear-gradient(135deg,#00f2fe,#4facfe);box-shadow:0 0 20px rgba(0,242,254,.5);}
+body.theme-cyber .fc>div{background:#0e0e1c;border-color:#262646;}
+body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe);color:#070710;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="auth-screen" id="authScreen">
+<div class="auth-screen" id="authScreen" style="display:none;">
   <div class="auth-card">
     <div class="auth-logo">
       <div class="pw-logo">PW</div>
       <div>
         <h1>PW Lecture Tracker</h1>
-        <p>Sign in to access your personal study workspace.</p>
+        <p>Sign in to sync your study data across devices, or continue in offline guest mode.</p>
       </div>
     </div>
     <div class="auth-error" id="authError" role="alert"></div>
     <button class="btn-primary" id="googleSignInBtn" onclick="signInWithGoogle()" style="width:100%;justify-content:center;padding:12px 15px;gap:10px;">
       <i class="ti ti-brand-google" style="font-size:18px;"></i> Continue with Google
     </button>
-    <div class="auth-note">Each Google account has its own private tracker. Your study data is synced securely across your devices.</div>
+    <div style="display:flex;align-items:center;gap:10px;margin:12px 0;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700;">or</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <button class="btn-sec" id="guestBtn" onclick="continueAsGuest()" style="width:100%;justify-content:center;padding:11px 15px;gap:8px;font-weight:600;">
+      <i class="ti ti-user"></i> Continue as Guest (Offline Mode)
+    </button>
+    <button class="auth-link" id="authBackBtn" onclick="showApp()" style="display:none;margin-top:12px;">← Back to Tracker</button>
+    <div class="auth-note">Guest mode saves everything locally on this device. You can sign in with Google anytime to back up and sync across devices.</div>
   </div>
 </div>
 
@@ -744,11 +801,12 @@ body.timer-on .gm-stack{bottom:calc(172px + env(safe-area-inset-bottom));}
       <button class="hud-chip" id="hudTimer" onclick="openTimerModal()" title="Study timer">⏱ <b>Study</b></button>
       <button class="hud-chip" id="hudStreak" onclick="setView('streaks')" title="Study streak"></button>
       <button class="hud-chip" id="hudLevel" onclick="setView('streaks')" title="Your level"></button>
-      <div class="sync-pill" id="syncStatus"><span class="sync-dot warn"></span><span>Starting</span></div>
+      <button class="hud-chip" id="hudCoins" onclick="setView('streaks')" title="Coins / XP Shop">🪙 <b>0</b></button>
+      <div class="sync-pill" id="syncStatus" onclick="onSyncPillClick()" style="cursor:pointer;" title="Sync status · Click for options"><span class="sync-dot ok"></span><span>Local / Guest</span></div>
       <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
-      <button class="btn-sec" id="userLogoutBtn" onclick="signOutTracker()" title="Sign out"><i class="ti ti-logout"></i></button>
+      <button class="btn-sec" id="userLogoutBtn" onclick="handleAuthButtonClick()" title="Account"><i class="ti ti-logout"></i></button>
     </div>
   </div>
 
@@ -858,7 +916,7 @@ const SUPABASE_CONFIG={
 };
 // Date helper used throughout the tracker (kept before top-level initializers).
 function todayKey(date=new Date()){const d=new Date(date);const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`;}
-let data={subjects:[],lectures:[]};
+let data={subjects:[],lectures:[],dpps:[],materials:[],sessions:[],rewards:[],settings:{dailyTarget:3,examDate:'2027-01-15'},game:{bonusXp:0,spentCoins:0,shields:0,masteredChapters:[]}};
 let activeSub=null,activeCat='all',hideDone=false,modalMode='manual',currentView='dashboard';
 let sb=null,syncTimer=null,remoteUpdatedAt=null,refreshTimer=null,isSyncing=false,currentUser=null;
 let userDataKey=null;
@@ -943,7 +1001,7 @@ function ensureDataShape(obj){
   obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
   obj.settings.checkMin=Number(obj.settings.checkMin)||45;
   obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
-  obj.game=Object.assign({bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
+  obj.game=Object.assign({bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
@@ -965,6 +1023,15 @@ function setSyncStatus(text,state='warn'){
   const dot=state==='ok'?'ok':state==='bad'?'bad':'warn';
   el.innerHTML=`<span class="sync-dot ${dot}"></span><span>${text}</span>`;
 }
+function onSyncPillClick(){
+  if(!currentUser){
+    if(confirm('You are in Guest (Local Offline) mode. Sign in with Google to sync your study data across devices?')){
+      showAuth();
+    }
+  }else{
+    refreshFromCloud();
+  }
+}
 function showAuth(message=''){
   document.getElementById('authScreen').style.display='flex';
   document.getElementById('appShell').style.display='none';
@@ -972,11 +1039,14 @@ function showAuth(message=''){
   const err=document.getElementById('authError');
   err.textContent=message;
   err.style.display=message?'block':'none';
+  const backBtn=document.getElementById('authBackBtn');
+  if(backBtn)backBtn.style.display=(data.subjects&&data.subjects.length)?'block':'none';
 }
 function showApp(){
   document.getElementById('authScreen').style.display='none';
   document.getElementById('appShell').style.display='';
   document.getElementById('dockWrap').style.display='';
+  applyTheme();
 }
 function saveLocal(){
   if(!userDataKey)return;
@@ -999,57 +1069,115 @@ async function signInWithGoogle(){
   });
   if(error){showAuth(error.message||'Could not start Google sign-in.');btn.disabled=false;btn.innerHTML='<i class="ti ti-brand-google" style="font-size:18px;"></i> Continue with Google';}
 }
+function updateAuthTopBar(){
+  const btn=document.getElementById('userLogoutBtn');
+  if(!btn)return;
+  if(currentUser){
+    btn.innerHTML='<i class="ti ti-logout"></i>';
+    btn.title=`Signed in as ${currentUser.email||'User'} · Click to sign out`;
+    btn.className='btn-sec';
+    btn.style.display='';
+  }else{
+    btn.innerHTML='<i class="ti ti-brand-google" style="font-size:14px;color:var(--accent);"></i> <span style="font-size:12px;font-weight:700;">Sign in</span>';
+    btn.title='Using Guest mode · Click to sign in with Google';
+    btn.className='btn-sec';
+    btn.style.display='inline-flex';
+    btn.style.alignItems='center';
+    btn.style.gap='6px';
+  }
+}
+function handleAuthButtonClick(){
+  if(currentUser){
+    signOutTracker();
+  }else{
+    showAuth();
+  }
+}
 async function signOutTracker(){
-  if(!sb)return;
   try{if(typeof pauseTimer==='function')pauseTimer();}catch(e){}
   clearInterval(refreshTimer);clearTimeout(syncTimer);
-  await sb.auth.signOut();
+  if(sb) await sb.auth.signOut();
   currentUser=null;userDataKey=null;remoteUpdatedAt=null;
-  data={subjects:[],lectures:[]};
-  showAuth();
+  showToast('👋','Signed out','Switched to local Guest mode.');
+  continueAsGuest();
 }
-function userStorageKey(userId){return 'pw_tracker_user_'+userId;}
+function continueAsGuest(){
+  clearInterval(refreshTimer);clearTimeout(syncTimer);
+  currentUser=null;userDataKey='pw_tracker_guest';TK='pw_timer_v1_guest';
+  try{localStorage.setItem('pw_auth_mode','guest');}catch(e){}
+  let localData=null;
+  try{
+    const raw=localStorage.getItem('pw_tracker_guest');
+    if(raw)localData=ensureDataShape(JSON.parse(raw));
+  }catch(e){console.warn('Could not read guest data',e);}
+  if(localData){
+    data=localData;
+  }else{
+    const legacy=legacyLocalData();
+    if(legacy){
+      data=legacy;
+    }else{
+      data=defaultData();
+    }
+    saveLocal();
+  }
+  activeSub=data.subjects[0]?.id||null;
+  showApp();
+  renderAll();
+  updateAuthTopBar();
+  setSyncStatus('Local / Guest','ok');
+}
+function purgeAccountCaches(){
+  try{Object.keys(localStorage).filter(k=>k.startsWith('pw_tracker_user_')).forEach(k=>localStorage.removeItem(k));}catch(e){}
+}
 function save(){
   ensureDataShape(data);
   data.meta.updatedAt=new Date().toISOString();
   saveLocal();
   if(sb&&currentUser){
-    setSyncStatus('Saving','warn');
+    unsaved=true;setSyncStatus('Saving','warn');
     clearTimeout(syncTimer);
     syncTimer=setTimeout(syncNow,400);
-  }else setSyncStatus('Offline','bad');
+  }else{
+    setSyncStatus('Local / Guest','ok');
+  }
 }
+let unsaved=false,resync=false;
 async function syncNow(){
-  if(!sb||!currentUser||isSyncing)return;
-  isSyncing=true;
+  if(!sb||!currentUser)return;
+  if(isSyncing){resync=true;return;}
+  isSyncing=true;resync=false;clearTimeout(syncTimer);
   ensureDataShape(data);
   const payload={user_id:currentUser.id,data,updated_at:new Date().toISOString()};
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).upsert(payload,{onConflict:'user_id'}).select('updated_at').single();
   isSyncing=false;
-  if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
+  if(error){unsaved=true;setSyncStatus(error.message||'Sync failed. Changes are not saved yet.','bad');console.error(error);return;}
   remoteUpdatedAt=row?.updated_at||payload.updated_at;
-  setSyncStatus('Synced','ok');
+  if(resync){resync=false;syncNow();return;}
+  unsaved=false;setSyncStatus('Synced','ok');
 }
+window.addEventListener('beforeunload',e=>{if(sb&&currentUser&&(unsaved||isSyncing)){e.preventDefault();e.returnValue='';}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&sb&&currentUser&&unsaved&&!isSyncing)syncNow();});
 async function load(){
   if(!sb||!currentUser)return;
   setSyncStatus('Loading','warn');
-  const localKey=userStorageKey(currentUser.id);
-  userDataKey=localKey;
-  let localData=null;
-  try{const raw=localStorage.getItem(localKey);if(raw)localData=ensureDataShape(JSON.parse(raw));}catch(e){console.warn('Could not read account cache',e);}
+  userDataKey=null;
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('user_id',currentUser.id).maybeSingle();
   if(error){setSyncStatus(error.message||'Could not load your tracker','bad');console.error(error);return;}
   if(row?.data){
     data=ensureDataShape(row.data);
     remoteUpdatedAt=row.updated_at;
   }else{
-    // The previous app kept one shared legacy row. Never copy that row into every new account.
-    // Only offer the data already stored in this browser, and only after the signed-in user confirms.
+    let guestData=null;
+    try{
+      const gRaw=localStorage.getItem('pw_tracker_guest');
+      if(gRaw)guestData=ensureDataShape(JSON.parse(gRaw));
+    }catch(e){}
     const legacy=legacyLocalData();
-    if(legacy&&confirm('We found tracker data saved in this browser from the previous version. Import it into the Google account '+(currentUser.email||'you just signed in with')+'? Choose Cancel to start with a fresh tracker.')){
+    if(guestData&&confirm('We found your local guest tracker data on this device. Sync it to your Google account ('+(currentUser.email||'signed in')+')? Choose OK to sync, or Cancel to start fresh.')){
+      data=guestData;
+    }else if(legacy&&confirm('We found tracker data saved in this browser from the previous version. Import it into the Google account '+(currentUser.email||'you just signed in with')+'? Choose Cancel to start with a fresh tracker.')){
       data=legacy;
-    }else if(localData){
-      data=localData;
     }else{
       data=defaultData();
     }
@@ -1059,10 +1187,11 @@ async function load(){
   saveLocal();
   activeSub=data.subjects[0]?.id||null;
   renderAll();
+  updateAuthTopBar();
   setSyncStatus('Synced','ok');
 }
 async function refreshFromCloud(){
-  if(!sb||!currentUser||isSyncing||document.visibilityState==='hidden')return;
+  if(!sb||!currentUser||isSyncing||unsaved||document.visibilityState==='hidden')return;
   const {data:row,error}=await sb.from(SUPABASE_CONFIG.table).select('data,updated_at').eq('user_id',currentUser.id).maybeSingle();
   if(error){setSyncStatus(error.message||'Sync failed','bad');console.error(error);return;}
   if(row?.data&&row.updated_at&&row.updated_at!==remoteUpdatedAt){
@@ -1072,9 +1201,9 @@ async function refreshFromCloud(){
   }
 }
 async function startSync(user){
-  currentUser=user;userDataKey=userStorageKey(user.id);TK='pw_timer_v1_'+user.id;
-  const lBtn=document.getElementById('userLogoutBtn');
-  if(lBtn&&user?.email)lBtn.title=`Signed in as ${user.email} · Click to sign out`;
+  currentUser=user;userDataKey=null;purgeAccountCaches();TK='pw_timer_v1_'+user.id;
+  try{localStorage.setItem('pw_auth_mode','google');}catch(e){}
+  updateAuthTopBar();
   showApp();
   await load();
   clearInterval(refreshTimer);
@@ -1086,15 +1215,20 @@ function cleanAuthUrl(){
   }
 }
 async function init(){
-  if(!isSupabaseConfigured()||!window.supabase?.createClient){showAuth('The sign-in service is unavailable. Please check the app configuration.');return;}
+  applyTheme();
+  if(!isSupabaseConfigured()||!window.supabase?.createClient){
+    continueAsGuest();
+    return;
+  }
   sb=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey,{
     auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
   });
   sb.auth.onAuthStateChange((event,session)=>{
     if(event==='SIGNED_OUT'){
       try{if(typeof pauseTimer==='function')pauseTimer();}catch(e){}
-      clearInterval(refreshTimer);currentUser=null;userDataKey=null;remoteUpdatedAt=null;data={subjects:[],lectures:[]};
-      showAuth();
+      clearInterval(refreshTimer);currentUser=null;userDataKey=null;remoteUpdatedAt=null;purgeAccountCaches();
+      updateAuthTopBar();
+      continueAsGuest();
     }else if(event==='SIGNED_IN'||event==='TOKEN_REFRESHED'||event==='USER_UPDATED'){
       if(session?.user&&(!currentUser||currentUser.id!==session.user.id)){
         cleanAuthUrl();
@@ -1103,13 +1237,21 @@ async function init(){
     }
   });
   const {data:{session},error}=await sb.auth.getSession();
-  if(error){showAuth(error.message);return;}
+  if(error){
+    console.warn('getSession error',error);
+    continueAsGuest();
+    return;
+  }
   if(session?.user){
     if(!currentUser)await startSync(session.user);
     cleanAuthUrl();
   }else{
     const hasAuthTokens=window.location.hash.includes('access_token')||window.location.search.includes('code=');
-    if(!hasAuthTokens)showAuth();
+    if(!hasAuthTokens){
+      continueAsGuest();
+    }else{
+      setTimeout(()=>{if(!currentUser){cleanAuthUrl();continueAsGuest();showToast('⚠️','Google sign-in did not finish','You are in guest mode. Try signing in again.');}},6000);
+    }
   }
 }
 
@@ -1438,13 +1580,266 @@ function weeklyHtml(){
 /* ---- Gamification: XP, levels, badges, rewards ---- */
 const QUOTES=["Small hours, stacked daily, beat big plans never started.","You don't need motivation today. You need one lecture.","Future you is already grateful for this session.","Consistency is a quiet superpower. You're using it.","Every tick is proof you showed up.","Discipline is just choosing what you want most over what you want now.","Rank lists are built on ordinary Tuesdays like this one.","Progress, not perfection. Keep the streak breathing."];
 const BREAKS=["Drink a glass of water.","Step outside for 5 minutes.","Stretch your back and neck.","Message a friend and say hi.","Have a snack you actually like.","Put on one favourite song.","Look at something far away for a minute."];
-function dayTarget(){return Number(data.settings.dailyTarget)||0;}
+
+/* ---- Themes & Spendable Coins ---- */
+function applyTheme(th){
+  const t=th||(data.game&&data.game.activeTheme)||'default';
+  document.body.classList.toggle('theme-cyber',t==='cyber');
+}
+function spendableCoins(){
+  return Math.max(0,totalXp()-((data.game&&data.game.spentCoins)||0));
+}
+
+/* ---- Focus Soundscapes (Pure Web Audio API) ---- */
+let _ambientNode=null,_ambientType='off',_ambientGain=null;
+function setAmbientSound(type){
+  const a=ac();if(!a)return;
+  if(_ambientNode){
+    try{_ambientNode.stop?_ambientNode.stop():_ambientNode.disconnect();}catch(e){}
+    _ambientNode=null;
+  }
+  _ambientType=type;
+  if(type==='off')return;
+  if(!_ambientGain){
+    _ambientGain=a.createGain();
+    _ambientGain.connect(a.destination);
+  }
+  _ambientGain.gain.setValueAtTime(0.06,a.currentTime);
+  if(type==='rain'){
+    const bufSize=a.sampleRate*2;const buffer=a.createBuffer(1,bufSize,a.sampleRate);const d=buffer.getChannelData(0);
+    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<bufSize;i++){
+      const white=Math.random()*2-1;
+      b0=0.99886*b0+white*0.0555179;b1=0.99332*b1+white*0.0750759;b2=0.96900*b2+white*0.1538520;b3=0.86650*b3+white*0.3104856;b4=0.55000*b4+white*0.5329522;b5=-0.7616*b5-white*0.0168980;
+      d[i]=(b0+b1+b2+b3+b4+b5+b6+white*0.5362)*0.035;b6=white*0.115926;
+    }
+    const noise=a.createBufferSource();noise.buffer=buffer;noise.loop=true;
+    const filter=a.createBiquadFilter();filter.type='lowpass';filter.frequency.value=950;
+    noise.connect(filter);filter.connect(_ambientGain);noise.start();
+    _ambientNode=noise;
+  }else if(type==='waves'){
+    const osc1=a.createOscillator(),osc2=a.createOscillator();
+    osc1.type='sine';osc1.frequency.value=196;osc2.type='sine';osc2.frequency.value=206;
+    osc1.connect(_ambientGain);osc2.connect(_ambientGain);
+    osc1.start();osc2.start();
+    _ambientNode={stop:()=>{try{osc1.stop();osc2.stop();}catch(e){}}};
+  }else if(type==='warmth'){
+    const bufSize=a.sampleRate*2;const buffer=a.createBuffer(1,bufSize,a.sampleRate);const d=buffer.getChannelData(0);
+    let lastOut=0.0;
+    for(let i=0;i<bufSize;i++){const white=Math.random()*2-1;d[i]=(lastOut+(0.02*white))/1.02;lastOut=d[i];d[i]*=0.22;}
+    const noise=a.createBufferSource();noise.buffer=buffer;noise.loop=true;
+    const filter=a.createBiquadFilter();filter.type='lowpass';filter.frequency.value=400;
+    noise.connect(filter);filter.connect(_ambientGain);noise.start();
+    _ambientNode=noise;
+  }
+}
+function toggleAmbience(t){
+  setAmbientSound(t);
+  document.querySelectorAll('.fp-amb-btn').forEach(b=>b.classList.toggle('active',b.dataset.amb===t));
+}
+
+/* ---- Ghost Pace (Compare with Past Self) ---- */
+function ghostPaceInfo(){
+  const today=todayKey();
+  const d=new Date();d.setDate(d.getDate()-7);
+  const lastWeekKey=todayKey(d);
+  const act=dayActivity();
+  const lastWeekAct=act[lastWeekKey];
+  const todayAct=act[today];
+  const todayMin=(todayAct?todayAct.st:0)+timerLiveMin();
+  const lastWeekMin=lastWeekAct?lastWeekAct.st:0;
+  const dayName=new Date().toLocaleDateString('en-US',{weekday:'short'});
+  if(!lastWeekMin&&!todayMin)return null;
+  const diff=todayMin-lastWeekMin;
+  return{dayName,todayMin,lastWeekMin,diff,ahead:diff>=0};
+}
+
+/* ---- JEE Exam Countdown Mission Control ---- */
+function jeeCountdownHtml(){
+  const examDateStr=(data.settings&&data.settings.examDate)||'2027-01-15';
+  const daysLeft=Math.max(0,daysBetween(todayKey(),examDateStr));
+  const lecs=data.lectures||[];
+  const total=lecs.length,done=lecs.filter(l=>l.done).length,remaining=total-done;
+  const target=Number(data.settings&&data.settings.dailyTarget)||3;
+  const daysNeeded=target>0?Math.ceil(remaining/target):0;
+  const bufferDays=daysLeft-daysNeeded;
+  return `<div class="jee-banner">
+    <div class="jee-badge"><i class="ti ti-target-arrow"></i> IIT-JEE ${new Date(examDateStr).getFullYear()||'TARGET'} MISSION CONTROL</div>
+    <div class="jee-grid">
+      <div class="jee-stat"><span class="jee-val">${daysLeft}</span><span class="jee-lbl">Days to Exam</span></div>
+      <div class="jee-stat"><span class="jee-val">${remaining}</span><span class="jee-lbl">Backlog Lecs</span></div>
+      <div class="jee-stat"><span class="jee-val">${target}/day</span><span class="jee-lbl">Daily Target</span></div>
+      <div class="jee-stat"><span class="jee-val" style="color:${bufferDays>=30?'var(--green)':'var(--accent)'};">${bufferDays>0?'+'+bufferDays+'d':'Tight!'}</span><span class="jee-lbl">${bufferDays>0?'Revision Buffer':'Needs More Pace'}</span></div>
+    </div>
+  </div>`;
+}
+
+/* ---- Chapter Mastery & Boss Battles ---- */
+function checkChapterMastery(){
+  if(!data.lectures||!data.lectures.length)return;
+  const groups={};
+  data.lectures.forEach(l=>{
+    const ch=(l.chapter||l.category||'').trim();
+    if(!ch)return;
+    const k=l.subjectId+':::'+ch;
+    if(!groups[k])groups[k]={subId:l.subjectId,name:ch,total:0,done:0};
+    groups[k].total++;
+    if(l.done)groups[k].done++;
+  });
+  const G=gameState();
+  if(!G.masteredChapters)G.masteredChapters=[];
+  const newly=[];
+  Object.entries(groups).forEach(([k,g])=>{
+    if(g.total>=3&&g.done===g.total){
+      if(!G.masteredChapters.includes(k)){
+        G.masteredChapters.push(k);
+        newly.push(g);
+      }
+    }
+  });
+  if(newly.length){
+    save();
+    const g=newly[0];
+    const subName=subjectName(g.subId);
+    setTimeout(()=>{
+      sfx('level');
+      if(!REDUCE())confetti(220);
+      showToast('👑',`Chapter Mastered! (+100 XP)`,`${g.name} (${subName}): all ${g.total} lectures completed!`,'Great job conqueror.');
+      updateHud();
+      refreshCurrentView();
+    },600);
+  }
+}
+
+/* ---- XP Student Shop ---- */
+function xpShopHtml(){
+  const coins=spendableCoins();
+  const shields=(data.game&&data.game.shields)||0;
+  const activeTh=(data.game&&data.game.activeTheme)||'default';
+  const unlocked=(data.game&&data.game.unlockedThemes)||['default'];
+  const hasCyber=unlocked.includes('cyber');
+  return `<div class="shop-card">
+    <div class="shop-header">
+      <h3 style="margin:0;"><i class="ti ti-building-store"></i>XP Student Shop</h3>
+      <div class="coin-pill">🪙 <span id="shopCoinsVal">${coins}</span> Coins Available</div>
+    </div>
+    <div class="tool-caption" style="margin-bottom:12px;">Spend study coins on utility gear. Buying items <strong>never</strong> lowers your level or rank!</div>
+    <div class="shop-grid">
+      <div class="shop-item">
+        <div class="shop-top">
+          <div class="shop-ico">🛡️</div>
+          <div>
+            <div class="shop-t">Streak Shield</div>
+            <div class="shop-desc">Saves streak if you miss 2 days in a row</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 300</span>
+          <button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>
+            ${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy Shield'}
+          </button>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-top">
+          <div class="shop-ico">🌌</div>
+          <div>
+            <div class="shop-t">Cyber Neon Theme</div>
+            <div class="shop-desc">Futuristic dark cyberpunk aesthetic</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 450</span>
+          ${hasCyber?`
+            <button class="shop-btn buy" onclick="toggleThemeOption('${activeTh==='cyber'?'default':'cyber'}')">
+              ${activeTh==='cyber'?'Equipped ✓':'Equip'}
+            </button>
+          `:`
+            <button class="shop-btn buy" onclick="buyShopItem('cyber')" ${coins<450?'disabled':''}>
+              ${coins<450?'Need Coins':'Unlock'}
+            </button>
+          `}
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="shop-top">
+          <div class="shop-ico">⚡</div>
+          <div>
+            <div class="shop-t">Streak Booster</div>
+            <div class="shop-desc">+50 instant profit bonus XP to bank</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 150</span>
+          <button class="shop-btn buy" onclick="buyShopItem('booster')" ${coins<150?'disabled':''}>
+            ${coins<150?'Need Coins':'Buy Pack'}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="inv-bar">
+      <span><b>Inventory:</b></span>
+      <span class="inv-item">🛡️ ${shields} / 2 Shields</span>
+      <span class="inv-item">🎨 Theme: ${activeTh==='cyber'?'Cyber Neon':'Classic'}</span>
+    </div>
+  </div>`;
+}
+function buyShopItem(k){
+  const coins=spendableCoins();
+  const G=gameState();
+  if(k==='shield'){
+    if(coins<300){alert('Not enough coins!');return;}
+    if((G.shields||0)>=2){alert('You can hold at most 2 shields at a time.');return;}
+    G.spentCoins=(G.spentCoins||0)+300;
+    G.shields=(G.shields||0)+1;G.shieldCheckDay='';
+    save();sfx('reveal');if(!REDUCE())confetti(140);
+    showToast('🛡️','Streak Shield Purchased!','Now holding '+G.shields+' shield(s).');
+  }else if(k==='cyber'){
+    if(coins<450){alert('Not enough coins!');return;}
+    G.spentCoins=(G.spentCoins||0)+450;
+    if(!G.unlockedThemes)G.unlockedThemes=['default'];
+    G.unlockedThemes.push('cyber');
+    G.activeTheme='cyber';
+    save();applyTheme('cyber');sfx('level');if(!REDUCE())confetti(180);
+    showToast('🌌','Theme Unlocked!','Cyber Neon theme equipped.');
+  }else if(k==='booster'){
+    if(coins<150){alert('Not enough coins!');return;}
+    G.spentCoins=(G.spentCoins||0)+150;
+    G.bonusXp=(G.bonusXp||0)+100;
+    save();sfx('lucky');if(!REDUCE())fxLucky(50);
+    showToast('⚡','Booster Activated!','+50 net bonus XP awarded.');
+  }
+  updateHud();
+  renderStreaks();
+}
+function toggleThemeOption(th){
+  const G=gameState();G.activeTheme=th;save();applyTheme(th);renderStreaks();
+}
+
+function dayTarget(){return Number(data.settings&&data.settings.dailyTarget)||0;}
 function targetDayCount(){const t=dayTarget();return t>0?Object.values(dayActivity()).filter(a=>a.lec.length>=t).length:0;}
 function totalXp(){
   let xp=0;
-  data.lectures.filter(l=>l.done).forEach(l=>xp+=20+Math.round(durToMins(l.duration)/6));
-  data.dpps.filter(d=>d.done).forEach(d=>{xp+=15;if(d.result){xp+=10;const att=d.result.correct+d.result.wrong;if(att&&d.result.correct/att>=.8)xp+=10;}});
-  Object.values((()=>{const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});return m;})()).forEach(m=>xp+=Math.floor(Math.min(m,180)/3));
+  (data.lectures||[]).filter(l=>l.done).forEach(l=>xp+=20+Math.round(durToMins(l.duration)/6));
+  (data.dpps||[]).filter(d=>d.done).forEach(d=>{
+    let dXp=15;
+    if(d.totalMarks&&d.totalMarks>=40)dXp+=10;
+    if(d.result){
+      dXp+=10;
+      const att=d.result.correct+d.result.wrong;
+      if(att&&d.result.correct/att>=.8)dXp+=10;
+      if(d.result.total&&d.result.total>=15)dXp+=5;
+    }
+    xp+=dXp;
+  });
+  // Diminishing returns: 1-4 hrs (1/3m), 4-7 hrs (1/6m), 7+ hrs (1/10m)
+  Object.values((()=>{const m={};(data.sessions||[]).forEach(s=>{m[s.date]=(m[s.date]||0)+s.minutes;});return m;})()).forEach(m=>{
+    if(m<=240)xp+=Math.floor(m/3);
+    else if(m<=420)xp+=80+Math.floor((m-240)/6);
+    else xp+=110+Math.floor((m-420)/10);
+  });
+  const mastered=(data.game&&data.game.masteredChapters)||[];
+  xp+=mastered.length*100;
   return xp+targetDayCount()*25+((data.game&&data.game.bonusXp)||0);
 }
 const XPK=512;
@@ -1463,7 +1858,7 @@ function rewardUnlockedIds(){return data.rewards.filter(r=>rewardVal(r)>=r.value
 function snap(){const xp=totalXp(),a=dayActivity()[todayKey()];return{xp,lvl:levelInfo(xp).level,streak:currentStreak(),hit:dayTarget()>0&&!!a&&a.lec.length>=dayTarget(),unlocked:rewardUnlockedIds()};}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function confetti(n=150){
-  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const cv=document.createElement('canvas');cv.className='confetti';cv.width=innerWidth;cv.height=innerHeight;document.body.appendChild(cv);
   const g=cv.getContext('2d'),cols=['#16c47f','#6c5ce7','#ffb020','#ff5722','#0ea5e9','#ec4899'];
   const ps=Array.from({length:n},()=>({x:innerWidth/2+(Math.random()-.5)*160,y:innerHeight*.62,vx:(Math.random()-.5)*15,vy:-Math.random()*17-6,s:5+Math.random()*6,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.4}));
@@ -1480,7 +1875,7 @@ function showToast(icon,title,sub,extra,action){
   setTimeout(()=>t.classList.add('out'),life);setTimeout(()=>t.remove(),life+500);
   while(st.children.length>3)st.firstChild.remove();
 }
-const REDUCE=()=>window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const REDUCE=()=>typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const lastFx={};
 function pickFx(kind,list){const o=list.filter(f=>f!==lastFx[kind]);const f=pick(o.length?o:list);lastFx[kind]=f;return f;}
 function fxLayer(ms){const d=document.createElement('div');d.className='fx';document.body.appendChild(d);setTimeout(()=>d.remove(),ms);return d;}
@@ -1525,6 +1920,7 @@ function gameHtml(){
   return streakCardHtml()+questsHtml()+gameHtml2();
 }
 function gameHtml2(){
+  const shopBlock=xpShopHtml();
   const xp=totalXp(),L=levelInfo(xp),t=dayTarget(),a=dayActivity()[todayKey()],today=a?a.lec.length:0;
   const q=QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length];
   const badges=badgeList();
@@ -1547,6 +1943,7 @@ function gameHtml2(){
     <div class="tool-caption" style="margin-top:8px;">XP: lecture 20 + 1 per 6 min · DPP 15 · logged result +10 · 80%+ accuracy +10 · daily target +25 · levels get steeper as you climb</div>
   </div>
   ${ranksHtml()}
+  ${shopBlock}
   <div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-medal"></i>Badges · ${badges.filter(b=>b[3]).length}/${badges.length}</h3>
     <div class="gm-badges">${badges.map(b=>`<div class="gm-badge ${b[3]?'on':''}" title="${b[2]}"><div>${b[3]?b[0]:'🔒'}</div><b>${b[1]}</b><small>${b[2]}</small></div>`).join('')}</div></div>
   <div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-gift"></i>Real-life rewards</h3>
@@ -1600,7 +1997,7 @@ function dppAnalyticsHtml(){
 
 
 function countUp(){
-  const reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduce=typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll('.cnt').forEach(el=>{
     const to=Number(el.dataset.to)||0;if(reduce||to<=0)return;
     const t0=performance.now(),dur=900;
@@ -1646,10 +2043,13 @@ function ranksHtml(){
   <div class="rk-grid">${TIERS.map((_,i)=>`<div class="rk ${i+1===cur?'now':''} ${i+1>cur?'locked':''}">${levelBadgeSvg(i+1,(i)*3+1,54)}<span>Lv ${i*3+1}–${(i+1)*3}</span></div>`).join('')}</div></div>`;
 }
 function updateHud(){
-  const s=document.getElementById('hudStreak'),l=document.getElementById('hudLevel');if(!s||!l)return;
+  const s=document.getElementById('hudStreak'),l=document.getElementById('hudLevel'),c=document.getElementById('hudCoins');
+  if(!s||!l)return;
   const n=currentStreak(),L=levelInfo(totalXp()).level;
   s.innerHTML=`🔥 <b>${n}</b>`;s.classList.toggle('idle',!streakActiveToday());
   l.innerHTML=levelBadgeSvg(tierOf(L),L,22)+`<b>Lv ${L}</b>`;
+  if(c)c.innerHTML=`🪙 <b>${spendableCoins()}</b>`;
+  applyTheme();
 }
 
 
@@ -1794,7 +2194,7 @@ function openFocus(){
   document.getElementById('fcQuote').textContent='“'+QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length]+'”';
   _fsT=0;timerTick();
 }
-function closeFocus(){const f=document.getElementById('focusPage');if(f)f.classList.remove('open');document.body.classList.remove('no-scroll');}
+function closeFocus(){const f=document.getElementById('focusPage');if(f)f.classList.remove('open');document.body.classList.remove('no-scroll');setAmbientSound('off');toggleAmbience('off');}
 let _fsT=0;
 function focusUpdate(live,el,now){
   const f=document.getElementById('focusPage');if(!f||!f.classList.contains('open'))return;
@@ -1813,8 +2213,17 @@ function buildFocusPage(){
   const card='<div class="fc"><div class="fc-top"><span></span></div><div class="fc-bot"><span></span></div><div class="fc-ft"><span></span></div><div class="fc-fb"><span></span></div></div>';
   const f=document.createElement('div');f.id='focusPage';f.className='focus-page';
   f.innerHTML=`<div class="fp-orb o1"></div><div class="fp-orb o2"></div><div class="fp-orb o3"></div>
-  <div class="fp-top"><button class="fp-min" onclick="closeFocus()" title="Minimize"><i class="ti ti-chevron-down"></i></button><div class="fp-live"><span class="tm-dot"></span><span id="fcLive">Focus mode</span></div><div class="fp-chip" id="fcStreak">🔥</div></div>
-  <div class="fp-mid"><div class="fp-sub"><i class="ti ti-book-2"></i><span id="fcSub"></span></div>
+  <div class="fp-top">
+    <button class="fp-min" onclick="closeFocus()" title="Minimize"><i class="ti ti-chevron-down"></i></button>
+    <div class="fp-ambience" id="fpAmbience">
+      <button class="fp-amb-btn active" data-amb="off" onclick="toggleAmbience('off')"><i class="ti ti-volume-off"></i> Off</button>
+      <button class="fp-amb-btn" data-amb="rain" onclick="toggleAmbience('rain')"><i class="ti ti-cloud-rain"></i> Rain</button>
+      <button class="fp-amb-btn" data-amb="waves" onclick="toggleAmbience('waves')"><i class="ti ti-wave-sine"></i> Alpha</button>
+      <button class="fp-amb-btn" data-amb="warmth" onclick="toggleAmbience('warmth')"><i class="ti ti-flame"></i> Cozy</button>
+    </div>
+    <div class="fp-chip" id="fcStreak">🔥</div>
+  </div>
+  <div class="fp-mid"><div class="fp-live"><span class="tm-dot"></span><span id="fcLive">Focus mode</span></div><div class="fp-sub"><i class="ti ti-book-2"></i><span id="fcSub"></span></div>
     <div class="fp-clock">${card}${card}<i class="fc-sep"><b></b><b></b></i>${card}${card}<i class="fc-sep"><b></b><b></b></i>${card}${card}</div>
     <div class="fp-status" id="fcStatus"></div>
     <div class="fp-ring"><svg viewBox="0 0 80 80" width="74" height="74"><defs><linearGradient id="fcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16c47f"/><stop offset="1" stop-color="#6c5ce7"/></linearGradient></defs><circle cx="40" cy="40" r="34" fill="none" style="stroke:var(--border);" stroke-width="7"/><circle class="tm-arc" cx="40" cy="40" r="34" fill="none" stroke="url(#fcg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="213.6" style="stroke-dashoffset:213.6;transition:stroke-dashoffset .6s;" transform="rotate(-90 40 40)"/></svg><div><div class="tm-min fp-min-t">0 / ${STUDY_GOAL}</div><small>minutes today</small></div></div>
@@ -1947,7 +2356,7 @@ function questProgress(q){
   if(q.kind==='res')return data.dpps.filter(d=>d.result&&d.result.loggedAt===k).length;
   return(data.sessions||[]).filter(x=>x.date===k).length;
 }
-function gameState(){return data.game=data.game||{bonusXp:0,awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};}
+function gameState(){return data.game=Object.assign({bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},data.game||{});}
 function chestReady(){const G=gameState(),aw=G.awarded[todayKey()]||[];return aw.length>=3&&G.chestDay!==todayKey();}
 function checkQuests(){
   if(!data.subjects||!data.subjects.length)return;
@@ -1995,6 +2404,7 @@ function riskHtml(){
   return `<div class="risk-banner ${r.final?'final':''}"><div class="risk-ic">🔥</div><div class="risk-t"><b>Your ${r.n}-day streak ends tonight</b><span>${r.final?'StreakSaver already covered yesterday, so missing today breaks it. ':''}${r.left} hour${r.left===1?'':'s'} left. 10 minutes with the timer, or any lecture or DPP, saves it.</span></div><button class="btn-primary" onclick="setView('timer')"><i class="ti ti-hourglass-high"></i> Save it</button></div>`;
 }
 function renderQuestStrip(){
+  try{maybeApplyShields();}catch(e){}
   const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+questStripHtml();}
   const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
 }
@@ -2030,11 +2440,15 @@ function maybeLucky(gain,src){
   G.luckyN++;G.bonusXp+=amt;save();
   setTimeout(()=>{sfx('lucky');if(!REDUCE())fxLucky(amt);showToast('🍀','Lucky drop!',`${amt===gain?'Double XP: ':'Bonus: '}+${amt} XP`);updateHud();},650);
 }
-function postProgress(s1){
+function postProgress(s1,isFirstTime=true){
   const s2=snap(),gain=s2.xp-s1.xp;if(gain<=0)return;
   const mile=MILESTONES.find(m=>s1.streak<m&&s2.streak>=m),newR=s2.unlocked.filter(id=>!s1.unlocked.includes(id));
   sfx(s2.lvl>s1.lvl||mile?'level':newR.length?'chest':(s2.hit&&!s1.hit)?'quest':s2.streak>s1.streak?'streak':'xp');
-  comboApply(gain);checkCourse();checkQuests();maybeLucky(gain,'tick');
+  if(isFirstTime){
+    comboApply(gain);
+    maybeLucky(gain,'tick');
+  }
+  checkCourse();checkQuests();checkChapterMastery();
 }
 
 
@@ -2133,7 +2547,8 @@ function renderDashboard(){
   document.getElementById('dashOverall').innerHTML=`
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:1.2rem;">
       <div>
-        <div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Overall Progress</div>
+        ${jeeCountdownHtml()}
+    <div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Overall Progress</div>
         <div style="display:flex;align-items:baseline;gap:10px;">
           <div style="font-size:40px;font-weight:700;color:var(--text);line-height:1;">${all.done}<span style="font-size:22px;color:var(--text3);font-weight:500;">/${all.total}</span></div>
           <div style="font-size:13px;color:var(--text3);line-height:1.4;">lectures<br>completed</div>
@@ -2151,6 +2566,8 @@ function renderDashboard(){
     <div class="dash-bar-track"><div class="dash-bar-fill ${barCls}" style="width:${all.pct}%"></div></div>
     <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:5px;">
       <span>${data.subjects.length} subjects · ${data.lectures.length} total lectures</span>
+    </div>
+    ${(()=>{const gp=ghostPaceInfo();return gp&&(gp.lastWeekMin>0||gp.todayMin>0)?`<div class="ghost-pill ${gp.ahead?'ahead':''}"><i class="ti ${gp.ahead?'ti-bolt':'ti-ghost'}"></i><span>Ghost Rival: ${gp.dayName} last week ${hmDur(gp.lastWeekMin)} · ${gp.ahead?'Ahead by '+hmDur(gp.diff)+' 🔥':hmDur(Math.abs(gp.diff))+' to beat past self'}</span></div>`:'';})()}
     </div>`;
 
   if(!data.subjects.length){
@@ -2213,15 +2630,27 @@ function completionDates(){
 }
 function streakActiveToday(){return completionDates().has(todayKey());}
 function streakInfo(){
-  const dates=completionDates(),saved=new Set();
+  const dates=completionDates(),saved=new Set(),shielded=new Set((data.game&&data.game.shieldUsedDates)||[]);
   let streak=0,miss=0,pend=[];const d=new Date();
   for(let i=0;i<800;i++){
     const k=todayKey(d);
     if(dates.has(k)){streak++;miss=0;pend.forEach(x=>saved.add(x));pend=[];}
+    else if(shielded.has(k)){miss=0;pend.push(k);}
     else if(i>0){miss++;pend.push(k);if(miss>=2)break;}
     d.setDate(d.getDate()-1);
   }
-  return{streak,saved};
+  return{streak,saved,shielded};
+}
+function maybeApplyShields(){
+  const G=data.game;if(!G||!(G.shields>0))return;
+  const today=todayKey();if(G.shieldCheckDay===today)return;G.shieldCheckDay=today;
+  const dates=completionDates(),used=G.shieldUsedDates=G.shieldUsedDates||[];
+  const day=n=>{const x=new Date();x.setDate(x.getDate()-n);return todayKey(x);};
+  const gone=k=>!dates.has(k)&&!used.includes(k);
+  if(gone(day(1))&&gone(day(2))&&dates.has(day(3))){
+    G.shields--;used.push(day(2));G.shieldUsedDates=used.filter(k=>k>=day(60));
+    save();showToast('🛡️','Streak Shield used','You missed two days in a row. A shield kept your streak alive.');
+  }
 }
 function currentStreak(){return streakInfo().streak;}
 function bestStreak(){
@@ -2361,7 +2790,7 @@ function renderExport(){
     <div class="tool-panel"><h3><i class="ti ti-file-text"></i>DPPs CSV</h3><div class="tool-caption">All DPPs with chapter, tag, linked lecture and marks.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadDppCSV()"><i class="ti ti-download"></i>Download CSV</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-database-export"></i>JSON backup</h3><div class="tool-caption">Full backup with subjects, lectures, DPPs and settings.</div><div class="tool-actions"><button class="btn-primary" onclick="downloadJSON()"><i class="ti ti-download"></i>Download JSON</button></div></div>
     <div class="tool-panel"><h3><i class="ti ti-file-type-pdf"></i>PDF report</h3><div class="tool-caption">Opens browser print. Choose Save as PDF.</div><div class="tool-actions"><button class="btn-primary" onclick="printReport()"><i class="ti ti-printer"></i>Print report</button></div></div>
-    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button><button class="btn-sec" onclick="restoreLocalBackup()"><i class="ti ti-cloud-upload"></i>Upload this device</button></div></div>
+    <div class="tool-panel"><h3><i class="ti ti-cloud"></i>Sync repair</h3><div class="tool-caption">Use this only if a device shows the wrong cloud copy.</div><div class="tool-actions"><button class="btn-sec" onclick="refreshFromCloud()"><i class="ti ti-cloud-download"></i>Pull cloud</button></div></div>
   </div>`;
 }
 function downloadBlob(name,type,content){
@@ -2389,16 +2818,6 @@ function downloadDppCSV(){
 }
 function downloadJSON(){
   downloadBlob(`pw-tracker-backup-${todayKey()}.json`,'application/json;charset=utf-8',JSON.stringify(ensureDataShape(data),null,2));
-}
-async function restoreLocalBackup(){
-  const raw=userDataKey?localStorage.getItem(userDataKey):null;
-  if(!raw){alert('No local backup found for this Google account on this device.');return;}
-  if(!confirm('Upload this device backup to cloud and replace the cloud copy?'))return;
-  data=ensureDataShape(JSON.parse(raw));
-  activeSub=data.subjects[0]?.id||null;
-  saveLocal();
-  renderAll();
-  await syncNow();
 }
 function printReport(){
   const all=getStats(null),pace=paceStats();
@@ -2865,8 +3284,11 @@ document.addEventListener('visibilitychange',function(){
   const find=()=>(n==='toggleDone'?data.lectures:data.dpps).find(x=>x.id===id);
   const was=n==='submitDppResult'?true:!!(find()||{}).done;
   if(!was)sfx('tick');
-  const s1=snap();const r=f.apply(this,arguments);afterProgress(s1);
+  const s1=snap();const r=f.apply(this,arguments);
   const it=find();
+  const isFirstTime=!it||!it.everAwarded;
+  if(it&&it.done&&isFirstTime)it.everAwarded=true;
+  afterProgress(s1,isFirstTime);
   if(n!=='submitDppResult'&&it&&it.done&&!was){const nm=(it.title||it.label||'Item');showToast('✅','Marked done',escH(String(nm).slice(0,60)),'',{label:'Undo',fn:()=>window[n](id)});}
   return r;};});
 {const _sv=save;window.save=function(){const r=_sv.apply(this,arguments);try{updateHud();}catch(e){}return r;};}
@@ -2874,7 +3296,7 @@ document.addEventListener('visibilitychange',function(){
 {const _rs=renderStreaks;window.renderStreaks=function(){_rs.apply(this,arguments);countUp();};}
 
 {const fixA11y=()=>document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));let _at;new MutationObserver(()=>{clearTimeout(_at);_at=setTimeout(fixA11y,200);}).observe(document.body,{childList:true,subtree:true});fixA11y();}
-{const _ap=afterProgress;window.afterProgress=function(s1){_ap.apply(this,arguments);postProgress(s1);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
+{const _ap=afterProgress;window.afterProgress=function(s1,isFirst){_ap.apply(this,arguments);postProgress(s1,isFirst);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
 initTimerUi();
 
 init();
