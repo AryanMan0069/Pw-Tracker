@@ -760,6 +760,23 @@ body.theme-cyber{--bg:#070710;--surface:#0e0e1c;--surface2:#16162a;--border:#262
 body.theme-cyber .pw-logo{background:linear-gradient(135deg,#00f2fe,#4facfe);box-shadow:0 0 20px rgba(0,242,254,.5);}
 body.theme-cyber .fc>div{background:#0e0e1c;border-color:#262646;}
 body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe);color:#070710;}
+.th-sw{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle;}.th-sw i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(128,128,128,.4);display:inline-block;}
+.shop-sub{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:16px 0 8px;}.shop-sub small{font-weight:600;letter-spacing:0;text-transform:none;margin-left:6px;}
+.boost-live{background:linear-gradient(135deg,rgba(245,158,11,.18),var(--surface));border:1px solid #f59e0b;border-radius:14px;padding:10px 14px;font-size:13px;margin-bottom:10px;}
+/* Weekly review */
+.wr-ov{position:fixed;inset:0;z-index:2700;background:rgba(10,8,30,.6);display:none;align-items:center;justify-content:center;padding:1rem;animation:ovfade .2s both;}
+.wr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow-md);width:min(600px,96vw);max-height:92vh;overflow-y:auto;padding:20px;animation:chestcard .45s cubic-bezier(.2,1.2,.4,1) both;}
+.wr-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}.wr-title{font-size:20px;font-weight:900;letter-spacing:-.02em;}.wr-sub{font-size:12px;color:var(--text3);}
+.wr-nav,.wr-x{width:38px;height:38px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);cursor:pointer;font-size:17px;}.wr-nav:disabled{opacity:.35;cursor:not-allowed;}
+.wr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.wr-card{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:2px;}
+.wr-ico{font-size:18px;}.wr-v{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}.wr-t{font-size:11px;color:var(--text3);font-weight:600;}
+.wr-d{font-size:11px;font-weight:700;margin-top:3px;}.wr-d.up{color:#16c47f;}.wr-d.dn{color:#ef4444;}
+.wr-row{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px dashed var(--border);font-size:13px;}.wr-row b{text-align:right;}
+.wr-tips{margin-top:16px;}.wr-tip{background:var(--accent-soft);border-radius:14px;padding:10px 14px;font-size:13px;line-height:1.5;margin-top:8px;}
+.wr-strip{display:flex;align-items:center;gap:14px;margin-bottom:1rem;cursor:pointer;transition:transform .15s;}.wr-strip:hover{transform:translateY(-2px);}
+.wr-strip.hot{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}.wr-sico{font-size:28px;}
+@media(max-width:520px){.wr-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -797,6 +814,7 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
       <div><div class="app-title">PW Lecture Tracker</div><div class="app-sub">Dropper · IIT JEE</div></div>
     </div>
     <div class="topbar-right">
+      <button class="hud-chip combo" id="hudBoost" style="display:none" title="XP multiplier"></button>
       <button class="hud-chip combo" id="hudCombo" style="display:none" title="Combo"></button>
       <button class="hud-chip" id="hudTimer" onclick="openTimerModal()" title="Study timer">⏱ <b>Study</b></button>
       <button class="hud-chip" id="hudStreak" onclick="setView('streaks')" title="Study streak"></button>
@@ -1001,7 +1019,9 @@ function ensureDataShape(obj){
   obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
   obj.settings.checkMin=Number(obj.settings.checkMin)||45;
   obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
-  obj.game=Object.assign({bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},obj.game||{});
+  {const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};
+   if(!obj.game||typeof obj.game!=='object')obj.game={};
+   Object.keys(gdef).forEach(k=>{if(obj.game[k]===undefined)obj.game[k]=gdef[k];});}
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
   return obj;
 }
@@ -1582,10 +1602,29 @@ const QUOTES=["Small hours, stacked daily, beat big plans never started.","You d
 const BREAKS=["Drink a glass of water.","Step outside for 5 minutes.","Stretch your back and neck.","Message a friend and say hi.","Have a snack you actually like.","Put on one favourite song.","Look at something far away for a minute."];
 
 /* ---- Themes & Spendable Coins ---- */
+const THEMES={
+  cyber:{name:'Cyber Neon',ico:'🌌',cost:450,desc:'Neon cyan on near-black',sw:['#070710','#00f2fe','#4facfe']},
+  sunset:{name:'Sunset',ico:'🌅',cost:400,desc:'Warm orange and rose, dark',sw:['#150c10','#ff7a59','#ff4d8d'],v:{'--bg':'#150c10','--surface':'#201219','--surface2':'#2a1822','--border':'#3a2230','--border-strong':'#54313f','--text':'#ffeee6','--text2':'#d9aaa6','--text3':'#9a6c70','--accent':'#ff7a59','--accent-hover':'#ff4d8d','--accent-soft':'#3a1b22','--green':'#ffc857'}},
+  forest:{name:'Forest',ico:'🌲',cost:400,desc:'Deep greens, calm and focused',sw:['#08110c','#34d399','#10b981'],v:{'--bg':'#08110c','--surface':'#0f1d15','--surface2':'#15281c','--border':'#1f3a2a','--border-strong':'#2f573f','--text':'#e6fbef','--text2':'#9cc9b0','--text3':'#628a73','--accent':'#34d399','--accent-hover':'#10b981','--accent-soft':'#0f3123','--green':'#6ee7b7'}},
+  ocean:{name:'Deep Ocean',ico:'🌊',cost:450,desc:'Midnight blue with sky accents',sw:['#050f1b','#38bdf8','#0ea5e9'],v:{'--bg':'#050f1b','--surface':'#0a1c2e','--surface2':'#0f2740','--border':'#18385a','--border-strong':'#25507c','--text':'#e5f4ff','--text2':'#9cc2de','--text3':'#5f87a6','--accent':'#38bdf8','--accent-hover':'#0ea5e9','--accent-soft':'#0b2c47','--green':'#5eead4'}},
+  sakura:{name:'Sakura',ico:'🌸',cost:500,desc:'Soft pink, light and airy',light:1,sw:['#fff4f8','#ec4899','#f472b6'],v:{'--bg':'#fff4f8','--surface':'#ffffff','--surface2':'#fff0f5','--border':'#f6dbe6','--border-strong':'#eab8cf','--text':'#3a1830','--text2':'#7c4a68','--text3':'#b085a0','--accent':'#ec4899','--accent-hover':'#db2777','--accent-soft':'#fde4ef','--green':'#10b981'}},
+  matrix:{name:'Matrix',ico:'🟩',cost:600,desc:'Green terminal on pure black',mono:1,sw:['#000000','#00ff66','#00c853'],v:{'--bg':'#000000','--surface':'#041204','--surface2':'#071c07','--border':'#0d3a0d','--border-strong':'#15601a','--text':'#c8ffd8','--text2':'#6fd48a','--text3':'#3d8f55','--accent':'#00ff66','--accent-hover':'#00c853','--accent-soft':'#04240b','--green':'#00ff66'}},
+  gold:{name:'Midnight Gold',ico:'👑',cost:800,desc:'Black and gold, the premium one',sw:['#0c0a05','#f5c542','#e0a800'],v:{'--bg':'#0c0a05','--surface':'#17130a','--surface2':'#201a0d','--border':'#33290f','--border-strong':'#54421a','--text':'#fff6dc','--text2':'#d3c28f','--text3':'#8f8156','--accent':'#f5c542','--accent-hover':'#e0a800','--accent-soft':'#33270a','--green':'#f5c542'}}
+};
+(function injectThemes(){
+  let css='';
+  Object.entries(THEMES).forEach(([id,t])=>{
+    if(!t.v)return;
+    css+=`body.theme-${id}{${Object.entries(t.v).map(([k,v])=>k+':'+v).join(';')};color-scheme:${t.light?'light':'dark'};${t.mono?"font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;":''}}`;
+    css+=`body.theme-${id} .pw-logo{background:linear-gradient(135deg,var(--accent),var(--accent-hover));}body.theme-${id} .btn-primary,body.theme-${id} .tmx-start,body.theme-${id} .tmx-round{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${t.light?'#fff':'#0a0a0a'};}body.theme-${id} .fc>div{background:var(--surface);border-color:var(--border);}`;
+  });
+  const s=document.createElement('style');s.id='themeCss';s.textContent=css;document.head.appendChild(s);
+})();
 function applyTheme(th){
   const t=th||(data.game&&data.game.activeTheme)||'default';
-  document.body.classList.toggle('theme-cyber',t==='cyber');
+  Object.keys(THEMES).forEach(id=>document.body.classList.toggle('theme-'+id,t===id));
 }
+function previewTheme(id){applyTheme(id);showToast('🎨','Previewing '+THEMES[id].name,'Back to normal in 6 seconds.');setTimeout(()=>applyTheme(),6000);}
 function spendableCoins(){
   return Math.max(0,totalXp()-((data.game&&data.game.spentCoins)||0));
 }
@@ -1712,105 +1751,59 @@ function checkChapterMastery(){
 }
 
 /* ---- XP Student Shop ---- */
+const MULTS={mult2:{mult:2,mins:60,cost:150,ico:'🚀',t:'2× XP · 1 hour',d:'A focused hour pays double'},mult3:{mult:3,mins:30,cost:250,ico:'🔥',t:'3× XP · 30 minutes',d:'Short, intense, triple reward'},mult15:{mult:1.5,mins:1440,cost:400,ico:'⚡',t:'1.5× XP · 24 hours',d:'A whole day of extra XP'}};
+function activeBoost(){const G=gameState();if(G.boost&&G.boost.until>Date.now())return G.boost;if(G.boost){G.boost=null;}return null;}
+function boostApply(gain){
+  const b=activeBoost();if(!b||gain<=0)return;
+  const bonus=Math.round(gain*(b.mult-1));if(bonus<=0)return;
+  gameState().bonusXp+=bonus;save();
+  showToast('🚀',`${b.mult}× XP boost`,`+${bonus} bonus XP`);updateBoostChip();
+}
+function updateBoostChip(){
+  const el=document.getElementById('hudBoost');if(!el)return;const b=activeBoost();
+  if(!b){el.style.display='none';return;}
+  const left=b.until-Date.now(),m=Math.floor(left/60000),h=Math.floor(m/60);
+  el.style.display='';el.innerHTML=`🚀 <b>×${b.mult}</b> <span>${h?h+'h '+(m%60)+'m':m+'m'}</span>`;el.title=`XP multiplier active until ${new Date(b.until).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+}
 function xpShopHtml(){
-  const coins=spendableCoins();
-  const shields=(data.game&&data.game.shields)||0;
-  const activeTh=(data.game&&data.game.activeTheme)||'default';
-  const unlocked=(data.game&&data.game.unlockedThemes)||['default'];
-  const hasCyber=unlocked.includes('cyber');
-  return `<div class="shop-card">
-    <div class="shop-header">
-      <h3 style="margin:0;"><i class="ti ti-building-store"></i>XP Student Shop</h3>
-      <div class="coin-pill">🪙 <span id="shopCoinsVal">${coins}</span> Coins Available</div>
-    </div>
-    <div class="tool-caption" style="margin-bottom:12px;">Spend study coins on utility gear. Buying items <strong>never</strong> lowers your level or rank!</div>
-    <div class="shop-grid">
-      <div class="shop-item">
-        <div class="shop-top">
-          <div class="shop-ico">🛡️</div>
-          <div>
-            <div class="shop-t">Streak Shield</div>
-            <div class="shop-desc">Saves streak if you miss 2 days in a row</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
-          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 300</span>
-          <button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>
-            ${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy Shield'}
-          </button>
-        </div>
-      </div>
-      <div class="shop-item">
-        <div class="shop-top">
-          <div class="shop-ico">🌌</div>
-          <div>
-            <div class="shop-t">Cyber Neon Theme</div>
-            <div class="shop-desc">Futuristic dark cyberpunk aesthetic</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
-          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 450</span>
-          ${hasCyber?`
-            <button class="shop-btn buy" onclick="toggleThemeOption('${activeTh==='cyber'?'default':'cyber'}')">
-              ${activeTh==='cyber'?'Equipped ✓':'Equip'}
-            </button>
-          `:`
-            <button class="shop-btn buy" onclick="buyShopItem('cyber')" ${coins<450?'disabled':''}>
-              ${coins<450?'Need Coins':'Unlock'}
-            </button>
-          `}
-        </div>
-      </div>
-      <div class="shop-item">
-        <div class="shop-top">
-          <div class="shop-ico">⚡</div>
-          <div>
-            <div class="shop-t">Streak Booster</div>
-            <div class="shop-desc">+50 instant profit bonus XP to bank</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
-          <span style="font-size:12px;font-weight:700;color:#f59e0b;">🪙 150</span>
-          <button class="shop-btn buy" onclick="buyShopItem('booster')" ${coins<150?'disabled':''}>
-            ${coins<150?'Need Coins':'Buy Pack'}
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="inv-bar">
-      <span><b>Inventory:</b></span>
-      <span class="inv-item">🛡️ ${shields} / 2 Shields</span>
-      <span class="inv-item">🎨 Theme: ${activeTh==='cyber'?'Cyber Neon':'Classic'}</span>
-    </div>
-  </div>`;
+  const coins=spendableCoins(),G=gameState(),shields=G.shields||0,activeTh=G.activeTheme||'default',unlocked=G.unlockedThemes||['default'],boost=activeBoost();
+  const card=(ico,t,d,price,btn)=>`<div class="shop-item"><div class="shop-top"><div class="shop-ico">${ico}</div><div><div class="shop-t">${t}</div><div class="shop-desc">${d}</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px;"><span style="font-size:12px;font-weight:700;color:#f59e0b;">${price}</span><div style="display:flex;gap:6px;">${btn}</div></div></div>`;
+  const mults=Object.entries(MULTS).map(([id,m])=>card(m.ico,m.t,m.d,'🪙 '+m.cost,`<button class="shop-btn buy" onclick="buyShopItem('${id}')" ${coins<m.cost||boost?'disabled':''}>${boost?'Boost active':coins<m.cost?'Need Coins':'Buy'}</button>`)).join('');
+  const themes=Object.entries(THEMES).map(([id,t])=>{
+    const own=unlocked.includes(id),on=activeTh===id;
+    const sw=`<span class="th-sw">${t.sw.map(x=>`<i style="background:${x}"></i>`).join('')}</span>`;
+    const btn=own?`<button class="shop-btn buy" onclick="toggleThemeOption('${on?'default':id}')">${on?'Equipped ✓':'Equip'}</button>`:`<button class="shop-btn" onclick="previewTheme('${id}')">Preview</button><button class="shop-btn buy" onclick="buyShopItem('theme:${id}')" ${coins<t.cost?'disabled':''}>${coins<t.cost?'Need Coins':'Unlock'}</button>`;
+    return card(t.ico,t.name+sw,t.desc,'🪙 '+t.cost,btn);
+  }).join('');
+  return `<div class="shop-card"><div class="shop-header"><h3 style="margin:0;"><i class="ti ti-building-store"></i>XP Student Shop</h3><div class="coin-pill">🪙 <span id="shopCoinsVal">${coins}</span> Coins Available</div></div>
+    <div class="tool-caption" style="margin-bottom:12px;">Spend study coins on gear. Buying items <strong>never</strong> lowers your level or rank!</div>
+    ${boost?`<div class="boost-live">🚀 <b>${boost.mult}× XP</b> is active until ${new Date(boost.until).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}. Every lecture, DPP and study session pays more.</div>`:''}
+    <div class="shop-sub">Gear</div><div class="shop-grid">${card('🛡️','Streak Shield','Saves your streak if you miss 2 days in a row','🪙 300',`<button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy'}</button>`)}</div>
+    <div class="shop-sub">XP multipliers <small>one at a time</small></div><div class="shop-grid">${mults}</div>
+    <div class="shop-sub">Themes</div><div class="shop-grid">${themes}</div>
+    <div class="inv-bar"><span><b>Inventory:</b></span><span class="inv-item">🛡️ ${shields} / 2 Shields</span><span class="inv-item">🎨 ${activeTh==='default'?'Classic':THEMES[activeTh]?THEMES[activeTh].name:'Classic'}</span>${boost?`<span class="inv-item">🚀 ${boost.mult}× active</span>`:''}</div></div>`;
 }
 function buyShopItem(k){
-  const coins=spendableCoins();
-  const G=gameState();
+  const coins=spendableCoins(),G=gameState();
   if(k==='shield'){
     if(coins<300){alert('Not enough coins!');return;}
     if((G.shields||0)>=2){alert('You can hold at most 2 shields at a time.');return;}
-    G.spentCoins=(G.spentCoins||0)+300;
-    G.shields=(G.shields||0)+1;G.shieldCheckDay='';
-    save();sfx('reveal');if(!REDUCE())confetti(140);
-    showToast('🛡️','Streak Shield Purchased!','Now holding '+G.shields+' shield(s).');
-  }else if(k==='cyber'){
-    if(coins<450){alert('Not enough coins!');return;}
-    G.spentCoins=(G.spentCoins||0)+450;
-    if(!G.unlockedThemes)G.unlockedThemes=['default'];
-    G.unlockedThemes.push('cyber');
-    G.activeTheme='cyber';
-    save();applyTheme('cyber');sfx('level');if(!REDUCE())confetti(180);
-    showToast('🌌','Theme Unlocked!','Cyber Neon theme equipped.');
-  }else if(k==='booster'){
-    if(coins<150){alert('Not enough coins!');return;}
-    G.spentCoins=(G.spentCoins||0)+150;
-    G.bonusXp=(G.bonusXp||0)+100;
-    save();sfx('lucky');if(!REDUCE())fxLucky(50);
-    showToast('⚡','Booster Activated!','+50 net bonus XP awarded.');
+    G.spentCoins=(G.spentCoins||0)+300;G.shields=(G.shields||0)+1;G.shieldCheckDay='';
+    save();sfx('reveal');if(!REDUCE())confetti(140);showToast('🛡️','Streak Shield purchased','Now holding '+G.shields+' shield(s).');
+  }else if(k.startsWith('theme:')){
+    const id=k.slice(6),t=THEMES[id];if(!t)return;
+    if(coins<t.cost){alert('Not enough coins!');return;}
+    G.spentCoins=(G.spentCoins||0)+t.cost;G.unlockedThemes=G.unlockedThemes||['default'];
+    if(!G.unlockedThemes.includes(id))G.unlockedThemes.push(id);
+    G.activeTheme=id;save();applyTheme(id);sfx('level');if(!REDUCE())confetti(180);showToast(t.ico,'Theme unlocked',t.name+' equipped.');
+  }else if(MULTS[k]){
+    const m=MULTS[k];
+    if(activeBoost()){alert('A multiplier is already active. Wait for it to finish.');return;}
+    if(coins<m.cost){alert('Not enough coins!');return;}
+    G.spentCoins=(G.spentCoins||0)+m.cost;G.boost={mult:m.mult,until:Date.now()+m.mins*60000};
+    save();sfx('lucky');if(!REDUCE())fxLucky(Math.round((m.mult-1)*100));showToast(m.ico,m.mult+'× XP active',`For the next ${m.mins>=60?(m.mins/60)+' hour'+(m.mins>60?'s':''):m.mins+' minutes'}.`);
   }
-  updateHud();
-  renderStreaks();
+  updateHud();updateBoostChip();renderStreaks();
 }
 function toggleThemeOption(th){
   const G=gameState();G.activeTheme=th;save();applyTheme(th);renderStreaks();
@@ -1842,14 +1835,35 @@ function totalXp(){
   xp+=mastered.length*100;
   return xp+targetDayCount()*25+((data.game&&data.game.bonusXp)||0);
 }
-const XPK=512;
+const XPK=288,MAX_LEVEL=30;
 function xpForLevel(L){return Math.round(XPK*Math.pow(L-1,1.5));}
 function levelInfo(xp){
-  let level=Math.floor(Math.pow(Math.max(0,xp)/XPK,2/3))+1;
-  while(xp>=xpForLevel(level+1))level++;
+  let level=Math.min(MAX_LEVEL,Math.floor(Math.pow(Math.max(0,xp)/XPK,2/3))+1);
+  while(level<MAX_LEVEL&&xp>=xpForLevel(level+1))level++;
   while(level>1&&xp<xpForLevel(level))level--;
-  const base=xpForLevel(level),next=xpForLevel(level+1);
+  const base=xpForLevel(level);
+  if(level>=MAX_LEVEL)return{level,base,next:base,toNext:0,pct:100,max:true};
+  const next=xpForLevel(level+1);
   return{level,base,next,toNext:next-xp,pct:Math.round((xp-base)/(next-base)*100)};
+}
+function dayBaseXp(a){
+  if(!a)return 0;let x=0;
+  a.lec.forEach(l=>x+=20+Math.round(durToMins(l.duration)/6));
+  a.dpp.forEach(d=>{x+=15;if(d.result)x+=10;});
+  x+=Math.floor(Math.min(a.st,180)/3);
+  const t=dayTarget();if(t>0&&a.lec.length>=t)x+=25;
+  return x;
+}
+function recentXpPerDay(){
+  const act=dayActivity();let sum=0;
+  for(let i=0;i<14;i++){const d=new Date();d.setDate(d.getDate()-i);sum+=dayBaseXp(act[todayKey(d)]);}
+  return Math.round(sum/14);
+}
+function paceLine(xp){
+  const L=levelInfo(xp);if(L.max)return 'Max level reached. You are a Legend.';
+  const r=recentXpPerDay();if(r<=0)return `Level ${MAX_LEVEL} needs ${xpForLevel(MAX_LEVEL).toLocaleString()} XP in total.`;
+  const days=Math.ceil((xpForLevel(MAX_LEVEL)-xp)/(r*1.25));
+  return `At your recent pace (~${r} XP/day plus bonuses) you would reach level ${MAX_LEVEL} in about ${days} days (${(days/30).toFixed(1)} months).`;
 }
 function levelTitle(l){return l>=30?'Legend':l>=20?'IIT Bound':l>=15?'Topper':l>=10?'Ranker':l>=6?'Scholar':l>=3?'Grinder':'Rookie';}
 function rewardVal(r){return r.type==='streak'?bestStreak():r.type==='level'?levelInfo(totalXp()).level:r.type==='lectures'?completedLectures().length:targetDayCount();}
@@ -1860,7 +1874,7 @@ function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function confetti(n=150){
   if(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const cv=document.createElement('canvas');cv.className='confetti';cv.width=innerWidth;cv.height=innerHeight;document.body.appendChild(cv);
-  const g=cv.getContext('2d'),cols=['#16c47f','#6c5ce7','#ffb020','#ff5722','#0ea5e9','#ec4899'];
+  const g=cv.getContext('2d');if(!g){cv.remove();return;}const cols=['#16c47f','#6c5ce7','#ffb020','#ff5722','#0ea5e9','#ec4899'];
   const ps=Array.from({length:n},()=>({x:innerWidth/2+(Math.random()-.5)*160,y:innerHeight*.62,vx:(Math.random()-.5)*15,vy:-Math.random()*17-6,s:5+Math.random()*6,c:pick(cols),r:Math.random()*6,vr:(Math.random()-.5)*.4}));
   let t=0;(function f(){t++;g.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{p.vy+=.45;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=p.vr;g.save();g.translate(p.x,p.y);g.rotate(p.r);g.fillStyle=p.c;g.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);g.restore();});if(t<140)requestAnimationFrame(f);else cv.remove();})();
 }
@@ -1934,7 +1948,7 @@ function gameHtml2(){
     <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
       <div class="gm-lvlbadge">${levelBadgeSvg(tierOf(L.level),L.level,78,true)}</div>
       <div style="flex:1;min-width:180px;"><div style="font-weight:800;font-size:18px;">${levelTitle(L.level)}</div>
-        <div class="tool-caption"><span class="cnt" data-to="${xp}">${xp}</span> XP · ${L.toNext} XP to level ${L.level+1}</div>
+        <div class="tool-caption"><span class="cnt" data-to="${xp}">${xp}</span> XP · ${L.max?'MAX LEVEL':L.toNext+' XP to level '+(L.level+1)}</div><div class="tool-caption" style="margin-top:2px;">${paceLine(xp)}</div>
         <div class="gm-xpbar"><div style="width:${L.pct}%"></div></div></div>
       
     </div>
@@ -2153,7 +2167,7 @@ function timerTick(){
   const ip=document.getElementById('idlePrompt');
   if(ip&&ip.style.display!=='none'&&live&&live.promptAt){const left=Math.max(0,IDLE_GRACE-(now-live.promptAt));document.getElementById('idleLeft').textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');}
   focusUpdate(live,dm,now);
-  updateComboChip();
+  updateComboChip();updateBoostChip();
   if(now-_qT>5000){_qT=now;checkQuests();}
   if(_prevMin!==null&&_prevMin<STUDY_GOAL&&today>=STUDY_GOAL){
     _noLive=true;const before=currentStreak();_noLive=false;const after=currentStreak();
@@ -2293,7 +2307,7 @@ function renderTimer(){
 
 
 function statsSwitchHtml(){
-  return `<div class="tmx-seg" style="margin-bottom:14px;"><button class="${statsMode==='lec'?'on':''}" onclick="setStatsMode('lec')"><i class="ti ti-player-play"></i>Lectures</button><button class="${statsMode==='timer'?'on':''}" onclick="setStatsMode('timer')"><i class="ti ti-hourglass-high"></i>Study timer</button></div>`;
+  return `<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;"><div class="tmx-seg"><button class="${statsMode==='lec'?'on':''}" onclick="setStatsMode('lec')"><i class="ti ti-player-play"></i>Lectures</button><button class="${statsMode==='timer'?'on':''}" onclick="setStatsMode('timer')"><i class="ti ti-hourglass-high"></i>Study timer</button></div><button class="tmx-chip" style="margin-left:auto;" onclick="openWeeklyReview(0)">📊 Weekly review</button></div>`;
 }
 function timerInsightsHtml(){
   const ss=data.sessions||[];
@@ -2356,7 +2370,12 @@ function questProgress(q){
   if(q.kind==='res')return data.dpps.filter(d=>d.result&&d.result.loggedAt===k).length;
   return(data.sessions||[]).filter(x=>x.date===k).length;
 }
-function gameState(){return data.game=Object.assign({bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]},data.game||{});}
+function gameState(){
+  const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};
+  if(!data.game||typeof data.game!=='object')data.game={};
+  Object.keys(gdef).forEach(k=>{if(data.game[k]===undefined)data.game[k]=gdef[k];});
+  return data.game;
+}
 function chestReady(){const G=gameState(),aw=G.awarded[todayKey()]||[];return aw.length>=3&&G.chestDay!==todayKey();}
 function checkQuests(){
   if(!data.subjects||!data.subjects.length)return;
@@ -2405,7 +2424,7 @@ function riskHtml(){
 }
 function renderQuestStrip(){
   try{maybeApplyShields();}catch(e){}
-  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+questStripHtml();}
+  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+weeklyStripHtml()+questStripHtml();}
   const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
 }
 
@@ -2446,6 +2465,7 @@ function postProgress(s1,isFirstTime=true){
   sfx(s2.lvl>s1.lvl||mile?'level':newR.length?'chest':(s2.hit&&!s1.hit)?'quest':s2.streak>s1.streak?'streak':'xp');
   if(isFirstTime){
     comboApply(gain);
+    boostApply(gain);
     maybeLucky(gain,'tick');
   }
   checkCourse();checkQuests();checkChapterMastery();
@@ -2505,6 +2525,52 @@ function courseStripHtml(){
   const pips=Array.from({length:20},(_,i)=>`<i class="${(i+1)*5<=mx?'on':''}" title="${(i+1)*5}%"></i>`).join('');
   return `<div class="tool-panel crs-strip"><div class="crs-ring"><svg viewBox="0 0 80 80" width="64" height="64"><circle cx="40" cy="40" r="34" fill="none" style="stroke:var(--border);" stroke-width="8"/><circle cx="40" cy="40" r="34" fill="none" stroke="url(#fxcg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="213.6" style="stroke-dashoffset:${213.6*(1-cs.pct/100)}" transform="rotate(-90 40 40)"/></svg><b>${Math.round(cs.pct)}%</b></div>
     <div class="crs-main"><div class="crs-t">Course progress · ${cs.pct.toFixed(1)}%</div><div class="tool-caption">${cs.d} of ${cs.t} lectures done. Next milestone: <b>${next}%</b> in ${need} more lecture${need===1?'':'s'} (+${stepXp(next)} XP).</div><div class="crs-pips">${pips}</div></div></div>`;
+}
+
+
+/* ---- Weekly review ---- */
+function wrWeek(off){const m=isoWeekStart();m.setDate(m.getDate()+off*7);return [...Array(7)].map((_,i)=>{const d=new Date(m);d.setDate(d.getDate()+i);return todayKey(d);});}
+function wrStats(days){
+  const act=dayActivity();let st=0,lecMin=0,lec=0,dpp=0,xp=0,active=0,best={k:'',s:0};
+  days.forEach(k=>{const a=act[k];if(!a)return;st+=a.st;lecMin+=a.min;lec+=a.lec.length;dpp+=a.dpp.length;xp+=dayBaseXp(a);
+    const sc=a.st+a.min+a.dpp.length*30;if(a.lec.length||a.dpp.length||a.st>=STUDY_GOAL)active++;if(sc>best.s)best={k,s:sc};});
+  const res=(data.dpps||[]).filter(d=>d.result&&days.includes(d.result.loggedAt||d.completedAt));
+  let c=0,w=0;res.forEach(d=>{c+=d.result.correct;w+=d.result.wrong;});
+  return{st,lecMin,lec,dpp,xp,active,best,res,acc:c+w?Math.round(c/(c+w)*100):null};
+}
+function wrDelta(cur,prev,fmt){const d=cur-prev;if(!prev&&!cur)return '';return `<span class="wr-d ${d>=0?'up':'dn'}">${d>=0?'▲':'▼'} ${fmt(Math.abs(d))}</span>`;}
+function weeklyReviewHtml(off){
+  const days=wrWeek(off),S=wrStats(days),P=wrStats(wrWeek(off-1));
+  const label=off===0?'This week so far':off===-1?'Last week':'Earlier week';
+  const cutoff=todayKey(new Date(Date.now()-30*864e5));
+  const pool=S.res.length?S.res:(data.dpps||[]).filter(d=>d.result&&(d.result.loggedAt||d.completedAt)>=cutoff);
+  const cat={};pool.forEach(d=>{const k=subjectName(d.subjectId)+' · '+(d.category||'Uncategorised'),o=cat[k]=cat[k]||{c:0,w:0,m:{}};o.c+=d.result.correct;o.w+=d.result.wrong;(d.result.mistakes||[]).forEach(t=>o.m[t]=(o.m[t]||0)+1);});
+  const weak=Object.entries(cat).filter(([k,o])=>o.c+o.w>=5).map(([k,o])=>({k,a:Math.round(o.c/(o.c+o.w)*100),m:Object.entries(o.m).sort((x,y)=>y[1]-x[1])[0]})).sort((x,y)=>x.a-y.a)[0];
+  const pending=(data.lectures||[]).filter(l=>!l.done),pm=pending.reduce((a,l)=>a+durToMins(l.duration),0);
+  const exam=data.settings&&data.settings.examDate?Math.max(0,daysBetween(todayKey(),data.settings.examDate)):0;
+  const tips=[];
+  if(weak&&weak.a<70)tips.push(`Revise <b>${escH(weak.k)}</b>: ${weak.a}% accuracy${weak.m?', mostly '+escH(weak.m[0]).toLowerCase():''}.`);
+  if(off<0&&S.active<5)tips.push(`You studied on ${S.active} of 7 days. Aim for 5 or more.`);
+  if(off<0&&P.st>0&&S.st<P.st)tips.push(`Timer study fell by ${hmDur(P.st-S.st)} from the week before. Start the day with one 25-minute Pomodoro.`);
+  if(pending.length)tips.push(`${pending.length} lectures are still pending (${hmDur(pm)} of video)${exam?`. With ${exam} days to the exam, that is about ${(pending.length/exam).toFixed(1)} a day.`:'.'}`);
+  if(!tips.length)tips.push('Strong week. Keep the same rhythm.');
+  const card=(ico,v,t,d)=>`<div class="wr-card"><div class="wr-ico">${ico}</div><div class="wr-v">${v}</div><div class="wr-t">${t}</div>${d||''}</div>`;
+  return `<div class="wr-head"><button class="wr-nav" onclick="openWeeklyReview(${off-1})" aria-label="Previous week"><i class="ti ti-chevron-left"></i></button><div style="flex:1;"><div class="wr-title">Weekly review</div><div class="wr-sub">${label} · ${hmPretty(days[0])} to ${hmPretty(days[6])}</div></div><button class="wr-nav" onclick="openWeeklyReview(${off+1})" ${off>=0?'disabled':''} aria-label="Next week"><i class="ti ti-chevron-right"></i></button><button class="wr-x" onclick="closeWeeklyReview()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+  <div class="wr-grid">${card('⏱️',hmDur(S.st)||'0m','timer study',wrDelta(S.st,P.st,hmDur))}${card('🎬',S.lec,'lectures ('+(hmDur(S.lecMin)||'0m')+')',wrDelta(S.lec,P.lec,x=>x))}${card('📝',S.dpp,'DPPs done',wrDelta(S.dpp,P.dpp,x=>x))}${card('🎯',S.acc===null?'—':S.acc+'%','DPP accuracy',S.acc!==null&&P.acc!==null?wrDelta(S.acc,P.acc,x=>x+'%'):'')}${card('📅',S.active+' / 7','active days',wrDelta(S.active,P.active,x=>x))}${card('⭐','+'+S.xp,'XP earned',wrDelta(S.xp,P.xp,x=>x))}</div>
+  <div class="wr-row"><span>🏆 Best day</span><b>${S.best.k?hmPretty(S.best.k):'—'}</b></div>
+  <div class="wr-row"><span>🔥 Streak right now</span><b>${currentStreak()} days</b></div>
+  ${weak?`<div class="wr-row"><span>⚠️ Weakest category</span><b>${escH(weak.k)} · ${weak.a}%</b></div>`:''}
+  <div class="wr-tips"><div class="dpa-title">Focus for next week</div>${tips.slice(0,3).map(t=>`<div class="wr-tip">${t}</div>`).join('')}</div>`;
+}
+function openWeeklyReview(off=0){
+  off=Math.min(0,off);let ov=document.getElementById('wrOv');
+  if(!ov){ov=document.createElement('div');ov.id='wrOv';ov.className='wr-ov';ov.onclick=e=>{if(e.target===ov)closeWeeklyReview();};document.body.appendChild(ov);}
+  ov.innerHTML=`<div class="wr-wrap">${weeklyReviewHtml(off)}</div>`;ov.style.display='flex';
+}
+function closeWeeklyReview(){const o=document.getElementById('wrOv');if(o)o.style.display='none';}
+function weeklyStripHtml(){
+  const dow=new Date().getDay(),hot=dow===0||dow===1;
+  return `<div class="tool-panel wr-strip ${hot?'hot':''}" onclick="openWeeklyReview(${dow===1?-1:0})"><div class="wr-sico">📊</div><div style="flex:1;"><div style="font-weight:800;font-size:14px;">Weekly review${hot?' is ready':''}</div><div class="tool-caption">${dow===1?'See how last week went and what to fix.':'Hours, accuracy, weakest chapter and a plan for next week.'}</div></div><span class="qs-chest">Open</span></div>`;
 }
 
 /* ---- View ---- */
