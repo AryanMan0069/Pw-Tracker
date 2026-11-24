@@ -797,10 +797,68 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
 .wr-strip{display:flex;align-items:center;gap:14px;margin-bottom:1rem;cursor:pointer;transition:transform .15s;}.wr-strip:hover{transform:translateY(-2px);}
 .wr-strip.hot{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}.wr-sico{font-size:28px;}
 @media(max-width:520px){.wr-grid{grid-template-columns:repeat(2,1fr);}}
+
+/* ---- Daily Journal ---- */
+.jnl-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:4000;padding:16px;}
+.jnl-wrap{background:var(--card);border-radius:22px;padding:28px 24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+.jnl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.jnl-title{font-size:20px;font-weight:800;color:var(--text);}
+.jnl-date{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
+.jnl-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;font-size:20px;}
+.jnl-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:14px 0 6px;}
+.jnl-textarea{width:100%;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;resize:vertical;min-height:110px;transition:border-color .2s;}
+.jnl-textarea:focus{outline:none;border-color:var(--accent);}
+.jnl-mood{display:flex;gap:8px;margin-top:4px;}
+.jnl-star{font-size:26px;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s;}
+.jnl-star.on{opacity:1;transform:scale(1.15);}
+.jnl-prod{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.jnl-prod input[type=range]{flex:1;accent-color:var(--accent);}
+.jnl-prod-val{font-size:14px;font-weight:700;min-width:38px;color:var(--accent);}
+.jnl-save{margin-top:18px;width:100%;padding:13px;border-radius:14px;font-size:15px;font-weight:700;}
+.jnl-history{margin-top:18px;border-top:1px dashed var(--border);padding-top:14px;}
+.jnl-entry{background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;}
+.jnl-entry-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.jnl-entry-date{font-size:12px;font-weight:700;color:var(--muted);}
+.jnl-entry-mood{font-size:14px;}
+.jnl-entry-text{font-size:13px;color:var(--text);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.jnl-strip{display:flex;align-items:center;gap:14px;margin-bottom:1rem;cursor:pointer;transition:transform .15s;}
+.jnl-strip:hover{transform:translateY(-2px);}
+.jnl-strip-ico{font-size:28px;}
+
+/* ---- AI Companion ---- */
+.aico-fab{position:fixed;bottom:24px;right:24px;z-index:3500;width:58px;height:58px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:26px;transition:transform .2s,box-shadow .2s;}
+.aico-fab:hover{transform:scale(1.08);box-shadow:0 10px 32px rgba(0,0,0,.35);}
+.aico-fab .aico-badge{position:absolute;top:0;right:0;width:18px;height:18px;background:#ef4444;border-radius:50%;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;display:none;}
+.aico-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:flex-end;z-index:4500;padding:16px 24px 24px;}
+.aico-ov.open{display:flex;}
+.aico-wrap{background:var(--card);border-radius:22px;width:380px;max-width:calc(100vw - 32px);height:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;}
+.aico-head{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.aico-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2,var(--accent)));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.aico-headtxt{flex:1;}
+.aico-headtxt b{font-size:15px;display:block;}
+.aico-headtxt small{font-size:11px;color:var(--muted);}
+.aico-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;padding:4px;}
+.aico-msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;}
+.aico-msg{max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;}
+.aico-msg.bot{background:var(--accent-soft);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;}
+.aico-msg.user{background:var(--accent);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+.aico-msg.typing{opacity:.6;}
+.aico-typing-dots{display:inline-flex;gap:3px;align-items:center;}.aico-typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:aico-bounce 1.1s infinite;}.aico-typing-dots span:nth-child(2){animation-delay:.18s;}.aico-typing-dots span:nth-child(3){animation-delay:.36s;}
+@keyframes aico-bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
+.aico-input-row{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
+.aico-input{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:9px 13px;font-size:13.5px;color:var(--text);font-family:inherit;}
+.aico-input:focus{outline:none;border-color:var(--accent);}
+.aico-send{background:var(--accent);border:none;border-radius:12px;padding:9px 14px;cursor:pointer;color:#fff;font-size:16px;transition:opacity .15s;}
+.aico-send:disabled{opacity:.4;cursor:default;}
+.aico-key-row{padding:0 14px 10px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);flex-shrink:0;}
+.aico-key-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 9px;font-size:11px;color:var(--text);font-family:monospace;}
+.aico-key-row button{background:var(--accent-soft);border:none;border-radius:8px;padding:5px 9px;cursor:pointer;font-size:11px;color:var(--accent);font-weight:700;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- AI Companion FAB -->
+<button class="aico-fab" id="aicoFab" onclick="openAiCompanion()" title="AI Study Companion" aria-label="AI Study Companion">🤖</button>
 <div class="auth-screen" id="authScreen" style="display:none;">
   <div class="auth-card">
     <div class="auth-logo">
@@ -842,6 +900,7 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
       <button class="hud-chip" id="hudCoins" onclick="setView('streaks')" title="Coins / XP Shop">🪙 <b>0</b></button>
       <div class="sync-pill" id="syncStatus" onclick="onSyncPillClick()" style="cursor:pointer;" title="Sync status · Click for options"><span class="sync-dot ok"></span><span>Local / Guest</span></div>
       <button class="hud-chip icon" onclick="openThemeModal()" title="Themes & Wardrobe (🎨)"><i class="ti ti-palette"></i></button>
+      <button class="hud-chip icon" onclick="openJournalModal()" title="Daily Journal" aria-label="Daily Journal"><i class="ti ti-notebook"></i></button>
       <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
@@ -1044,6 +1103,8 @@ function ensureDataShape(obj){
    if(!obj.game||typeof obj.game!=='object')obj.game={};
    Object.keys(gdef).forEach(k=>{if(obj.game[k]===undefined)obj.game[k]=gdef[k];});}
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
+  if(!obj.journal||typeof obj.journal!=='object'||Array.isArray(obj.journal))obj.journal={};
+  if(!Array.isArray(obj.chatHistory))obj.chatHistory=[];
   return obj;
 }
 function refreshCurrentView(){
@@ -2671,7 +2732,7 @@ function riskHtml(){
 }
 function renderQuestStrip(){
   try{maybeApplyShields();}catch(e){}
-  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+weeklyStripHtml()+questStripHtml();}
+  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+weeklyStripHtml()+questStripHtml()+journalStripHtml();}
   const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
 }
 
@@ -2807,7 +2868,7 @@ function weeklyReviewHtml(off){
   <div class="wr-row"><span>🏆 Best day</span><b>${S.best.k?hmPretty(S.best.k):'—'}</b></div>
   <div class="wr-row"><span>🔥 Streak right now</span><b>${currentStreak()} days</b></div>
   ${weak?`<div class="wr-row"><span>⚠️ Weakest category</span><b>${escH(weak.k)} · ${weak.a}%</b></div>`:''}
-  <div class="wr-tips"><div class="dpa-title">Focus for next week</div>${tips.slice(0,3).map(t=>`<div class="wr-tip">${t}</div>`).join('')}</div>`;
+  ${(()=>{const jc=days.filter(dk=>data.journal&&data.journal[dk]&&(data.journal[dk].text||data.journal[dk].mood)).length;return `<div class="wr-row" style="cursor:pointer;" onclick="openJournalModal()"><span>📓 Journal entries this week</span><b>${jc} / 7</b></div>`;})()}<div class="wr-tips"><div class="dpa-title">Focus for next week</div>${tips.slice(0,3).map(t=>`<div class="wr-tip">${t}</div>`).join('')}</div>`;
 }
 function openWeeklyReview(off=0){
   off=Math.min(0,off);let ov=document.getElementById('wrOv');
@@ -3611,6 +3672,348 @@ document.addEventListener('visibilitychange',function(){
 {const fixA11y=()=>document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));let _at;new MutationObserver(()=>{clearTimeout(_at);_at=setTimeout(fixA11y,200);}).observe(document.body,{childList:true,subtree:true});fixA11y();}
 {const _ap=afterProgress;window.afterProgress=function(s1,isFirst){_ap.apply(this,arguments);postProgress(s1,isFirst);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
 initTimerUi();
+
+/* ============================================================
+   DAILY JOURNAL
+   ============================================================ */
+var _jnlDate=null;
+function moodEmoji(n){return['','😞','😕','😐','😊','🔥'][n]||'';}
+function jnlDateLabel(k){
+  var d=new Date(k+'T00:00:00');
+  return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+}
+function saveJournal(){
+  var k=_jnlDate;if(!k)return;
+  var text=(document.getElementById('jnlText')||{}).value||'';
+  var mood=parseInt((document.getElementById('jnlMoodVal')||{}).value||'0');
+  var prod=parseInt((document.getElementById('jnlProdSlider')||{}).value||'0');
+  if(!data.journal)data.journal={};
+  data.journal[k]={text:text.trim(),mood:mood,productivityPct:prod,loggedAt:new Date().toISOString()};
+  save();
+  showToast('📓','Journal saved!','Your entry for '+jnlDateLabel(k)+' is recorded.');
+  renderJournalHistory();
+  if(typeof renderQuestStrip==='function')renderQuestStrip();
+}
+function deleteJournalEntry(k){
+  if(!confirm('Delete this journal entry?'))return;
+  if(data.journal)delete data.journal[k];
+  save();
+  if(k===_jnlDate){
+    document.getElementById('jnlText').value='';
+    document.getElementById('jnlMoodVal').value='0';
+    document.getElementById('jnlProdSlider').value='0';
+    setJnlMood(0);setJnlProd(0);
+  }
+  renderJournalHistory();
+}
+function setJnlMood(n){
+  document.getElementById('jnlMoodVal').value=n;
+  document.querySelectorAll('.jnl-star').forEach(function(el,i){
+    el.classList.toggle('on',i<n);
+  });
+  var disp=document.getElementById('jnlMoodEmoji');
+  if(disp)disp.textContent=n?moodEmoji(n):'';
+}
+function setJnlProd(v){
+  var el=document.getElementById('jnlProdVal');
+  if(el)el.textContent=v+'%';
+}
+function renderJournalHistory(){
+  var el=document.getElementById('jnlHistory');if(!el)return;
+  var entries=Object.entries(data.journal||{}).sort(function(a,b){return b[0]<a[0]?-1:1;}).slice(0,10);
+  if(!entries.length){el.innerHTML='<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px 0;">No entries yet.</div>';return;}
+  el.innerHTML=entries.map(function(en){
+    var k=en[0],e=en[1];
+    return '<div class="jnl-entry" onclick="openJournalModal(\''+k+'\')">'
+     +'<div class="jnl-entry-top"><span class="jnl-entry-date">'+jnlDateLabel(k)+(e.productivityPct?(' · '+e.productivityPct+'%'):'')+'</span>'
+     +'<span class="jnl-entry-mood">'+moodEmoji(e.mood||0)+'</span>'
+     +(k!==todayKey()?'<button onclick="event.stopPropagation();deleteJournalEntry(\''+k+'\')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;">✕</button>':'')
+     +'</div>'
+     +'<div class="jnl-entry-text">'+(e.text?escH(e.text):'<em style="color:var(--muted)">No text written.</em>')+'</div>'
+     +'</div>';
+  }).join('');
+}
+function openJournalModal(dateKey){
+  _jnlDate=dateKey||todayKey();
+  var ov=document.getElementById('jnlOv');
+  if(!ov){
+    ov=document.createElement('div');ov.id='jnlOv';ov.className='jnl-ov';
+    ov.onclick=function(e){if(e.target===ov)closeJournalModal();};
+    document.body.appendChild(ov);
+  }
+  var entry=data.journal&&data.journal[_jnlDate]||{};
+  var mood=entry.mood||0,prod=entry.productivityPct||0;
+  ov.innerHTML='<div class="jnl-wrap">'
+    +'<div class="jnl-head">'
+    +'<div><div class="jnl-title">📓 Daily Journal</div><div class="jnl-date">'+jnlDateLabel(_jnlDate)+'</div></div>'
+    +'<button class="jnl-close" onclick="closeJournalModal()">✕</button>'
+    +'</div>'
+    +'<div class="jnl-label">What did you do today?</div>'
+    +'<textarea id="jnlText" class="jnl-textarea" placeholder="Write anything — lectures watched, topics covered, wins, struggles...">'+escH(entry.text||'')+'</textarea>'
+    +'<div class="jnl-label">Mood <span id="jnlMoodEmoji">'+(mood?moodEmoji(mood):'')+'</span></div>'
+    +'<div class="jnl-mood">'
+    +[1,2,3,4,5].map(function(i){return '<span class="jnl-star '+(i<=mood?'on':'')+'" onclick="setJnlMood('+i+')">⭐</span>';}).join('')
+    +'<input type="hidden" id="jnlMoodVal" value="'+mood+'">'
+    +'</div>'
+    +'<div class="jnl-label">Productivity — how much did you actually get done?</div>'
+    +'<div class="jnl-prod">'
+    +'<input type="range" id="jnlProdSlider" min="0" max="100" step="5" value="'+prod+'" oninput="setJnlProd(this.value)">'
+    +'<div class="jnl-prod-val" id="jnlProdVal">'+prod+'%</div>'
+    +'</div>'
+    +'<button class="btn-primary jnl-save" onclick="saveJournal()">💾 Save Entry</button>'
+    +'<div class="jnl-history"><div class="jnl-label">Recent Entries</div><div id="jnlHistory"></div></div>'
+    +'</div>';
+  ov.style.display='flex';
+  renderJournalHistory();
+}
+function closeJournalModal(){
+  var ov=document.getElementById('jnlOv');if(ov)ov.style.display='none';
+}
+function journalStripHtml(){
+  var k=todayKey();
+  var entry=data.journal&&data.journal[k];
+  var filled=entry&&(entry.text||entry.mood);
+  return '<div class="tool-panel jnl-strip" onclick="openJournalModal(\''+k+'\')">'
+    +'<div class="jnl-strip-ico">'+(filled?moodEmoji(entry.mood||3):'📓')+'</div>'
+    +'<div style="flex:1;">'
+    +'<div style="font-weight:800;font-size:14px;">Daily Journal</div>'
+    +'<div class="tool-caption">'+(filled?escH((entry.text||'').slice(0,60)||(entry.productivityPct+'% productivity')):'Tap to log what you did today.')+'</div>'
+    +'</div>'
+    +'<span class="qs-chest">'+(filled?'Edit':'Log')+'</span>'
+    +'</div>';
+}
+
+/* ============================================================
+   AI COMPANION
+   ============================================================ */
+var _aicoOpen=false;
+var _aicoThinking=false;
+
+function buildCompanionContext(){
+  var streak=currentStreak();
+  var G=gameState();
+  var lvl=calcLevel(totalXp());
+  var today=todayKey();
+  var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
+  var target=data.settings&&data.settings.dailyTarget||3;
+  var totalDone=data.lectures.filter(function(l){return l.done;}).length;
+  var totalAll=data.lectures.length;
+  var pending=totalAll-totalDone;
+  var examDate=data.settings&&data.settings.examDate||'';
+  var daysLeft=examDate?Math.max(0,daysBetween(today,examDate)):0;
+  var pace=daysLeft>0?(pending/daysLeft).toFixed(1):'?';
+  var journal=data.journal&&data.journal[today];
+  var jnlText=journal&&journal.text?journal.text:'';
+  var jnlMood=journal&&journal.mood||0;
+  var jnlProd=journal&&journal.productivityPct||null;
+  var subStats=data.subjects.map(function(s){
+    var st=getStats(s.id);
+    return s.name+': '+st.done+'/'+st.total+' ('+st.pct+'%)';
+  }).join(', ');
+  return 'USER STUDY PROFILE:\n'
+    +'Streak: '+streak+' days\n'
+    +'Level: '+lvl.name+' ('+totalXp()+' XP)\n'
+    +'Today: '+todayDone+' lectures done (daily target: '+target+')\n'
+    +'Overall: '+totalDone+'/'+totalAll+' lectures ('+pending+' pending)\n'
+    +'Exam in: '+(daysLeft||'?')+' days → need '+pace+' lectures/day\n'
+    +'Subjects: '+subStats+'\n'
+    +(jnlText?'Today\'s journal: '+jnlText.slice(0,200)+'\n':'')
+    +(jnlMood?'Mood today: '+moodEmoji(jnlMood)+'\n':'')
+    +(jnlProd!==null?'Productivity: '+jnlProd+'%\n':'');
+}
+
+function smartCompanionReply(msg){
+  var m=msg.toLowerCase();
+  var streak=currentStreak();
+  var G=gameState();
+  var today=todayKey();
+  var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
+  var target=data.settings&&data.settings.dailyTarget||3;
+  var totalDone=data.lectures.filter(function(l){return l.done;}).length;
+  var totalAll=data.lectures.length;
+  var pending=totalAll-totalDone;
+  var journal=data.journal&&data.journal[today];
+  var jnlMood=journal&&journal.mood||0;
+
+  if(/motivat|inspire|push|hype|pump|fire me up/.test(m)){
+    var lines=[
+      'Bro you have '+(streak>0?streak+' days of momentum — don\'t waste it.':'a chance to start a new streak TODAY.'),
+      'Every lecture is one less thing between you and the exam. '+(todayDone>0?'You already did '+todayDone+' today. Keep it rolling.':'Start with just one. The first one breaks the inertia.'),
+      'The students who top the exam aren\'t smarter — they just showed up more consistently. '+(streak>=7?'Your '+streak+'-day streak proves you can.':'Time to prove it.'),
+      'Pain now, rank later. '+pending+' lectures left. Let\'s delete them.'
+    ];
+    return lines[Math.floor(Math.random()*lines.length)];
+  }
+  if(/how am i doing|my progress|status|update/.test(m)){
+    var pct=totalAll?Math.round(totalDone/totalAll*100):0;
+    return 'You\'ve cleared '+totalDone+' out of '+totalAll+' lectures ('+pct+'%). '
+      +(todayDone>=target?'You hit your daily target today — nice!':todayDone>0?'You\'re at '+todayDone+' today, '+(target-todayDone)+' more to hit your target.':'Haven\'t started today yet — go for at least '+target+'.')
+      +' Streak: '+streak+' days. '+G.bonusXp+' bonus XP in the bank.';
+  }
+  if(/streak|fire/.test(m)){
+    if(streak===0)return 'No streak yet — start one RIGHT NOW. Even a single DPP or timer session counts. Go.';
+    if(streak<7)return streak+' days going. Build it to 7 for the first milestone and bonus XP. You\'re '+(7-streak)+' away.';
+    if(streak<30)return streak+' days 🔥. You\'re in the top tier. Don\'t break it — a streak saver shield will cover you on hard days.';
+    return streak+'-day legend streak. Seriously impressive. Don\'t stop.';
+  }
+  if(/behind|backlog|slow|behind schedule/.test(m)){
+    var examDate=data.settings&&data.settings.examDate||'';
+    var daysLeft=examDate?Math.max(0,daysBetween(today,examDate)):0;
+    var pace=daysLeft>0?(pending/daysLeft).toFixed(1):'?';
+    return 'You have '+pending+' lectures left and '+daysLeft+' days. That\'s ~'+pace+' per day. '
+      +(parseFloat(pace)>8?'That\'s intense — but doable if you do 4-5 in the morning and 4-5 in the evening. Block your phone.':'You can handle '+pace+'/day. Split it into two sessions.')
+      +' Write down what you\'ll watch today in your Journal right now.';
+  }
+  if(/sad|tired|burnt out|exhausted|stress|anxious|worried/.test(m)||jnlMood<=2){
+    return 'Hey, it\'s okay. Feeling '+(jnlMood===1?'rough':'tired')+' sometimes is part of the grind. '
+      +'Take 10 minutes away from the screen. Drink water. Then come back and do JUST ONE lecture — not to grind, just to keep the habit alive. '
+      +'Small wins matter more than big exhausted sessions.';
+  }
+  if(/tip|advice|help|what should i do|study/.test(m)){
+    var subs=data.subjects.map(function(s){var st=getStats(s.id);return{name:s.name,pct:st.pct};}).sort(function(a,b){return a.pct-b.pct;});
+    var weakest=subs[0];
+    return 'Your weakest subject right now is '+escH(weakest?weakest.name:'N/A')+(weakest?' at '+weakest.pct+'%':'')+'. '
+      +'Start tomorrow\'s session with that. '
+      +'Also — open the timer, set a 25-min Pomodoro, and just go. The hardest part is starting.';
+  }
+  if(/xp|level|coins/.test(m)){
+    var xp=totalXp(),lvl=calcLevel(xp);
+    return 'You\'re at Level '+lvl.lvl+' ('+lvl.name+') with '+xp+' XP total. '
+      +(lvl.next?'Next level needs '+(lvl.next-xp)+' more XP. '+'Each lecture and DPP earns you XP — with combos and boosts it stacks fast.':'You\'re at max level. Legend.');
+  }
+  if(/hello|hi|hey|sup|what\'s up/.test(m)){
+    var greet=['Hey! How\'s the grind going?','Sup. Ready to get some lectures done?','Hey bro! What\'s on your mind?'];
+    return greet[Math.floor(Math.random()*greet.length)]+' (Tip: type "how am I doing" to see your stats.)';
+  }
+  // default
+  var fallbacks=[
+    'Focus tip: Break today\'s target into two blocks — morning and evening. Even 3+3 is better than nothing.',
+    'Write in your journal before you study. It sets intention and you\'ll be more focused.',
+    'Activate an XP boost from the shop before a long session — your XP gain doubles.',
+    'Haven\'t started today? Open the Study Timer and do one 25-min Pomodoro. That\'s all.',
+    'Check your weakest subject in Stats and dedicate the first lecture slot to it.'
+  ];
+  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
+}
+
+async function callGemini(userMsg){
+  var key=localStorage.getItem('pw_gemini_key')||'';
+  if(!key)return null;
+  var ctx=buildCompanionContext();
+  var sysPrompt='You are an AI study companion for a JEE/NEET student using a lecture tracker app. '
+    +'Be direct, motivating, specific, and concise (under 80 words). '
+    +'Never give generic advice — reference the user\'s actual stats below.\n\n'+ctx;
+  try{
+    var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system_instruction:{parts:[{text:sysPrompt}]},
+        contents:[{role:'user',parts:[{text:userMsg}]}]
+      })
+    });
+    if(!resp.ok)return null;
+    var j=await resp.json();
+    return j?.candidates?.[0]?.content?.parts?.[0]?.text||null;
+  }catch(e){return null;}
+}
+
+function aicoRenderMsgs(){
+  var el=document.getElementById('aicoMsgs');if(!el)return;
+  var history=data.chatHistory||[];
+  el.innerHTML=history.map(function(m){
+    return '<div class="aico-msg '+m.role+'">'+(m.role==='typing'?'<div class="aico-typing-dots"><span></span><span></span><span></span></div>':escH(m.text))+'</div>';
+  }).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+function aicoSaveKey(){
+  var inp=document.getElementById('aicoKeyInput');if(!inp)return;
+  var k=inp.value.trim();
+  if(k){localStorage.setItem('pw_gemini_key',k);showToast('🤖','Gemini key saved!','AI mode activated. Responses will be powered by Gemini.');}
+  else{localStorage.removeItem('pw_gemini_key');showToast('ℹ️','Key removed','Using smart rule-based replies.');}
+  renderAicoKey();
+}
+
+function renderAicoKey(){
+  var el=document.getElementById('aicoKeyRow');if(!el)return;
+  var key=localStorage.getItem('pw_gemini_key')||'';
+  el.innerHTML='<span>Gemini API key:</span>'
+    +'<input id="aicoKeyInput" type="password" placeholder="Paste your key here" value="'+escH(key)+'">'
+    +'<button onclick="aicoSaveKey()">'+(key?'Update':'Save')+'</button>'
+    +(key?'<span style="color:var(--accent)">✓ AI on</span>':'<span style="color:var(--muted)">offline</span>');
+}
+
+async function aicoSend(){
+  var inp=document.getElementById('aicoInput');if(!inp||_aicoThinking)return;
+  var msg=inp.value.trim();if(!msg)return;
+  inp.value='';
+  if(!data.chatHistory)data.chatHistory=[];
+  data.chatHistory.push({role:'user',text:msg,ts:new Date().toISOString()});
+  if(data.chatHistory.length>40)data.chatHistory=data.chatHistory.slice(-40);
+  data.chatHistory.push({role:'typing',text:'',ts:''});
+  aicoRenderMsgs();
+  _aicoThinking=true;
+  var sendBtn=document.getElementById('aicoSendBtn');
+  if(sendBtn)sendBtn.disabled=true;
+  var reply;
+  try{
+    var gemini=await callGemini(msg);
+    reply=gemini||smartCompanionReply(msg);
+  }catch(e){reply=smartCompanionReply(msg);}
+  _aicoThinking=false;
+  // remove typing indicator
+  data.chatHistory=data.chatHistory.filter(function(m){return m.role!=='typing';});
+  data.chatHistory.push({role:'bot',text:reply,ts:new Date().toISOString()});
+  if(data.chatHistory.length>40)data.chatHistory=data.chatHistory.slice(-40);
+  save();
+  aicoRenderMsgs();
+  if(sendBtn)sendBtn.disabled=false;
+}
+
+function openAiCompanion(){
+  var ov=document.getElementById('aicoOv');
+  if(!ov){
+    ov=document.createElement('div');ov.id='aicoOv';ov.className='aico-ov';
+    ov.onclick=function(e){if(e.target===ov)closeAiCompanion();};
+    document.body.appendChild(ov);
+  }
+  if(!data.chatHistory)data.chatHistory=[];
+  // Add welcome if first open
+  if(data.chatHistory.length===0){
+    var streak=currentStreak();
+    var today=todayKey();
+    var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
+    var welcome='Hey! 👋 I\'m your study companion. '
+      +(streak>0?'You\'re on a '+streak+'-day streak — ':'')
+      +(todayDone>0?'You\'ve done '+todayDone+' lectures today. ':'No lectures yet today — let\'s change that. ')
+      +'Ask me anything: tips, stats, motivation, or just vent.';
+    data.chatHistory.push({role:'bot',text:welcome,ts:new Date().toISOString()});
+    save();
+  }
+  ov.innerHTML='<div class="aico-wrap">'
+    +'<div class="aico-head">'
+    +'<div class="aico-avatar">🤖</div>'
+    +'<div class="aico-headtxt"><b>Study Companion</b><small id="aicoStatus">'+(localStorage.getItem('pw_gemini_key')?'Powered by Gemini AI':'Smart rule-based mode')+'</small></div>'
+    +'<button class="aico-close" onclick="closeAiCompanion()">✕</button>'
+    +'</div>'
+    +'<div class="aico-msgs" id="aicoMsgs"></div>'
+    +'<div class="aico-key-row" id="aicoKeyRow"></div>'
+    +'<div class="aico-input-row">'
+    +'<input class="aico-input" id="aicoInput" placeholder="Ask anything..." onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();aicoSend();}">'
+    +'<button class="aico-send" id="aicoSendBtn" onclick="aicoSend()">➤</button>'
+    +'</div>'
+    +'</div>';
+  ov.classList.add('open');
+  aicoRenderMsgs();
+  renderAicoKey();
+  _aicoOpen=true;
+  setTimeout(function(){var i=document.getElementById('aicoInput');if(i)i.focus();},100);
+}
+function closeAiCompanion(){
+  var ov=document.getElementById('aicoOv');if(ov)ov.classList.remove('open');
+  _aicoOpen=false;
+}
 
 init();
 </script>
