@@ -763,6 +763,26 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
 .th-sw{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle;}.th-sw i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(128,128,128,.4);display:inline-block;}
 .shop-sub{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:16px 0 8px;}.shop-sub small{font-weight:600;letter-spacing:0;text-transform:none;margin-left:6px;}
 .boost-live{background:linear-gradient(135deg,rgba(245,158,11,.18),var(--surface));border:1px solid #f59e0b;border-radius:14px;padding:10px 14px;font-size:13px;margin-bottom:10px;}
+/* Theme Studio & Hub */
+.theme-hub-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:var(--shadow);cursor:pointer;transition:all .18s;flex-wrap:wrap;}
+.theme-hub-card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow-md);}
+.theme-hub-left{display:flex;align-items:center;gap:12px;min-width:200px;}
+.theme-hub-ico{width:44px;height:44px;border-radius:13px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.theme-hub-title{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.01em;}
+.theme-hub-sub{font-size:11.5px;color:var(--text3);margin-top:2px;}
+.theme-hub-swatches{display:inline-flex;gap:4px;margin-top:5px;}
+.theme-hub-swatches i{width:11px;height:11px;border-radius:50%;border:1px solid rgba(128,128,128,.4);display:inline-block;}
+.theme-hub-right{display:flex;align-items:center;gap:8px;}
+.th-modal-tabs{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:3px;gap:3px;margin-bottom:14px;}
+.th-tab-btn{flex:1;border:none;background:transparent;color:var(--text2);font-weight:700;font-size:13px;padding:8px 12px;border-radius:9px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s;}
+.th-tab-btn.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow);}
+.th-filter-pills{display:flex;gap:5px;overflow-x:auto;padding-bottom:2px;}
+.th-pill{border:1px solid var(--border);background:var(--surface2);color:var(--text2);border-radius:99px;padding:3px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap;}
+.th-pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;max-height:58vh;overflow-y:auto;padding:2px 2px 8px;}
+.th-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:8px;transition:all .15s;}
+.th-item:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow);}
+.th-item.equipped{border-color:#16c47f;background:linear-gradient(135deg,var(--surface2),var(--surface));box-shadow:0 0 0 2px rgba(22,196,127,.2);}
 /* Weekly review */
 .wr-ov{position:fixed;inset:0;z-index:2700;background:rgba(10,8,30,.6);display:none;align-items:center;justify-content:center;padding:1rem;animation:ovfade .2s both;}
 .wr-wrap{background:var(--surface);border:1px solid var(--border);border-radius:26px;box-shadow:var(--shadow-md);width:min(600px,96vw);max-height:92vh;overflow-y:auto;padding:20px;animation:chestcard .45s cubic-bezier(.2,1.2,.4,1) both;}
@@ -821,6 +841,7 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
       <button class="hud-chip" id="hudLevel" onclick="setView('streaks')" title="Your level"></button>
       <button class="hud-chip" id="hudCoins" onclick="setView('streaks')" title="Coins / XP Shop">🪙 <b>0</b></button>
       <div class="sync-pill" id="syncStatus" onclick="onSyncPillClick()" style="cursor:pointer;" title="Sync status · Click for options"><span class="sync-dot ok"></span><span>Local / Guest</span></div>
+      <button class="hud-chip icon" onclick="openThemeModal()" title="Themes & Wardrobe (🎨)"><i class="ti ti-palette"></i></button>
       <button class="hud-chip icon" id="hudSound" onclick="toggleSound()" title="Sound on/off"><i class="ti ti-volume"></i></button>
       <button class="hud-chip icon" onclick="setView('export')" title="Export / download"><i class="ti ti-download"></i></button>
       <button class="btn-primary" id="addLecBtn" onclick="addForMode()" style="display:none"><i class="ti ti-plus"></i> Add</button>
@@ -1604,27 +1625,232 @@ const BREAKS=["Drink a glass of water.","Step outside for 5 minutes.","Stretch y
 /* ---- Themes & Spendable Coins ---- */
 const THEMES={
   cyber:{name:'Cyber Neon',ico:'🌌',cost:450,desc:'Neon cyan on near-black',sw:['#070710','#00f2fe','#4facfe']},
-  sunset:{name:'Sunset',ico:'🌅',cost:400,desc:'Warm orange and rose, dark',sw:['#150c10','#ff7a59','#ff4d8d'],v:{'--bg':'#150c10','--surface':'#201219','--surface2':'#2a1822','--border':'#3a2230','--border-strong':'#54313f','--text':'#ffeee6','--text2':'#d9aaa6','--text3':'#9a6c70','--accent':'#ff7a59','--accent-hover':'#ff4d8d','--accent-soft':'#3a1b22','--green':'#ffc857'}},
-  forest:{name:'Forest',ico:'🌲',cost:400,desc:'Deep greens, calm and focused',sw:['#08110c','#34d399','#10b981'],v:{'--bg':'#08110c','--surface':'#0f1d15','--surface2':'#15281c','--border':'#1f3a2a','--border-strong':'#2f573f','--text':'#e6fbef','--text2':'#9cc9b0','--text3':'#628a73','--accent':'#34d399','--accent-hover':'#10b981','--accent-soft':'#0f3123','--green':'#6ee7b7'}},
-  ocean:{name:'Deep Ocean',ico:'🌊',cost:450,desc:'Midnight blue with sky accents',sw:['#050f1b','#38bdf8','#0ea5e9'],v:{'--bg':'#050f1b','--surface':'#0a1c2e','--surface2':'#0f2740','--border':'#18385a','--border-strong':'#25507c','--text':'#e5f4ff','--text2':'#9cc2de','--text3':'#5f87a6','--accent':'#38bdf8','--accent-hover':'#0ea5e9','--accent-soft':'#0b2c47','--green':'#5eead4'}},
-  sakura:{name:'Sakura',ico:'🌸',cost:500,desc:'Soft pink, light and airy',light:1,sw:['#fff4f8','#ec4899','#f472b6'],v:{'--bg':'#fff4f8','--surface':'#ffffff','--surface2':'#fff0f5','--border':'#f6dbe6','--border-strong':'#eab8cf','--text':'#3a1830','--text2':'#7c4a68','--text3':'#b085a0','--accent':'#ec4899','--accent-hover':'#db2777','--accent-soft':'#fde4ef','--green':'#10b981'}},
-  matrix:{name:'Matrix',ico:'🟩',cost:600,desc:'Green terminal on pure black',mono:1,sw:['#000000','#00ff66','#00c853'],v:{'--bg':'#000000','--surface':'#041204','--surface2':'#071c07','--border':'#0d3a0d','--border-strong':'#15601a','--text':'#c8ffd8','--text2':'#6fd48a','--text3':'#3d8f55','--accent':'#00ff66','--accent-hover':'#00c853','--accent-soft':'#04240b','--green':'#00ff66'}},
-  gold:{name:'Midnight Gold',ico:'👑',cost:800,desc:'Black and gold, the premium one',sw:['#0c0a05','#f5c542','#e0a800'],v:{'--bg':'#0c0a05','--surface':'#17130a','--surface2':'#201a0d','--border':'#33290f','--border-strong':'#54421a','--text':'#fff6dc','--text2':'#d3c28f','--text3':'#8f8156','--accent':'#f5c542','--accent-hover':'#e0a800','--accent-soft':'#33270a','--green':'#f5c542'}}
+  sunset:{name:'Sunset',ico:'🌅',cost:400,desc:'Warm orange and rose, dark',btnText:'#ffffff',sw:['#150c10','#ff7a59','#ff4d8d'],v:{'--bg':'#150c10','--surface':'#201219','--surface2':'#2a1822','--border':'#3a2230','--border-strong':'#54313f','--text':'#ffeee6','--text2':'#d9aaa6','--text3':'#9a6c70','--accent':'#ff7a59','--accent-hover':'#ff4d8d','--accent-soft':'#3a1b22','--green':'#ffc857'}},
+  forest:{name:'Forest',ico:'🌲',cost:400,desc:'Deep greens, calm and focused',btnText:'#08110c',sw:['#08110c','#34d399','#10b981'],v:{'--bg':'#08110c','--surface':'#0f1d15','--surface2':'#15281c','--border':'#1f3a2a','--border-strong':'#2f573f','--text':'#e6fbef','--text2':'#9cc9b0','--text3':'#628a73','--accent':'#34d399','--accent-hover':'#10b981','--accent-soft':'#0f3123','--green':'#6ee7b7'}},
+  ocean:{name:'Deep Ocean',ico:'🌊',cost:450,desc:'Midnight blue with sky accents',btnText:'#050f1b',sw:['#050f1b','#38bdf8','#0ea5e9'],v:{'--bg':'#050f1b','--surface':'#0a1c2e','--surface2':'#0f2740','--border':'#18385a','--border-strong':'#25507c','--text':'#e5f4ff','--text2':'#9cc2de','--text3':'#5f87a6','--accent':'#38bdf8','--accent-hover':'#0ea5e9','--accent-soft':'#0b2c47','--green':'#5eead4'}},
+  coffee:{name:'Cozy Mocha',ico:'☕',cost:400,desc:'Dark roast, warm caramel and cream',btnText:'#18120e',sw:['#18120e','#e09f3e','#d48b28'],v:{'--bg':'#18120e','--surface':'#231b14','--surface2':'#2f241b','--border':'#453527','--border-strong':'#614b38','--text':'#fceee2','--text2':'#d9baa0','--text3':'#997c65','--accent':'#e09f3e','--accent-hover':'#f4a261','--accent-soft':'#3d2915','--green':'#95d5b2'}},
+  nord:{name:'Nordic Frost',ico:'❄️',cost:450,desc:'Arctic slate blue and ice, gentle on eyes',btnText:'#242933',sw:['#242933','#88c0d0','#81a1c1'],v:{'--bg':'#242933','--surface':'#2e3440','--surface2':'#3b4252','--border':'#434c5e','--border-strong':'#4c566a','--text':'#eceff4','--text2':'#d8dee9','--text3':'#9aa5b8','--accent':'#88c0d0','--accent-hover':'#81a1c1','--accent-soft':'#253a44','--green':'#a3be8c'}},
+  paper:{name:'Parchment Ink',ico:'📜',cost:450,desc:'Warm paper light mode with crimson ink',light:1,btnText:'#ffffff',sw:['#faf6ed','#c0392b','#8e281d'],v:{'--bg':'#faf6ed','--surface':'#ffffff','--surface2':'#f3ede0','--border':'#e5dcce','--border-strong':'#cfc2ad','--text':'#2b2319','--text2':'#665643','--text3':'#96836d','--accent':'#c0392b','--accent-hover':'#a93226','--accent-soft':'#fce8e6','--green':'#2e7d32'}},
+  lavender:{name:'Lavender Mist',ico:'🪻',cost:450,desc:'Soft pastel violet light mode, airy & serene',light:1,btnText:'#ffffff',sw:['#f6f4fa','#8b5cf6','#a78bfa'],v:{'--bg':'#f6f4fa','--surface':'#ffffff','--surface2':'#eeeaf8','--border':'#e0daf2','--border-strong':'#c5b8e8','--text':'#281c3d','--text2':'#61507d','--text3':'#9585b3','--accent':'#8b5cf6','--accent-hover':'#7c3aed','--accent-soft':'#ede8fc','--green':'#10b981'}},
+  dracula:{name:'Dracula',ico:'🧛',cost:500,desc:'Gothic purple & electric pink, dev classic',btnText:'#1e1f29',sw:['#1e1f29','#bd93f9','#ff79c6'],v:{'--bg':'#1e1f29','--surface':'#282a36','--surface2':'#343746','--border':'#44475a','--border-strong':'#6272a4','--text':'#f8f8f2','--text2':'#d6d6e2','--text3':'#8e90a6','--accent':'#bd93f9','--accent-hover':'#ff79c6','--accent-soft':'#382e54','--green':'#50fa7b'}},
+  solarized:{name:'Solarized Dark',ico:'☀️',cost:500,desc:'Deep teal-slate with warm amber accents',btnText:'#002b36',sw:['#002b36','#2aa198','#cb4b16'],v:{'--bg':'#002b36','--surface':'#073642','--surface2':'#0d4250','--border':'#155666','--border-strong':'#206f82','--text':'#eee8d5','--text2':'#93a1a1','--text3':'#657b83','--accent':'#2aa198','--accent-hover':'#268bd2','--accent-soft':'#09444f','--green':'#859900'}},
+  sakura:{name:'Sakura',ico:'🌸',cost:500,desc:'Soft pink, light and airy',light:1,btnText:'#ffffff',sw:['#fff4f8','#ec4899','#f472b6'],v:{'--bg':'#fff4f8','--surface':'#ffffff','--surface2':'#fff0f5','--border':'#f6dbe6','--border-strong':'#eab8cf','--text':'#3a1830','--text2':'#7c4a68','--text3':'#b085a0','--accent':'#ec4899','--accent-hover':'#db2777','--accent-soft':'#fde4ef','--green':'#10b981'}},
+  crimson:{name:'Crimson Red',ico:'🩸',cost:550,desc:'Dark charcoal with fierce crimson flame',btnText:'#ffffff',sw:['#12090a','#ef4444','#dc2626'],v:{'--bg':'#12090a','--surface':'#1d1012','--surface2':'#29171a','--border':'#3d2025','--border-strong':'#592c34','--text':'#ffeded','--text2':'#dfa8ab','--text3':'#99696d','--accent':'#ef4444','--accent-hover':'#dc2626','--accent-soft':'#3d1216','--green':'#22c55e'}},
+  matrix:{name:'Matrix',ico:'🟩',cost:600,desc:'Green terminal on pure black',mono:1,btnText:'#000000',sw:['#000000','#00ff66','#00c853'],v:{'--bg':'#000000','--surface':'#041204','--surface2':'#071c07','--border':'#0d3a0d','--border-strong':'#15601a','--text':'#c8ffd8','--text2':'#6fd48a','--text3':'#3d8f55','--accent':'#00ff66','--accent-hover':'#00c853','--accent-soft':'#04240b','--green':'#00ff66'}},
+  nebula:{name:'Cosmic Nebula',ico:'🌌',cost:600,desc:'Deep violet space with starlight lavender',btnText:'#ffffff',sw:['#0a0614','#a855f7','#c084fc'],v:{'--bg':'#0a0614','--surface':'#130d24','--surface2':'#1c1435','--border':'#2d2054','--border-strong':'#44317c','--text':'#f4edff','--text2':'#bda6e8','--text3':'#7c66a8','--accent':'#a855f7','--accent-hover':'#c084fc','--accent-soft':'#2d144e','--green':'#34d399'}},
+  synthwave:{name:'Synthwave 84',ico:'🕹️',cost:650,desc:'Retro 80s neon magenta, cyan & deep violet',btnText:'#ffffff',sw:['#120826','#f72585','#4cc9f0'],v:{'--bg':'#120826','--surface':'#1c0f38','--surface2':'#27164d','--border':'#3d2175','--border-strong':'#5932a8','--text':'#faedff','--text2':'#ccafe6','--text3':'#8a6bb5','--accent':'#f72585','--accent-hover':'#b5179e','--accent-soft':'#3d0d35','--green':'#4cc9f0'}},
+  gold:{name:'Midnight Gold',ico:'👑',cost:800,desc:'Black and gold, the premium one',btnText:'#0c0a05',sw:['#0c0a05','#f5c542','#e0a800'],v:{'--bg':'#0c0a05','--surface':'#17130a','--surface2':'#201a0d','--border':'#33290f','--border-strong':'#54421a','--text':'#fff6dc','--text2':'#d3c28f','--text3':'#8f8156','--accent':'#f5c542','--accent-hover':'#e0a800','--accent-soft':'#33270a','--green':'#f5c542'}}
 };
 (function injectThemes(){
+  // colour helpers: every theme is checked for readable text and button contrast, so a new theme can't ship unreadable
+  const rgb=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(x=>x+x).join('');return[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));};
+  const hex=a=>'#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+  const lum=h=>{const[r,g,b]=rgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});return .2126*r+.7152*g+.0722*b;};
+  const cr=(x,y)=>{const A=lum(x),B=lum(y);return(Math.max(A,B)+.05)/(Math.min(A,B)+.05);};
+  const mix=(x,y,t)=>{const A=rgb(x),B=rgb(y);return hex(A.map((v,i)=>v+(B[i]-v)*t));};
+  function fixTheme(t){
+    const v={...t.v};
+    for(let i=0;i<12&&cr(v['--text2'],v['--surface'])<4.6;i++)v['--text2']=mix(v['--text2'],v['--text'],.15);
+    for(let i=0;i<12&&cr(v['--text3'],v['--surface'])<3.6;i++)v['--text3']=mix(v['--text3'],v['--text'],.15);
+    for(let i=0;i<12&&cr(v['--accent'],v['--accent-soft'])<3.2;i++)v['--accent-soft']=mix(v['--accent-soft'],v['--surface'],.25);
+    const cands=['#ffffff','#0a0a0a'];
+    const score=c=>Math.min(cr(c,v['--accent']),cr(c,v['--accent-hover']));
+    const btn=cands.slice().sort((x,y)=>score(y)-score(x))[0];
+    // mid-tone accents can't reach readable contrast with plain black or white: nudge the shade just enough
+    for(let i=0;i<14&&score(btn)<4.6;i++){const to=btn==='#ffffff'?'#000000':'#ffffff';v['--accent']=mix(v['--accent'],to,.06);v['--accent-hover']=mix(v['--accent-hover'],to,.06);}
+    for(let i=0;i<12&&cr(v['--accent'],v['--accent-soft'])<3.2;i++)v['--accent-soft']=mix(v['--accent-soft'],v['--surface'],.25);
+    return{v,btn};
+  }
   let css='';
   Object.entries(THEMES).forEach(([id,t])=>{
     if(!t.v)return;
-    css+=`body.theme-${id}{${Object.entries(t.v).map(([k,v])=>k+':'+v).join(';')};color-scheme:${t.light?'light':'dark'};${t.mono?"font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;":''}}`;
-    css+=`body.theme-${id} .pw-logo{background:linear-gradient(135deg,var(--accent),var(--accent-hover));}body.theme-${id} .btn-primary,body.theme-${id} .tmx-start,body.theme-${id} .tmx-round{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${t.light?'#fff':'#0a0a0a'};}body.theme-${id} .fc>div{background:var(--surface);border-color:var(--border);}`;
+    const f=fixTheme(t),btnCol=f.btn;
+    css+=`body.theme-${id}{${Object.entries(f.v).map(([k,v])=>k+':'+v).join(';')};color-scheme:${t.light?'light':'dark'};${t.mono?"font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;":''}}`;
+    css+=`body.theme-${id} .pw-logo{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .btn-primary,body.theme-${id} .tmx-start,body.theme-${id} .tmx-round,body.theme-${id} .fp-btn.big,body.theme-${id} .tmx-seg button.on,body.theme-${id} .tmx-chip.on,body.theme-${id} .cat-pill.active{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .fc>div{background:var(--surface);border-color:var(--border);}`;
   });
   const s=document.createElement('style');s.id='themeCss';s.textContent=css;document.head.appendChild(s);
 })();
+
 function applyTheme(th){
   const t=th||(data.game&&data.game.activeTheme)||'default';
   Object.keys(THEMES).forEach(id=>document.body.classList.toggle('theme-'+id,t===id));
 }
-function previewTheme(id){applyTheme(id);showToast('🎨','Previewing '+THEMES[id].name,'Back to normal in 6 seconds.');setTimeout(()=>applyTheme(),6000);}
+let previewTimer=null,previewingThemeId=null;
+function previewTheme(id){
+  const t=THEMES[id];if(!t)return;
+  if(previewTimer){clearTimeout(previewTimer);previewTimer=null;}
+  previewingThemeId=id;
+  applyTheme(id);
+  renderStreaks();
+  renderThemeModal();
+  showToast('🎨',`Previewing ${t.name}`,'30s preview active. Browse tabs to test it, or Unlock/Equip to keep.');
+  previewTimer=setTimeout(()=>{
+    previewTimer=null;previewingThemeId=null;
+    applyTheme();
+    renderStreaks();
+    renderThemeModal();
+    showToast('🎨','Preview ended','Returned to your active theme.');
+  },30000);
+}
+function cancelThemePreview(){
+  if(previewTimer){clearTimeout(previewTimer);previewTimer=null;}
+  previewingThemeId=null;
+  applyTheme();
+  renderStreaks();
+  renderThemeModal();
+  showToast('🎨','Preview exited','Returned to your active theme.');
+}
+
+let themeModalTab='wardrobe',themeShopFilter='all';
+function openThemeModal(tab){
+  if(tab)themeModalTab=tab;
+  let ov=document.getElementById('thOv');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='thOv';
+    ov.className='wr-ov';
+    ov.onclick=e=>{if(e.target===ov)closeThemeModal();};
+    document.body.appendChild(ov);
+  }
+  ov.style.display='flex';
+  renderThemeModal();
+}
+function closeThemeModal(){
+  const ov=document.getElementById('thOv');
+  if(ov)ov.style.display='none';
+}
+function setThemeModalTab(tab){
+  themeModalTab=tab;
+  renderThemeModal();
+}
+function setThemeShopFilter(f){
+  themeShopFilter=f;
+  renderThemeModal();
+}
+function renderThemeModal(){
+  const ov=document.getElementById('thOv');
+  if(!ov||ov.style.display==='none')return;
+  ov.innerHTML=`<div class="wr-wrap" style="max-width:680px;">${themeModalHtml()}</div>`;
+}
+function themeModalHtml(){
+  const coins=spendableCoins(),G=gameState();
+  const unlocked=G.unlockedThemes||['default'];
+  const activeTh=G.activeTheme||'default';
+  const allIds=Object.keys(THEMES);
+  const totalCount=allIds.length+1;
+  const ownedCount=unlocked.length;
+  const lockedCount=Math.max(0,totalCount-ownedCount);
+
+  const previewBanner=previewingThemeId?`<div class="boost-live" style="border-color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px;"><div>🎨 <b>Previewing ${THEMES[previewingThemeId]?.name||'Theme'}</b> <span style="font-size:11px;color:var(--text3);">(auto-reverts in 30s)</span></div><button class="shop-btn" style="padding:4px 10px;" onclick="cancelThemePreview()">Exit preview</button></div>`:'';
+
+  const head=`<div class="wr-head" style="margin-bottom:12px;">
+    <div style="font-size:24px;">🎨</div>
+    <div style="flex:1;">
+      <div class="wr-title">Theme Studio</div>
+      <div class="wr-sub">Customize your workspace · <span class="coin-pill" style="padding:2px 8px;font-size:11px;font-weight:700;">🪙 <span id="thModalCoins">${coins}</span> Coins</span></div>
+    </div>
+    <button class="wr-x" onclick="closeThemeModal()" aria-label="Close">✕</button>
+  </div>`;
+
+  const tabs=`<div class="th-modal-tabs">
+    <button class="th-tab-btn ${themeModalTab==='wardrobe'?'active':''}" onclick="setThemeModalTab('wardrobe')">
+      <i class="ti ti-shirt"></i> My Wardrobe <small style="opacity:.75;font-weight:700;">(${ownedCount})</small>
+    </button>
+    <button class="th-tab-btn ${themeModalTab==='shop'?'active':''}" onclick="setThemeModalTab('shop')">
+      <i class="ti ti-shopping-cart"></i> Theme Shop <small style="opacity:.75;font-weight:700;">(${lockedCount})</small>
+    </button>
+  </div>`;
+
+  if(themeModalTab==='wardrobe'){
+    const ownedThemes=[];
+    ownedThemes.push({
+      id:'default',
+      name:'Classic PW',
+      ico:'⚡',
+      desc:'Clean PW orange & charcoal contrast',
+      sw:['#1c1c1a','#FF5722','#22c55e']
+    });
+    allIds.forEach(id=>{
+      if(unlocked.includes(id)&&THEMES[id]){
+        ownedThemes.push({id,...THEMES[id]});
+      }
+    });
+
+    const items=ownedThemes.map(t=>{
+      const isEquipped=activeTh===t.id;
+      const sw=`<span class="th-sw">${t.sw.map(x=>`<i style="background:${x}"></i>`).join('')}</span>`;
+      return `<div class="th-item ${isEquipped?'equipped':''}">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:22px;">${t.ico}</span>
+            ${isEquipped?'<span style="background:rgba(22,196,127,.18);color:#16c47f;font-size:11px;font-weight:800;border-radius:99px;padding:2px 8px;"><i class="ti ti-check"></i> Active</span>':''}
+          </div>
+          <div style="font-weight:700;font-size:13px;color:var(--text);">${t.name} ${sw}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px;line-height:1.35;">${t.desc}</div>
+        </div>
+        <div style="margin-top:10px;">
+          ${isEquipped?`<button class="shop-btn owned" style="width:100%;cursor:default;"><i class="ti ti-check"></i> Equipped</button>`:`<button class="shop-btn buy" style="width:100%;" onclick="toggleThemeOption('${t.id}')">Equip theme</button>`}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `${head}${previewBanner}${tabs}
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Themes you already own. One tap to equip immediately:</div>
+      <div class="th-grid">${items}</div>
+      ${lockedCount>0?`<div style="margin-top:14px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-weight:700;font-size:13px;">Looking for more styles?</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px;">${lockedCount} more handcrafted palettes in the shop.</div>
+        </div>
+        <button class="btn-sec" style="font-size:12px;padding:6px 14px;" onclick="setThemeModalTab('shop')">Explore Shop →</button>
+      </div>`:''}`;
+  }else{
+    let locked=allIds.filter(id=>!unlocked.includes(id)).map(id=>({id,...THEMES[id]}));
+    if(themeShopFilter==='dark') locked=locked.filter(t=>!t.light);
+    else if(themeShopFilter==='light') locked=locked.filter(t=>t.light);
+
+    const filterPills=`<div class="th-filter-pills">
+      <button class="th-pill ${themeShopFilter==='all'?'active':''}" onclick="setThemeShopFilter('all')">All available (${lockedCount})</button>
+      <button class="th-pill ${themeShopFilter==='dark'?'active':''}" onclick="setThemeShopFilter('dark')">🌙 Dark & OLED</button>
+      <button class="th-pill ${themeShopFilter==='light'?'active':''}" onclick="setThemeShopFilter('light')">☀️ Light mode</button>
+    </div>`;
+
+    if(lockedCount===0){
+      return `${head}${previewBanner}${tabs}
+        <div style="text-align:center;padding:2.5rem 1rem;">
+          <div style="font-size:42px;margin-bottom:8px;">👑</div>
+          <div style="font-weight:900;font-size:17px;color:var(--text);">Full Collection Unlocked!</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:6px;max-width:320px;margin-inline:auto;">You have acquired every single theme. Switch between them anytime in your Wardrobe.</div>
+          <button class="btn-primary" style="margin-top:16px;padding:8px 20px;" onclick="setThemeModalTab('wardrobe')">Open Wardrobe</button>
+        </div>`;
+    }
+
+    const items=locked.map(t=>{
+      const sw=`<span class="th-sw">${t.sw.map(x=>`<i style="background:${x}"></i>`).join('')}</span>`;
+      return `<div class="th-item">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:22px;">${t.ico}</span>
+            <span style="font-size:12px;font-weight:800;color:#f59e0b;">🪙 ${t.cost}</span>
+          </div>
+          <div style="font-weight:700;font-size:13px;color:var(--text);">${t.name} ${sw}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:3px;line-height:1.35;">${t.desc}</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:10px;">
+          <button class="shop-btn" style="flex:1;" onclick="previewTheme('${t.id}')">Preview (30s)</button>
+          <button class="shop-btn buy" style="flex:1;" onclick="buyShopItem('theme:${t.id}')" ${coins<t.cost?'disabled':''}>${coins<t.cost?'Need Coins':'Unlock'}</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `${head}${previewBanner}${tabs}
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div style="font-size:12px;color:var(--text3);">Test-drive any theme for 30s before unlocking:</div>
+        ${filterPills}
+      </div>
+      <div class="th-grid">${items||'<div class="empty" style="grid-column:1/-1;padding:2rem;">No themes match this filter.</div>'}</div>`;
+  }
+}
 function spendableCoins(){
   return Math.max(0,totalXp()-((data.game&&data.game.spentCoins)||0));
 }
@@ -1769,19 +1995,35 @@ function xpShopHtml(){
   const coins=spendableCoins(),G=gameState(),shields=G.shields||0,activeTh=G.activeTheme||'default',unlocked=G.unlockedThemes||['default'],boost=activeBoost();
   const card=(ico,t,d,price,btn)=>`<div class="shop-item"><div class="shop-top"><div class="shop-ico">${ico}</div><div><div class="shop-t">${t}</div><div class="shop-desc">${d}</div></div></div><div style="display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:4px;"><span style="font-size:12px;font-weight:700;color:#f59e0b;">${price}</span><div style="display:flex;gap:6px;">${btn}</div></div></div>`;
   const mults=Object.entries(MULTS).map(([id,m])=>card(m.ico,m.t,m.d,'🪙 '+m.cost,`<button class="shop-btn buy" onclick="buyShopItem('${id}')" ${coins<m.cost||boost?'disabled':''}>${boost?'Boost active':coins<m.cost?'Need Coins':'Buy'}</button>`)).join('');
-  const themes=Object.entries(THEMES).map(([id,t])=>{
-    const own=unlocked.includes(id),on=activeTh===id;
-    const sw=`<span class="th-sw">${t.sw.map(x=>`<i style="background:${x}"></i>`).join('')}</span>`;
-    const btn=own?`<button class="shop-btn buy" onclick="toggleThemeOption('${on?'default':id}')">${on?'Equipped ✓':'Equip'}</button>`:`<button class="shop-btn" onclick="previewTheme('${id}')">Preview</button><button class="shop-btn buy" onclick="buyShopItem('theme:${id}')" ${coins<t.cost?'disabled':''}>${coins<t.cost?'Need Coins':'Unlock'}</button>`;
-    return card(t.ico,t.name+sw,t.desc,'🪙 '+t.cost,btn);
-  }).join('');
+  const totalThemes=Object.keys(THEMES).length+1;
+  const activeName=activeTh==='default'?'Classic PW':(THEMES[activeTh]?.name||activeTh);
+  const activeSwatches=(THEMES[activeTh]?.sw||['#1c1c1a','#FF5722','#22c55e']).map(x=>`<i style="background:${x}"></i>`).join('');
   return `<div class="shop-card"><div class="shop-header"><h3 style="margin:0;"><i class="ti ti-building-store"></i>XP Student Shop</h3><div class="coin-pill">🪙 <span id="shopCoinsVal">${coins}</span> Coins Available</div></div>
     <div class="tool-caption" style="margin-bottom:12px;">Spend study coins on gear. Buying items <strong>never</strong> lowers your level or rank!</div>
+    ${previewingThemeId?`<div class="boost-live" style="border-color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:8px;"><div>🎨 <b>Previewing ${THEMES[previewingThemeId]?.name||'Theme'}</b> <span style="font-size:11px;color:var(--text3);">(auto-reverts in 30s)</span></div><button class="shop-btn" style="padding:4px 10px;" onclick="cancelThemePreview()">Exit preview</button></div>`:''}
     ${boost?`<div class="boost-live">🚀 <b>${boost.mult}× XP</b> is active until ${new Date(boost.until).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}. Every lecture, DPP and study session pays more.</div>`:''}
     <div class="shop-sub">Gear</div><div class="shop-grid">${card('🛡️','Streak Shield','Saves your streak if you miss 2 days in a row','🪙 300',`<button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy'}</button>`)}</div>
     <div class="shop-sub">XP multipliers <small>one at a time</small></div><div class="shop-grid">${mults}</div>
-    <div class="shop-sub">Themes</div><div class="shop-grid">${themes}</div>
-    <div class="inv-bar"><span><b>Inventory:</b></span><span class="inv-item">🛡️ ${shields} / 2 Shields</span><span class="inv-item">🎨 ${activeTh==='default'?'Classic':THEMES[activeTh]?THEMES[activeTh].name:'Classic'}</span>${boost?`<span class="inv-item">🚀 ${boost.mult}× active</span>`:''}</div></div>`;
+    <div class="shop-sub">Customization</div>
+    <div class="theme-hub-card" onclick="openThemeModal('shop')">
+      <div class="theme-hub-left">
+        <div class="theme-hub-ico">🎨</div>
+        <div>
+          <div class="theme-hub-title">Theme Studio & Wardrobe</div>
+          <div class="theme-hub-sub">Active: <b>${activeName}</b> · ${unlocked.length} of ${totalThemes} Unlocked</div>
+          <div class="theme-hub-swatches">${activeSwatches}</div>
+        </div>
+      </div>
+      <div class="theme-hub-right">
+        <button class="btn-primary" style="padding:7px 14px;border-radius:10px;font-size:12px;" onclick="event.stopPropagation();openThemeModal('wardrobe');">
+          <i class="ti ti-shirt"></i> Wardrobe
+        </button>
+        <button class="btn-sec" style="padding:7px 14px;border-radius:10px;font-size:12px;" onclick="event.stopPropagation();openThemeModal('shop');">
+          <i class="ti ti-shopping-cart"></i> Shop
+        </button>
+      </div>
+    </div>
+    <div class="inv-bar"><span><b>Inventory:</b></span><span class="inv-item">🛡️ ${shields} / 2 Shields</span><span class="inv-item" style="cursor:pointer;" onclick="openThemeModal('wardrobe')" title="Click to change theme">🎨 ${activeName} · Change ▾</span>${boost?`<span class="inv-item">🚀 ${boost.mult}× active</span>`:''}</div></div>`;
 }
 function buyShopItem(k){
   const coins=spendableCoins(),G=gameState();
@@ -1793,9 +2035,12 @@ function buyShopItem(k){
   }else if(k.startsWith('theme:')){
     const id=k.slice(6),t=THEMES[id];if(!t)return;
     if(coins<t.cost){alert('Not enough coins!');return;}
+    if(previewTimer){clearTimeout(previewTimer);previewTimer=null;}
+    previewingThemeId=null;
     G.spentCoins=(G.spentCoins||0)+t.cost;G.unlockedThemes=G.unlockedThemes||['default'];
     if(!G.unlockedThemes.includes(id))G.unlockedThemes.push(id);
     G.activeTheme=id;save();applyTheme(id);sfx('level');if(!REDUCE())confetti(180);showToast(t.ico,'Theme unlocked',t.name+' equipped.');
+    renderThemeModal();
   }else if(MULTS[k]){
     const m=MULTS[k];
     if(activeBoost()){alert('A multiplier is already active. Wait for it to finish.');return;}
@@ -1806,7 +2051,9 @@ function buyShopItem(k){
   updateHud();updateBoostChip();renderStreaks();
 }
 function toggleThemeOption(th){
-  const G=gameState();G.activeTheme=th;save();applyTheme(th);renderStreaks();
+  if(previewTimer){clearTimeout(previewTimer);previewTimer=null;}
+  previewingThemeId=null;
+  const G=gameState();G.activeTheme=th;save();applyTheme(th);renderStreaks();renderThemeModal();
 }
 
 function dayTarget(){return Number(data.settings&&data.settings.dailyTarget)||0;}
