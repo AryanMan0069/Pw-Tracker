@@ -800,13 +800,13 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
 
 /* ---- Daily Journal ---- */
 .jnl-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:4000;padding:16px;}
-.jnl-wrap{background:var(--card);border-radius:22px;padding:28px 24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+.jnl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:28px 24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.35);}
 .jnl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
 .jnl-title{font-size:20px;font-weight:800;color:var(--text);}
-.jnl-date{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
-.jnl-close{background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;font-size:20px;}
-.jnl-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:14px 0 6px;}
-.jnl-textarea{width:100%;box-sizing:border-box;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;resize:vertical;min-height:110px;transition:border-color .2s;}
+.jnl-date{font-size:12px;color:var(--text3);font-weight:600;margin-top:2px;}
+.jnl-close{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px;font-size:20px;}
+.jnl-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text3);margin:14px 0 6px;}
+.jnl-textarea{width:100%;box-sizing:border-box;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;color:var(--text);font-family:inherit;resize:vertical;min-height:110px;transition:border-color .2s;}
 .jnl-textarea:focus{outline:none;border-color:var(--accent);}
 .jnl-mood{display:flex;gap:8px;margin-top:4px;}
 .jnl-star{font-size:26px;cursor:pointer;opacity:.35;transition:opacity .15s,transform .15s;}
@@ -816,9 +816,9 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
 .jnl-prod-val{font-size:14px;font-weight:700;min-width:38px;color:var(--accent);}
 .jnl-save{margin-top:18px;width:100%;padding:13px;border-radius:14px;font-size:15px;font-weight:700;}
 .jnl-history{margin-top:18px;border-top:1px dashed var(--border);padding-top:14px;}
-.jnl-entry{background:var(--bg);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;}
+.jnl-entry{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;}
 .jnl-entry-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.jnl-entry-date{font-size:12px;font-weight:700;color:var(--muted);}
+.jnl-entry-date{font-size:12px;font-weight:700;color:var(--text3);}
 .jnl-entry-mood{font-size:14px;}
 .jnl-entry-text{font-size:13px;color:var(--text);line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
 .jnl-strip{display:flex;align-items:center;gap:14px;margin-bottom:1rem;cursor:pointer;transition:transform .15s;}
@@ -826,39 +826,52 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
 .jnl-strip-ico{font-size:28px;}
 
 /* ---- AI Companion ---- */
-.aico-fab{position:fixed;bottom:24px;right:24px;z-index:3500;width:58px;height:58px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:26px;transition:transform .2s,box-shadow .2s;}
-.aico-fab:hover{transform:scale(1.08);box-shadow:0 10px 32px rgba(0,0,0,.35);}
-.aico-fab .aico-badge{position:absolute;top:0;right:0;width:18px;height:18px;background:#ef4444;border-radius:50%;font-size:10px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;display:none;}
+.aico-fab{position:fixed;bottom:24px;right:24px;z-index:3500;width:58px;height:58px;border-radius:19px;background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:#fff;border:1.5px solid rgba(255,255,255,.28);cursor:pointer;box-shadow:0 8px 26px rgba(108,92,231,.42),0 2px 10px rgba(0,0,0,.22);display:flex;align-items:center;justify-content:center;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;overflow:visible;}
+.aico-fab::before{content:'';position:absolute;inset:-4px;border-radius:23px;background:linear-gradient(135deg,var(--accent),var(--accent-hover));opacity:.28;filter:blur(10px);z-index:-1;animation:aico-glow 3s ease-in-out infinite;}
+@keyframes aico-glow{0%,100%{opacity:.22;transform:scale(.96);}50%{opacity:.44;transform:scale(1.06);}}
+.aico-fab:hover{transform:translateY(-3px) scale(1.07);box-shadow:0 12px 32px rgba(108,92,231,.55),0 4px 12px rgba(0,0,0,.25);}
+.aico-fab:active{transform:scale(.95);}
+.aico-fab svg{width:30px;height:30px;display:block;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.aico-fab:hover svg{transform:rotate(-8deg) scale(1.06);}
+.aico-fab-tag{position:absolute;bottom:-4px;right:-4px;font-size:9px;font-weight:900;letter-spacing:.05em;line-height:1;padding:3px 6px;border-radius:99px;background:var(--surface);color:var(--accent);border:1.5px solid var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.2);pointer-events:none;}
 .aico-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:flex-end;justify-content:flex-end;z-index:4500;padding:16px 24px 24px;}
 .aico-ov.open{display:flex;}
-.aico-wrap{background:var(--card);border-radius:22px;width:380px;max-width:calc(100vw - 32px);height:560px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;}
+.aico-wrap{background:var(--surface);border:1px solid var(--border);border-radius:22px;width:400px;max-width:calc(100vw - 32px);height:580px;max-height:82vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden;}
 .aico-head{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.aico-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2,var(--accent)));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.aico-headtxt{flex:1;}
-.aico-headtxt b{font-size:15px;display:block;}
-.aico-headtxt small{font-size:11px;color:var(--muted);}
-.aico-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;padding:4px;}
+.aico-avatar{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(108,92,231,.3);}
+.aico-avatar svg{width:22px;height:22px;display:block;}
+.aico-headtxt{flex:1;min-width:0;}
+.aico-headtxt b{font-size:15px;display:block;color:var(--text);}
+.aico-headtxt small{font-size:11px;color:var(--text3);}
+.aico-close{background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;padding:4px 6px;border-radius:8px;}
+.aico-close:hover{background:var(--surface2);color:var(--text);}
 .aico-msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:10px;}
-.aico-msg{max-width:82%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;}
+.aico-msg{max-width:86%;padding:10px 14px;border-radius:16px;font-size:13.5px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;}
 .aico-msg.bot{background:var(--accent-soft);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start;}
+.aico-msg.err{background:var(--red-bg);color:var(--red-text);border:1px solid rgba(220,38,38,.25);border-bottom-left-radius:4px;align-self:flex-start;}
 .aico-msg.user{background:var(--accent);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
-.aico-msg.typing{opacity:.6;}
-.aico-typing-dots{display:inline-flex;gap:3px;align-items:center;}.aico-typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:aico-bounce 1.1s infinite;}.aico-typing-dots span:nth-child(2){animation-delay:.18s;}.aico-typing-dots span:nth-child(3){animation-delay:.36s;}
+.aico-msg.typing{opacity:.75;}
+.aico-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding-top:7px;border-top:1px dashed var(--border);}
+.aico-act-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:var(--surface);color:var(--accent);border:1px solid var(--border);}
+.aico-typing-dots{display:inline-flex;gap:3px;align-items:center;}.aico-typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:aico-bounce 1.1s infinite;}.aico-typing-dots span:nth-child(2){animation-delay:.18s;}.aico-typing-dots span:nth-child(3){animation-delay:.36s;}
 @keyframes aico-bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}}
 .aico-input-row{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
-.aico-input{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:9px 13px;font-size:13.5px;color:var(--text);font-family:inherit;}
+.aico-input{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;padding:9px 13px;font-size:13.5px;color:var(--text);font-family:inherit;}
 .aico-input:focus{outline:none;border-color:var(--accent);}
 .aico-send{background:var(--accent);border:none;border-radius:12px;padding:9px 14px;cursor:pointer;color:#fff;font-size:16px;transition:opacity .15s;}
 .aico-send:disabled{opacity:.4;cursor:default;}
-.aico-key-row{padding:0 14px 10px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);flex-shrink:0;}
-.aico-key-row input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:5px 9px;font-size:11px;color:var(--text);font-family:monospace;}
+.aico-key-row{padding:8px 14px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);border-top:1px dashed var(--border);flex-shrink:0;flex-wrap:wrap;}
+.aico-key-row input{flex:1;min-width:120px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:5px 9px;font-size:11px;color:var(--text);font-family:monospace;}
 .aico-key-row button{background:var(--accent-soft);border:none;border-radius:8px;padding:5px 9px;cursor:pointer;font-size:11px;color:var(--accent);font-weight:700;}
+@media(max-width:680px){
+  .aico-fab{bottom:calc(86px + env(safe-area-inset-bottom));right:14px;width:52px;height:52px;border-radius:17px;}
+  .aico-fab svg{width:27px;height:27px;}
+  .aico-ov{padding:12px;}
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- AI Companion FAB -->
-<button class="aico-fab" id="aicoFab" onclick="openAiCompanion()" title="AI Study Companion" aria-label="AI Study Companion">🤖</button>
 <div class="auth-screen" id="authScreen" style="display:none;">
   <div class="auth-card">
     <div class="auth-logo">
@@ -968,6 +981,15 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
   <div id="view-export" style="display:none;">
     <div id="exportContent"></div>
   </div>
+  <!-- AI Companion FAB -->
+  <button class="aico-fab" id="aicoFab" onclick="openAiCompanion()" title="Gemini 3.6 Flash Study Companion" aria-label="AI Study Companion">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 3C16.7 10.1 21.9 15.3 29 16C21.9 16.7 16.7 21.9 16 29C15.3 21.9 10.1 16.7 3 16C10.1 15.3 15.3 10.1 16 3Z" fill="currentColor"/>
+      <path d="M25.5 4.2C25.8 6.4 27.6 8.2 29.8 8.5C27.6 8.8 25.8 10.6 25.5 12.8C25.2 10.6 23.4 8.8 21.2 8.5C23.4 8.2 25.2 6.4 25.5 4.2Z" fill="currentColor" opacity=".88"/>
+      <circle cx="7.5" cy="24.5" r="1.7" fill="currentColor" opacity=".82"/>
+    </svg>
+    <span class="aico-fab-tag">AI</span>
+  </button>
 </div>
 
 <!-- DOCK -->
@@ -1063,7 +1085,7 @@ function ensureDataShape(obj){
     if(Array.isArray(obj.dpps))obj.dpps=obj.dpps.filter(d=>!drop26.has(d.subjectId));
   }
   obj.subjects=obj.subjects.map(s=>({...s,name:(s.name||'').replace(/\s*'27$/,'')}));
-  obj.settings={dailyTarget:3,examDate:'2027-01-15',...(obj.settings||{})};
+  obj.settings={dailyTarget:3,examDate:'2027-01-15',geminiApiKey:'',...(obj.settings||{})};
   obj.lectures=obj.lectures.map(l=>({
     ...l,
     revision:!!l.revision,
@@ -1727,7 +1749,7 @@ const THEMES={
     if(!t.v)return;
     const f=fixTheme(t),btnCol=f.btn;
     css+=`body.theme-${id}{${Object.entries(f.v).map(([k,v])=>k+':'+v).join(';')};color-scheme:${t.light?'light':'dark'};${t.mono?"font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;":''}}`;
-    css+=`body.theme-${id} .pw-logo{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .btn-primary,body.theme-${id} .tmx-start,body.theme-${id} .tmx-round,body.theme-${id} .fp-btn.big,body.theme-${id} .tmx-seg button.on,body.theme-${id} .tmx-chip.on,body.theme-${id} .cat-pill.active{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .fc>div{background:var(--surface);border-color:var(--border);}`;
+    css+=`body.theme-${id} .pw-logo{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .btn-primary,body.theme-${id} .tmx-start,body.theme-${id} .tmx-round,body.theme-${id} .fp-btn.big,body.theme-${id} .tmx-seg button.on,body.theme-${id} .tmx-chip.on,body.theme-${id} .cat-pill.active,body.theme-${id} .aico-fab,body.theme-${id} .aico-avatar,body.theme-${id} .aico-send,body.theme-${id} .aico-msg.user{background:linear-gradient(135deg,var(--accent),var(--accent-hover));color:${btnCol};}body.theme-${id} .fc>div{background:var(--surface);border-color:var(--border);}`;
   });
   const s=document.createElement('style');s.id='themeCss';s.textContent=css;document.head.appendChild(s);
 })();
@@ -2903,7 +2925,7 @@ function setView(v){
   else if(v==='export')renderExport();
 }
 
-function renderAll(){ensureDataShape(data);updateHud();renderDashboard();renderSubTabs();render();renderStreaks();renderDpp();renderRevision();renderStats();renderExport();}
+function renderAll(){ensureDataShape(data);updateHud();renderDashboard();renderSubTabs();render();renderStreaks();renderDpp();renderRevision();renderStats();renderExport();if(_aicoOpen){aicoRenderMsgs();renderAicoKey();}}
 
 /* ---- Dashboard ---- */
 function getStats(subId){
@@ -3721,15 +3743,15 @@ function setJnlProd(v){
 function renderJournalHistory(){
   var el=document.getElementById('jnlHistory');if(!el)return;
   var entries=Object.entries(data.journal||{}).sort(function(a,b){return b[0]<a[0]?-1:1;}).slice(0,10);
-  if(!entries.length){el.innerHTML='<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px 0;">No entries yet.</div>';return;}
+  if(!entries.length){el.innerHTML='<div style="color:var(--text3);font-size:12px;text-align:center;padding:12px 0;">No entries yet.</div>';return;}
   el.innerHTML=entries.map(function(en){
     var k=en[0],e=en[1];
     return '<div class="jnl-entry" onclick="openJournalModal(\''+k+'\')">'
      +'<div class="jnl-entry-top"><span class="jnl-entry-date">'+jnlDateLabel(k)+(e.productivityPct?(' · '+e.productivityPct+'%'):'')+'</span>'
      +'<span class="jnl-entry-mood">'+moodEmoji(e.mood||0)+'</span>'
-     +(k!==todayKey()?'<button onclick="event.stopPropagation();deleteJournalEntry(\''+k+'\')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;">✕</button>':'')
+     +(k!==todayKey()?'<button onclick="event.stopPropagation();deleteJournalEntry(\''+k+'\')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;">✕</button>':'')
      +'</div>'
-     +'<div class="jnl-entry-text">'+(e.text?escH(e.text):'<em style="color:var(--muted)">No text written.</em>')+'</div>'
+     +'<div class="jnl-entry-text">'+(e.text?escH(e.text):'<em style="color:var(--text3)">No text written.</em>')+'</div>'
      +'</div>';
   }).join('');
 }
@@ -3784,171 +3806,963 @@ function journalStripHtml(){
 }
 
 /* ============================================================
-   AI COMPANION
+   AI COMPANION (Gemini 3.6 Flash · Full Site Control + Supabase Key)
    ============================================================ */
+var GEMINI_MODEL='gemini-3.6-flash';
 var _aicoOpen=false;
 var _aicoThinking=false;
+var AI_LOGO_SVG='<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">'
+  +'<path d="M16 3C16.7 10.1 21.9 15.3 29 16C21.9 16.7 16.7 21.9 16 29C15.3 21.9 10.1 16.7 3 16C10.1 15.3 15.3 10.1 16 3Z" fill="currentColor"/>'
+  +'<path d="M25.5 4.2C25.8 6.4 27.6 8.2 29.8 8.5C27.6 8.8 25.8 10.6 25.5 12.8C25.2 10.6 23.4 8.8 21.2 8.5C23.4 8.2 25.2 6.4 25.5 4.2Z" fill="currentColor" opacity=".88"/>'
+  +'<circle cx="7.5" cy="24.5" r="1.7" fill="currentColor" opacity=".82"/>'
+  +'</svg>';
+
+function getGeminiApiKey(){
+  var k=(data.settings&&data.settings.geminiApiKey)||'';
+  if(!k){
+    try{
+      var leg=localStorage.getItem('pw_gemini_key')||'';
+      if(leg){
+        if(!data.settings)data.settings={};
+        data.settings.geminiApiKey=leg.trim();
+        localStorage.removeItem('pw_gemini_key');
+        save();
+        k=data.settings.geminiApiKey;
+      }
+    }catch(e){}
+  }
+  return String(k||'').trim();
+}
+
+function aiFindSubject(q){
+  if(!q)return null;
+  var s=String(q).trim().toLowerCase();
+  var exact=data.subjects.find(function(x){return x.id.toLowerCase()===s||x.name.toLowerCase()===s;});
+  if(exact)return exact;
+  var alias={phy:'physics',phys:'physics',math:'maths',mat:'maths',pc:'physical chemistry',oc:'organic chemistry',ic:'inorganic chemistry'};
+  if(alias[s]){
+    var aHit=data.subjects.find(function(x){return x.name.toLowerCase().indexOf(alias[s])!==-1;});
+    if(aHit)return aHit;
+  }
+  return data.subjects.find(function(x){return x.name.toLowerCase().indexOf(s)!==-1;})||null;
+}
+
+function aiFindTheme(q){
+  if(!q)return null;
+  var s=String(q).trim().toLowerCase();
+  if(s==='default'||s==='classic'||s==='classic pw'||s==='pw')return 'default';
+  if(THEMES[s])return s;
+  var hit=Object.keys(THEMES).find(function(id){return THEMES[id].name.toLowerCase().indexOf(s)!==-1;});
+  return hit||null;
+}
+
+function aiResolveDate(d){
+  if(!d)return todayKey();
+  var s=String(d).trim().toLowerCase();
+  if(s==='today')return todayKey();
+  if(s==='yesterday'){var y=new Date();y.setDate(y.getDate()-1);return todayKey(y);}
+  return String(d).trim();
+}
+
+var AI_TOOLS=[{
+  functionDeclarations:[
+    {
+      name:'list_items',
+      description:'Search and list subjects, lectures, DPPs, study materials, study sessions, journal entries, rewards, themes, or shop items with their IDs and statuses. Always call this when you need exact IDs or titles before updating/deleting.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          kind:{type:'STRING',description:'One of: subjects, lectures, dpps, materials, sessions, journal, rewards, themes, overview'},
+          subject:{type:'STRING',description:'Optional subject name or ID filter (e.g. Physics, Maths, PC)'},
+          category:{type:'STRING',description:'Optional category filter'},
+          status:{type:'STRING',description:'Optional status filter: all, done, pending, revision'},
+          query:{type:'STRING',description:'Optional text search in title/label/notes'},
+          limit:{type:'INTEGER',description:'Max items to return (default 25, max 60)'}
+        },
+        required:['kind']
+      }
+    },
+    {
+      name:'update_lectures',
+      description:'Mark lectures done or undone, toggle revision flag, edit title/category/date/duration/chapter, or delete lectures. Matches by ids or by subject + query + category.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          ids:{type:'ARRAY',items:{type:'NUMBER'},description:'Optional exact lecture IDs from list_items'},
+          subject:{type:'STRING',description:'Optional subject name or ID'},
+          category:{type:'STRING',description:'Optional category filter (or new category when editing single lecture)'},
+          query:{type:'STRING',description:'Optional title/chapter search substring (case-insensitive)'},
+          onlyPending:{type:'BOOLEAN',description:'If true, only match currently undone lectures'},
+          limit:{type:'INTEGER',description:'Max matched lectures to update'},
+          done:{type:'BOOLEAN',description:'Set completion status (true=mark done with XP/streak, false=unmark)'},
+          revision:{type:'BOOLEAN',description:'Set revision flag (true/false)'},
+          newTitle:{type:'STRING',description:'Optional new title when editing'},
+          newCategory:{type:'STRING',description:'Optional new category when editing'},
+          newDate:{type:'STRING',description:'Optional new date (e.g. 25 Nov 2026)'},
+          newDuration:{type:'STRING',description:'Optional new duration (e.g. 2h 10m)'},
+          newChapter:{type:'STRING',description:'Optional new chapter name'},
+          remove:{type:'BOOLEAN',description:'If true, permanently delete matched lectures'}
+        }
+      }
+    },
+    {
+      name:'add_lectures',
+      description:'Add one manual lecture OR bulk-parse pasted PW lecture text for a subject.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          subject:{type:'STRING',description:'Subject name or ID (default current/first subject)'},
+          category:{type:'STRING',description:'Category name (default Regular Lectures or active category)'},
+          title:{type:'STRING',description:'Lecture title (for single manual lecture)'},
+          date:{type:'STRING',description:'Date string (e.g. 25 Nov 2026)'},
+          duration:{type:'STRING',description:'Duration string (e.g. 2h 10m)'},
+          chapter:{type:'STRING',description:'Optional chapter name'},
+          done:{type:'BOOLEAN',description:'Whether to mark immediately done'},
+          pasteText:{type:'STRING',description:'Optional raw copied text from PW All Classes page to bulk parse'}
+        }
+      }
+    },
+    {
+      name:'manage_dpps',
+      description:'Add, paste, mark done/undone, log result/score/mistakes, edit, or delete DPPs.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: add, paste, toggle_done, log_result, delete'},
+          id:{type:'NUMBER',description:'DPP id (optional if query/label matches)'},
+          subject:{type:'STRING',description:'Subject name or ID'},
+          category:{type:'STRING',description:'Category/chapter name'},
+          label:{type:'STRING',description:'DPP label e.g. DPP 06'},
+          tag:{type:'STRING',description:'Optional tag'},
+          date:{type:'STRING',description:'Date string'},
+          done:{type:'BOOLEAN',description:'Target done state for toggle_done or add'},
+          query:{type:'STRING',description:'Search string to match DPP label/tag/category'},
+          pasteText:{type:'STRING',description:'Raw PW DPP list text for action=paste'},
+          total:{type:'INTEGER',description:'Total questions (for log_result)'},
+          correct:{type:'INTEGER',description:'Correct answers (for log_result)'},
+          wrong:{type:'INTEGER',description:'Wrong answers (for log_result)'},
+          minutes:{type:'INTEGER',description:'Time taken in minutes (for log_result)'},
+          marks:{type:'NUMBER',description:'Marks scored'},
+          totalMarks:{type:'NUMBER',description:'Total marks'},
+          mistakes:{type:'ARRAY',items:{type:'STRING'},description:'Mistake tags'},
+          notes:{type:'STRING',description:'Notes about mistakes/questions'},
+          redo:{type:'BOOLEAN',description:'Flag DPP to redo later'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'manage_materials',
+      description:'Add, paste, mark done/undone, or delete Study Materials (PDF, Short Notes, PYQ, Extra Lecture, Other).',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: add, paste, toggle_done, delete'},
+          id:{type:'NUMBER',description:'Material ID'},
+          subject:{type:'STRING',description:'Subject name or ID'},
+          type:{type:'STRING',description:'Category type e.g. PDF, Short Notes, PYQ'},
+          title:{type:'STRING',description:'Material title'},
+          link:{type:'STRING',description:'Optional URL'},
+          date:{type:'STRING',description:'Date string'},
+          done:{type:'BOOLEAN',description:'Target done status'},
+          query:{type:'STRING',description:'Search query'},
+          pasteText:{type:'STRING',description:'Raw PW notes text for action=paste'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'manage_subjects',
+      description:'Create, rename, or delete subjects or lecture/material categories.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: add_subject, rename_subject, delete_subject, add_category, rename_category, delete_category, add_mat_category'},
+          subject:{type:'STRING',description:'Target subject name or ID'},
+          name:{type:'STRING',description:'Subject or category name'},
+          newName:{type:'STRING',description:'New name when renaming'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'control_timer',
+      description:'Start, pause, resume, or stop the live study timer (stopwatch or pomodoro), OR manually log a completed study session in minutes.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: start, pause, resume, stop, log_session'},
+          subject:{type:'STRING',description:'Subject name or ID'},
+          mode:{type:'STRING',description:'free (stopwatch) or pomo (pomodoro)'},
+          minutes:{type:'NUMBER',description:'Minutes studied (for log_session)'},
+          date:{type:'STRING',description:'YYYY-MM-DD or today/yesterday (for log_session)'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'manage_journal',
+      description:'Read, save/update, or delete a Daily Journal entry with text, mood (1-5), and productivity percentage (0-100).',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: get, save, delete'},
+          date:{type:'STRING',description:'YYYY-MM-DD, today, or yesterday (defaults to today)'},
+          text:{type:'STRING',description:'Journal entry text'},
+          mood:{type:'INTEGER',description:'Mood 1 (awful) to 5 (fire)'},
+          productivityPct:{type:'INTEGER',description:'Productivity 0 to 100'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'update_settings',
+      description:'Update tracker settings: daily lecture target, JEE exam date, idle check-in minutes, or Pomodoro timings.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          dailyTarget:{type:'INTEGER',description:'Lectures per day target'},
+          examDate:{type:'STRING',description:'Exam date in YYYY-MM-DD format'},
+          checkMin:{type:'INTEGER',description:'Idle check-in interval in minutes'},
+          pomoFocus:{type:'INTEGER',description:'Pomodoro focus minutes'},
+          pomoBreak:{type:'INTEGER',description:'Pomodoro short break minutes'},
+          pomoLong:{type:'INTEGER',description:'Pomodoro long break minutes'},
+          pomoCycles:{type:'INTEGER',description:'Pomodoro cycles before long break'}
+        }
+      }
+    },
+    {
+      name:'manage_gamification',
+      description:'Equip or preview themes, buy XP multipliers/shields/themes from XP Shop, open daily chest, or add/claim/delete real-life rewards.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: equip_theme, preview_theme, buy_item, open_chest, add_reward, claim_reward, delete_reward'},
+          theme:{type:'STRING',description:'Theme id or name (e.g. cyber, sunset, dracula, gold, default)'},
+          item:{type:'STRING',description:'Shop key: shield, mult2, mult3, mult15, or theme:<id>'},
+          rewardLabel:{type:'STRING',description:'Reward title for add_reward'},
+          rewardType:{type:'STRING',description:'streak, lectures, targetdays, or level'},
+          rewardGoal:{type:'INTEGER',description:'Numeric goal for add_reward'},
+          rewardId:{type:'NUMBER',description:'Reward id (or match by rewardLabel)'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'navigate_ui',
+      description:'Switch the visible tab/view on the website, filter by subject/category, or open a modal.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          view:{type:'STRING',description:'dashboard, tracker, streaks, timer, dpp, revision, stats, export'},
+          subject:{type:'STRING',description:'Optional subject to select in tracker/dpp'},
+          category:{type:'STRING',description:'Optional category to select in tracker'},
+          modal:{type:'STRING',description:'Optional modal: weekly_review, journal, theme_studio, focus'}
+        }
+      }
+    }
+  ]
+}];
+
+function executeAiTool(name,args,actionsLog){
+  args=args||{};
+  var toggleLecFn=typeof window.toggleDone==='function'?window.toggleDone:toggleDone;
+  var toggleDppFn=typeof window.toggleDppDone==='function'?window.toggleDppDone:toggleDppDone;
+
+  if(name==='list_items'){
+    var kind=String(args.kind||'overview').toLowerCase();
+    var lim=Math.min(60,Math.max(1,Number(args.limit)||25));
+    var sub=args.subject?aiFindSubject(args.subject):null;
+    var q=(args.query||'').toLowerCase();
+    var stFilter=String(args.status||'all').toLowerCase();
+
+    if(kind==='subjects'){
+      return {subjects:data.subjects.map(function(s){
+        var st=getStats(s.id);
+        return {id:s.id,name:s.name,categories:s.categories,matCategories:s.matCategories,done:st.done,total:st.total,pct:st.pct,timeLeft:minsToStr(st.leftMins)};
+      })};
+    }
+    if(kind==='lectures'){
+      var lecs=data.lectures.filter(function(l){
+        if(sub&&l.subjectId!==sub.id)return false;
+        if(args.category&&String(l.category||'').toLowerCase().indexOf(String(args.category).toLowerCase())===-1)return false;
+        if(stFilter==='done'&&!l.done)return false;
+        if(stFilter==='pending'&&l.done)return false;
+        if(stFilter==='revision'&&!l.revision)return false;
+        if(q&&((l.title||'')+' '+(l.chapter||'')+' '+(l.category||'')).toLowerCase().indexOf(q)===-1)return false;
+        return true;
+      });
+      return {totalMatched:lecs.length,lectures:lecs.slice(0,lim).map(function(l){
+        return {id:l.id,subject:subjectName(l.subjectId),category:l.category,title:l.title,date:l.date,duration:l.duration,done:l.done,revision:l.revision,completedAt:l.completedAt};
+      })};
+    }
+    if(kind==='dpps'){
+      var dpps=data.dpps.filter(function(d){
+        if(sub&&d.subjectId!==sub.id)return false;
+        if(args.category&&String(d.category||'').toLowerCase().indexOf(String(args.category).toLowerCase())===-1)return false;
+        if(stFilter==='done'&&!d.done)return false;
+        if(stFilter==='pending'&&d.done)return false;
+        if(q&&((d.label||'')+' '+(d.tag||'')+' '+(d.category||'')).toLowerCase().indexOf(q)===-1)return false;
+        return true;
+      });
+      return {totalMatched:dpps.length,dpps:dpps.slice(0,lim).map(function(d){
+        return {id:d.id,subject:subjectName(d.subjectId),category:d.category,label:d.label,tag:d.tag,date:d.date,done:d.done,marks:d.marks,totalMarks:d.totalMarks,result:d.result};
+      })};
+    }
+    if(kind==='materials'){
+      var mats=(data.materials||[]).filter(function(m){
+        if(sub&&m.subjectId!==sub.id)return false;
+        if(stFilter==='done'&&!m.done)return false;
+        if(stFilter==='pending'&&m.done)return false;
+        if(q&&((m.title||'')+' '+(m.type||'')+' '+(m.chapter||'')).toLowerCase().indexOf(q)===-1)return false;
+        return true;
+      });
+      return {totalMatched:mats.length,materials:mats.slice(0,lim)};
+    }
+    if(kind==='sessions'){
+      var ss=(data.sessions||[]).filter(function(x){return !sub||x.subjectId===sub.id;}).slice(-lim);
+      return {timerRunning:tState(),sessions:ss.map(function(x){return {id:x.id,subject:subjectName(x.subjectId),date:x.date,minutes:x.minutes};})};
+    }
+    if(kind==='journal'){
+      var entries=Object.entries(data.journal||{}).sort(function(a,b){return a[0]<b[0]?1:-1;}).slice(0,lim).map(function(e){return {date:e[0],text:e[1].text,mood:e[1].mood,productivityPct:e[1].productivityPct};});
+      return {entries:entries};
+    }
+    if(kind==='rewards'){
+      return {rewards:(data.rewards||[]).map(function(r){return {id:r.id,label:r.label,type:r.type,goal:r.value,current:rewardVal(r),claimed:r.claimed};})};
+    }
+    if(kind==='themes'||kind==='shop'){
+      var G=gameState();
+      return {
+        coins:spendableCoins(),shields:G.shields||0,activeTheme:G.activeTheme||'default',
+        unlockedThemes:G.unlockedThemes||['default'],activeBoost:activeBoost(),
+        availableThemes:Object.keys(THEMES).map(function(id){return {id:id,name:THEMES[id].name,cost:THEMES[id].cost,unlocked:(G.unlockedThemes||[]).indexOf(id)!==-1};}),
+        multipliers:MULTS
+      };
+    }
+    return {context:buildCompanionContext(),settings:data.settings,chestReady:chestReady(),quests:todayQuests().map(function(x){return {label:x.label,progress:questProgress(x),target:x.target};})};
+  }
+
+  if(name==='update_lectures'){
+    var sub=args.subject?aiFindSubject(args.subject):null;
+    var q=(args.query||'').toLowerCase();
+    var idSet=Array.isArray(args.ids)&&args.ids.length?new Set(args.ids.map(Number)):null;
+    var hits=data.lectures.filter(function(l){
+      if(idSet&&!idSet.has(Number(l.id)))return false;
+      if(sub&&l.subjectId!==sub.id)return false;
+      if(args.category&&String(l.category||'').toLowerCase().indexOf(String(args.category).toLowerCase())===-1)return false;
+      if(args.onlyPending&&l.done)return false;
+      if(q&&((l.title||'')+' '+(l.chapter||'')).toLowerCase().indexOf(q)===-1)return false;
+      return true;
+    });
+    if(args.limit&&args.limit>0)hits=hits.slice(0,args.limit);
+    if(!hits.length)return {ok:false,error:'No matching lectures found. Try list_items(kind="lectures") first.'};
+
+    if(args.remove){
+      var rmIds=new Set(hits.map(function(l){return l.id;}));
+      data.lectures=data.lectures.filter(function(l){return !rmIds.has(l.id);});
+      save();renderAll();
+      actionsLog.push('🗑️ Deleted '+hits.length+' lecture'+(hits.length===1?'':'s'));
+      return {ok:true,deleted:hits.map(function(l){return l.title;})};
+    }
+
+    var changed=[];
+    if(args.newTitle!==undefined||args.newCategory!==undefined||args.newDate!==undefined||args.newDuration!==undefined||args.newChapter!==undefined){
+      var editSet=new Set(hits.map(function(l){return l.id;}));
+      data.lectures=data.lectures.map(function(l){
+        if(!editSet.has(l.id))return l;
+        return {
+          ...l,
+          title:args.newTitle!==undefined?String(args.newTitle):l.title,
+          category:args.newCategory!==undefined?String(args.newCategory):l.category,
+          date:args.newDate!==undefined?String(args.newDate):l.date,
+          duration:args.newDuration!==undefined?String(args.newDuration):l.duration,
+          chapter:args.newChapter!==undefined?String(args.newChapter):l.chapter
+        };
+      });
+      save();renderAll();
+      actionsLog.push('✏️ Edited '+hits.length+' lecture'+(hits.length===1?'':'s'));
+      changed.push('edited');
+    }
+
+    if(typeof args.done==='boolean'){
+      var toFlip=hits.filter(function(l){return Boolean(l.done)!==args.done;});
+      if(toFlip.length<=4){
+        toFlip.forEach(function(l){toggleLecFn(l.id);});
+      }else{
+        var s1=snap(),flipSet=new Set(toFlip.map(function(l){return l.id;}));
+        data.lectures=data.lectures.map(function(l){
+          if(!flipSet.has(l.id))return l;
+          var next={...l,done:args.done,completedAt:args.done?todayKey():''};
+          if(args.done&&!next.everAwarded)next.everAwarded=true;
+          return next;
+        });
+        save();renderAll();afterProgress(s1,true);
+      }
+      if(toFlip.length){
+        actionsLog.push((args.done?'✅ Marked ':'↩️ Unmarked ')+toFlip.length+' lecture'+(toFlip.length===1?'':'s')+(args.done?' done':''));
+      }
+      changed.push('done='+args.done+' ('+toFlip.length+' changed)');
+    }
+
+    if(typeof args.revision==='boolean'){
+      var revFlip=hits.filter(function(l){return Boolean(l.revision)!==args.revision;});
+      var revSet=new Set(revFlip.map(function(l){return l.id;}));
+      data.lectures=data.lectures.map(function(l){return revSet.has(l.id)?{...l,revision:args.revision}:l;});
+      if(revFlip.length){
+        save();renderAll();
+        actionsLog.push('🔄 '+(args.revision?'Flagged ':'Cleared ')+revFlip.length+' for revision');
+      }
+      changed.push('revision='+args.revision);
+    }
+
+    updateHud();
+    return {ok:true,matchedCount:hits.length,titles:hits.slice(0,10).map(function(l){return l.title;}),changes:changed};
+  }
+
+  if(name==='add_lectures'){
+    var sub=aiFindSubject(args.subject)||getCurSub()||data.subjects[0];
+    if(!sub)return {ok:false,error:'No subjects exist yet. Create a subject first.'};
+    var cat=args.category||(sub.categories&&sub.categories[0])||'Regular Lectures';
+    if(sub.categories&&sub.categories.indexOf(cat)===-1)sub.categories.push(cat);
+    if(args.pasteText){
+      var prevSub=activeSub;activeSub=sub.id;
+      var parsed=parsePW(String(args.pasteText),cat);
+      activeSub=prevSub;
+      if(!parsed.length)return {ok:false,error:'Could not parse any lectures from pasteText.'};
+      if(args.done){parsed=parsed.map(function(l){return {...l,done:true,completedAt:todayKey(),everAwarded:true};});}
+      var s1=snap();
+      data.lectures.push.apply(data.lectures,parsed);
+      save();renderAll();
+      if(args.done)afterProgress(s1,true);
+      actionsLog.push('📥 Added '+parsed.length+' lectures to '+sub.name);
+      return {ok:true,addedCount:parsed.length,subject:sub.name,category:cat,titles:parsed.slice(0,10).map(function(l){return l.title;})};
+    }
+    if(!args.title)return {ok:false,error:'Provide title or pasteText.'};
+    var newId=uid();
+    var item={id:newId,subjectId:sub.id,category:cat,title:String(args.title).trim(),chapter:String(args.chapter||'').trim(),date:String(args.date||'').trim(),duration:String(args.duration||'').trim(),done:false,revision:false,completedAt:''};
+    data.lectures.push(item);
+    save();renderAll();
+    if(args.done){toggleLecFn(newId);}
+    actionsLog.push('➕ Added lecture "'+item.title+'"');
+    return {ok:true,lecture:item};
+  }
+
+  if(name==='manage_dpps'){
+    var act=String(args.action||'').toLowerCase();
+    var sub=aiFindSubject(args.subject)||getDppSub()||data.subjects[0];
+    if(act==='add'){
+      if(!sub)return {ok:false,error:'No subject found.'};
+      if(!args.label)return {ok:false,error:'DPP label is required.'};
+      var id=uid();
+      var d={id:id,subjectId:sub.id,category:args.category||'',chapter:'',label:String(args.label).trim(),tag:String(args.tag||'').trim(),date:String(args.date||'').trim(),linkedLectureId:null,done:false,completedAt:'',marks:args.marks!==undefined?Number(args.marks):null,totalMarks:args.totalMarks!==undefined?Number(args.totalMarks):null};
+      data.dpps.push(d);save();renderAll();
+      if(args.done)toggleDppFn(id);
+      actionsLog.push('📝 Added '+d.label+' ('+sub.name+')');
+      return {ok:true,dpp:d};
+    }
+    if(act==='paste'){
+      if(!sub||!args.pasteText)return {ok:false,error:'Subject and pasteText required.'};
+      var parsed=parseDppPaste(String(args.pasteText),sub.id).map(function(d){return {...d,category:args.category||''};});
+      if(!parsed.length)return {ok:false,error:'No DPPs parsed from pasteText.'};
+      var keyFn=function(d){return ((d.category||'')+'|'+d.label+'|'+d.date).toLowerCase();};
+      var seen=new Set(data.dpps.filter(function(d){return d.subjectId===sub.id;}).map(keyFn));
+      var fresh=parsed.filter(function(d){return !seen.has(keyFn(d));});
+      data.dpps.push.apply(data.dpps,fresh);save();renderAll();
+      actionsLog.push('📥 Added '+fresh.length+' DPPs to '+sub.name);
+      return {ok:true,added:fresh.length,skipped:parsed.length-fresh.length};
+    }
+    var q=(args.query||args.label||'').toLowerCase();
+    var hits=data.dpps.filter(function(d){
+      if(args.id!==undefined&&Number(d.id)===Number(args.id))return true;
+      if(args.id!==undefined)return false;
+      if(args.subject&&sub&&d.subjectId!==sub.id)return false;
+      if(args.category&&String(d.category||'').toLowerCase().indexOf(String(args.category).toLowerCase())===-1)return false;
+      if(q&&((d.label||'')+' '+(d.tag||'')+' '+(d.category||'')).toLowerCase().indexOf(q)===-1)return false;
+      return true;
+    });
+    if(!hits.length)return {ok:false,error:'No matching DPP found.'};
+    if(act==='toggle_done'){
+      var target=typeof args.done==='boolean'?args.done:!hits[0].done;
+      var toFlip=hits.filter(function(d){return Boolean(d.done)!==target;});
+      toFlip.forEach(function(d){toggleDppFn(d.id);});
+      actionsLog.push((target?'✅ Marked ':'↩️ Unmarked ')+toFlip.length+' DPP'+(toFlip.length===1?'':'s'));
+      return {ok:true,updated:toFlip.map(function(d){return d.label;})};
+    }
+    if(act==='log_result'){
+      var d0=hits[0];
+      var total=Number(args.total);if(!(total>=1))return {ok:false,error:'total questions must be >= 1'};
+      var correct=Number(args.correct)||0,wrong=Number(args.wrong)||0;
+      if(correct+wrong>total)return {ok:false,error:'correct + wrong cannot exceed total'};
+      var s1=snap();
+      var resObj={total:total,correct:correct,wrong:wrong,skipped:total-correct-wrong,minutes:args.minutes!==undefined?Number(args.minutes):null,notes:String(args.notes||''),redo:Boolean(args.redo),mistakes:Array.isArray(args.mistakes)?args.mistakes:[],loggedAt:todayKey()};
+      data.dpps=data.dpps.map(function(d){return d.id===d0.id?{...d,result:resObj,marks:args.marks!==undefined?Number(args.marks):d.marks,totalMarks:args.totalMarks!==undefined?Number(args.totalMarks):d.totalMarks,done:true,completedAt:d.completedAt||todayKey(),everAwarded:true}:d;});
+      save();renderAll();afterProgress(s1,!d0.everAwarded);
+      actionsLog.push('📊 Logged '+correct+'/'+total+' on '+d0.label);
+      return {ok:true,dpp:d0.label,result:resObj};
+    }
+    if(act==='delete'){
+      var rm=new Set(hits.map(function(d){return d.id;}));
+      data.dpps=data.dpps.filter(function(d){return !rm.has(d.id);});
+      save();renderAll();
+      actionsLog.push('🗑️ Deleted '+hits.length+' DPP(s)');
+      return {ok:true,deleted:hits.length};
+    }
+    return {ok:false,error:'Unknown DPP action: '+act};
+  }
+
+  if(name==='manage_materials'){
+    var act=String(args.action||'').toLowerCase();
+    var sub=aiFindSubject(args.subject)||getCurSub()||data.subjects[0];
+    if(act==='add'){
+      if(!sub||!args.title)return {ok:false,error:'subject and title required'};
+      var typ=args.type||'PDF';
+      if(sub.matCategories&&sub.matCategories.indexOf(typ)===-1)sub.matCategories.push(typ);
+      var m={id:uid(),subjectId:sub.id,title:String(args.title).trim(),type:typ,chapter:'',date:String(args.date||'').trim(),link:String(args.link||'').trim(),done:Boolean(args.done)};
+      data.materials.push(m);save();renderAll();
+      actionsLog.push('📄 Added material "'+m.title+'"');
+      return {ok:true,material:m};
+    }
+    if(act==='paste'){
+      if(!sub||!args.pasteText)return {ok:false,error:'subject and pasteText required'};
+      var parsed=parseMaterialPaste(String(args.pasteText),sub.id,args.type||'PDF');
+      if(!parsed.length)return {ok:false,error:'No materials parsed'};
+      data.materials.push.apply(data.materials,parsed);save();renderAll();
+      actionsLog.push('📥 Added '+parsed.length+' materials');
+      return {ok:true,added:parsed.length};
+    }
+    var q=(args.query||args.title||'').toLowerCase();
+    var hits=(data.materials||[]).filter(function(m){
+      if(args.id!==undefined&&Number(m.id)===Number(args.id))return true;
+      if(args.id!==undefined)return false;
+      if(args.subject&&sub&&m.subjectId!==sub.id)return false;
+      if(q&&((m.title||'')+' '+(m.type||'')).toLowerCase().indexOf(q)===-1)return false;
+      return true;
+    });
+    if(!hits.length)return {ok:false,error:'No matching study material found.'};
+    if(act==='toggle_done'){
+      var t=typeof args.done==='boolean'?args.done:!hits[0].done;
+      var sSet=new Set(hits.map(function(m){return m.id;}));
+      data.materials=data.materials.map(function(m){return sSet.has(m.id)?{...m,done:t}:m;});
+      save();renderAll();
+      actionsLog.push((t?'✅ Marked ':'↩️ Unmarked ')+hits.length+' material(s)');
+      return {ok:true,updated:hits.length};
+    }
+    if(act==='delete'){
+      var rSet=new Set(hits.map(function(m){return m.id;}));
+      data.materials=data.materials.filter(function(m){return !rSet.has(m.id);});
+      save();renderAll();
+      actionsLog.push('🗑️ Deleted '+hits.length+' material(s)');
+      return {ok:true,deleted:hits.length};
+    }
+    return {ok:false,error:'Unknown material action: '+act};
+  }
+
+  if(name==='manage_subjects'){
+    var act=String(args.action||'').toLowerCase();
+    if(act==='add_subject'){
+      var nm=String(args.name||'').trim();if(!nm)return {ok:false,error:'name required'};
+      if(data.subjects.find(function(s){return s.name.toLowerCase()===nm.toLowerCase();}))return {ok:false,error:'Subject already exists'};
+      var ns={id:'s'+uid(),name:nm,categories:['Regular Lectures'],matCategories:['PDF','Short Notes','PYQ','Extra Lecture','Other']};
+      data.subjects.push(ns);activeSub=ns.id;save();renderAll();
+      actionsLog.push('📚 Added subject "'+nm+'"');
+      return {ok:true,subject:ns};
+    }
+    var sub=aiFindSubject(args.subject)||getCurSub();
+    if(!sub)return {ok:false,error:'Subject not found'};
+    if(act==='rename_subject'){
+      var nn=String(args.newName||args.name||'').trim();if(!nn)return {ok:false,error:'newName required'};
+      var oldN=sub.name;sub.name=nn;save();renderAll();
+      actionsLog.push('✏️ Renamed '+oldN+' → '+nn);
+      return {ok:true,oldName:oldN,newName:nn};
+    }
+    if(act==='delete_subject'){
+      var delN=sub.name;
+      data.subjects=data.subjects.filter(function(s){return s.id!==sub.id;});
+      data.lectures=data.lectures.filter(function(l){return l.subjectId!==sub.id;});
+      if(activeSub===sub.id){activeSub=data.subjects[0]?data.subjects[0].id:null;activeCat='all';}
+      save();renderAll();
+      actionsLog.push('🗑️ Deleted subject '+delN);
+      return {ok:true,deleted:delN};
+    }
+    if(act==='add_category'){
+      var cn=String(args.name||'').trim();if(!cn)return {ok:false,error:'category name required'};
+      if(sub.categories.indexOf(cn)===-1)sub.categories.push(cn);
+      save();renderAll();
+      actionsLog.push('🏷️ Added category "'+cn+'" to '+sub.name);
+      return {ok:true,subject:sub.name,categories:sub.categories};
+    }
+    if(act==='rename_category'){
+      var oldC=String(args.name||'').trim(),newC=String(args.newName||'').trim();
+      var idx=sub.categories.findIndex(function(c){return c.toLowerCase()===oldC.toLowerCase();});
+      if(idx===-1||!newC)return {ok:false,error:'Category not found or newName missing'};
+      var prev=sub.categories[idx];sub.categories[idx]=newC;
+      data.lectures=data.lectures.map(function(l){return l.subjectId===sub.id&&l.category===prev?{...l,category:newC}:l;});
+      if(activeCat===prev)activeCat=newC;
+      save();renderAll();
+      actionsLog.push('✏️ Renamed category '+prev+' → '+newC);
+      return {ok:true,oldName:prev,newName:newC};
+    }
+    if(act==='delete_category'){
+      var dc=String(args.name||'').trim();
+      var idx=sub.categories.findIndex(function(c){return c.toLowerCase()===dc.toLowerCase();});
+      if(idx===-1)return {ok:false,error:'Category not found'};
+      var removed=sub.categories.splice(idx,1)[0];
+      if(activeCat===removed)activeCat='all';
+      save();renderAll();
+      actionsLog.push('🗑️ Deleted category '+removed);
+      return {ok:true,deleted:removed};
+    }
+    if(act==='add_mat_category'){
+      var mn=String(args.name||'').trim();if(!mn)return {ok:false,error:'name required'};
+      if(!Array.isArray(sub.matCategories))sub.matCategories=[...MAT_TYPES];
+      if(sub.matCategories.indexOf(mn)===-1)sub.matCategories.push(mn);
+      save();renderAll();
+      actionsLog.push('🏷️ Added material category "'+mn+'"');
+      return {ok:true,matCategories:sub.matCategories};
+    }
+    return {ok:false,error:'Unknown subject action: '+act};
+  }
+
+  if(name==='control_timer'){
+    var act=String(args.action||'').toLowerCase();
+    var sub=aiFindSubject(args.subject)||getCurSub()||data.subjects[0];
+    if(act==='start'){
+      if(!sub)return {ok:false,error:'Add a subject first'};
+      tmSub=sub.id;
+      if(args.mode==='pomo'||args.mode==='free')tmMode=args.mode;
+      var now=Date.now(),P=pomoCfg();
+      tSave(tmMode==='pomo'?{subjectId:sub.id,mode:'pomo',phase:'focus',running:true,startedAt:now,acc:0,cycle:0,phaseEnd:now+P.focus*60000,phaseLeft:0}:{subjectId:sub.id,mode:'free',running:true,startedAt:now,acc:0,nextCheck:now+everyMs(),promptAt:0});
+      timerTick();refreshTimerView();
+      actionsLog.push('⏱️ Started '+(tmMode==='pomo'?'Pomodoro':'Stopwatch')+' ('+sub.name+')');
+      return {ok:true,started:tmMode,subject:sub.name};
+    }
+    if(act==='pause'){pauseTimer();actionsLog.push('⏸️ Timer paused');return {ok:true,state:tState()};}
+    if(act==='resume'){resumeTimer();actionsLog.push('▶️ Timer resumed');return {ok:true,state:tState()};}
+    if(act==='stop'){stopTimer();actionsLog.push('⏹️ Timer stopped & saved');return {ok:true};}
+    if(act==='log_session'){
+      if(!sub)return {ok:false,error:'Subject not found'};
+      var mins=Math.round(Number(args.minutes)||0);
+      if(mins<1)return {ok:false,error:'minutes must be >= 1'};
+      var dt=aiResolveDate(args.date);
+      var s1=snap();
+      data.sessions.push({id:uid(),subjectId:sub.id,date:dt,minutes:mins});
+      save();renderAll();afterProgress(s1,true);
+      actionsLog.push('⏱️ Logged '+mins+'m '+sub.name+' ('+dt+')');
+      return {ok:true,subject:sub.name,date:dt,minutes:mins};
+    }
+    return {ok:false,error:'Unknown timer action: '+act};
+  }
+
+  if(name==='manage_journal'){
+    var act=String(args.action||'get').toLowerCase();
+    var dt=aiResolveDate(args.date);
+    if(!data.journal)data.journal={};
+    if(act==='get'){
+      return {date:dt,entry:data.journal[dt]||null};
+    }
+    if(act==='save'){
+      var prev=data.journal[dt]||{};
+      var entry={
+        text:args.text!==undefined?String(args.text).trim():(prev.text||''),
+        mood:args.mood!==undefined?Math.max(0,Math.min(5,Number(args.mood)||0)):(prev.mood||0),
+        productivityPct:args.productivityPct!==undefined?Math.max(0,Math.min(100,Number(args.productivityPct)||0)):(prev.productivityPct||0),
+        loggedAt:new Date().toISOString()
+      };
+      data.journal[dt]=entry;
+      save();renderQuestStrip();renderJournalHistory();
+      actionsLog.push('📓 Saved journal ('+dt+')');
+      return {ok:true,date:dt,entry:entry};
+    }
+    if(act==='delete'){
+      delete data.journal[dt];save();renderQuestStrip();renderJournalHistory();
+      actionsLog.push('🗑️ Deleted journal ('+dt+')');
+      return {ok:true,date:dt};
+    }
+    return {ok:false,error:'Unknown journal action: '+act};
+  }
+
+  if(name==='update_settings'){
+    if(!data.settings)data.settings={};
+    if(!data.settings.pomo)data.settings.pomo={focus:25,brk:5,lng:15,cycles:4};
+    var upd=[];
+    if(args.dailyTarget!==undefined){data.settings.dailyTarget=Math.max(0,Number(args.dailyTarget)||0);upd.push('dailyTarget='+data.settings.dailyTarget);}
+    if(args.examDate!==undefined){data.settings.examDate=String(args.examDate).trim();upd.push('examDate='+data.settings.examDate);}
+    if(args.checkMin!==undefined){data.settings.checkMin=Math.max(5,Number(args.checkMin)||45);upd.push('checkMin='+data.settings.checkMin);}
+    if(args.pomoFocus!==undefined){data.settings.pomo.focus=Math.max(1,Number(args.pomoFocus));upd.push('pomoFocus='+data.settings.pomo.focus);}
+    if(args.pomoBreak!==undefined){data.settings.pomo.brk=Math.max(1,Number(args.pomoBreak));upd.push('pomoBreak='+data.settings.pomo.brk);}
+    if(args.pomoLong!==undefined){data.settings.pomo.lng=Math.max(1,Number(args.pomoLong));upd.push('pomoLong='+data.settings.pomo.lng);}
+    if(args.pomoCycles!==undefined){data.settings.pomo.cycles=Math.max(1,Number(args.pomoCycles));upd.push('pomoCycles='+data.settings.pomo.cycles);}
+    save();renderAll();
+    if(upd.length)actionsLog.push('⚙️ Settings: '+upd.join(', '));
+    return {ok:true,settings:data.settings};
+  }
+
+  if(name==='manage_gamification'){
+    var act=String(args.action||'').toLowerCase();
+    var G=gameState();
+    if(act==='equip_theme'||act==='preview_theme'){
+      var thId=aiFindTheme(args.theme);
+      if(!thId)return {ok:false,error:'Theme not found: '+args.theme};
+      if(act==='preview_theme'){
+        if(thId==='default')return {ok:false,error:'Default theme does not need preview'};
+        previewTheme(thId);
+        actionsLog.push('🎨 Previewing '+(THEMES[thId]?THEMES[thId].name:thId));
+        return {ok:true,previewing:thId};
+      }
+      var unlocked=G.unlockedThemes||['default'];
+      if(unlocked.indexOf(thId)===-1)return {ok:false,error:'Theme "'+THEMES[thId].name+'" is locked (costs '+THEMES[thId].cost+' coins; you have '+spendableCoins()+'). Ask to buy_item or preview_theme.'};
+      toggleThemeOption(thId);
+      actionsLog.push('🎨 Equipped '+(thId==='default'?'Classic PW':THEMES[thId].name));
+      return {ok:true,activeTheme:thId};
+    }
+    if(act==='buy_item'){
+      var k=String(args.item||'').trim();
+      if(k&&k!=='shield'&&!MULTS[k]&&!k.startsWith('theme:')){
+        var th=aiFindTheme(k);if(th&&th!=='default')k='theme:'+th;
+      }
+      var beforeCoins=spendableCoins();
+      buyShopItem(k);
+      if(spendableCoins()<beforeCoins||((G.unlockedThemes||[]).indexOf(k.slice(6))!==-1&&k.startsWith('theme:'))){
+        actionsLog.push('🛒 Bought '+k);
+        return {ok:true,bought:k,coinsLeft:spendableCoins()};
+      }
+      return {ok:false,error:'Purchase did not complete (check coins/limit/active boost).'};
+    }
+    if(act==='open_chest'){
+      if(!chestReady())return {ok:false,error:'Daily chest is not ready yet or was already opened today.'};
+      openChest();
+      actionsLog.push('🎁 Opened daily chest');
+      return {ok:true};
+    }
+    if(act==='add_reward'){
+      var lbl=String(args.rewardLabel||'').trim(),v=Number(args.rewardGoal)||0,tp=args.rewardType||'streak';
+      if(!lbl||v<1)return {ok:false,error:'rewardLabel and rewardGoal >= 1 required'};
+      data.rewards.push({id:uid(),label:lbl,type:tp,value:v,claimed:false});save();renderAll();
+      actionsLog.push('🎁 Added reward "'+lbl+'"');
+      return {ok:true,reward:lbl,type:tp,goal:v};
+    }
+    if(act==='claim_reward'||act==='delete_reward'){
+      var rHit=data.rewards.find(function(r){
+        if(args.rewardId!==undefined)return Number(r.id)===Number(args.rewardId);
+        return args.rewardLabel&&r.label.toLowerCase().indexOf(String(args.rewardLabel).toLowerCase())!==-1;
+      });
+      if(!rHit)return {ok:false,error:'Reward not found'};
+      if(act==='claim_reward'){
+        if(rewardVal(rHit)<rHit.value)return {ok:false,error:'Reward not unlocked yet ('+rewardVal(rHit)+'/'+rHit.value+')'};
+        claimReward(rHit.id);actionsLog.push('🎉 Claimed "'+rHit.label+'"');
+        return {ok:true,claimed:rHit.label};
+      }else{
+        data.rewards=data.rewards.filter(function(r){return r.id!==rHit.id;});save();renderAll();
+        actionsLog.push('🗑️ Deleted reward "'+rHit.label+'"');
+        return {ok:true,deleted:rHit.label};
+      }
+    }
+    return {ok:false,error:'Unknown gamification action: '+act};
+  }
+
+  if(name==='navigate_ui'){
+    if(args.subject){
+      var s=aiFindSubject(args.subject);
+      if(s){activeSub=s.id;activeDppSub=s.id;}
+    }
+    if(args.category)activeCat=String(args.category);
+    if(args.view&&VIEWS.indexOf(args.view)!==-1){
+      setView(args.view);
+      actionsLog.push('🧭 Opened '+args.view);
+    }
+    if(args.modal==='weekly_review'){openWeeklyReview(0);actionsLog.push('📊 Opened Weekly Review');}
+    else if(args.modal==='journal'){openJournalModal();actionsLog.push('📓 Opened Journal');}
+    else if(args.modal==='theme_studio'){openThemeModal();actionsLog.push('🎨 Opened Theme Studio');}
+    else if(args.modal==='focus'&&tState()){openFocus();actionsLog.push('⏱️ Opened Focus Mode');}
+    return {ok:true,currentView:currentView};
+  }
+
+  return {ok:false,error:'Unknown tool: '+name};
+}
 
 function buildCompanionContext(){
   var streak=currentStreak();
-  var G=gameState();
-  var lvl=calcLevel(totalXp());
+  var xp=totalXp();
+  var L=levelInfo(xp);
+  var lvlName=levelTitle(L.level);
   var today=todayKey();
-  var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
-  var target=data.settings&&data.settings.dailyTarget||3;
+  var act=dayActivity()[today];
+  var todayDone=act?act.lec.length:0;
+  var todayDpp=act?act.dpp.length:0;
+  var todayStudyMin=studyMinToday();
+  var target=Number(data.settings&&data.settings.dailyTarget)||3;
   var totalDone=data.lectures.filter(function(l){return l.done;}).length;
   var totalAll=data.lectures.length;
   var pending=totalAll-totalDone;
-  var examDate=data.settings&&data.settings.examDate||'';
+  var examDate=(data.settings&&data.settings.examDate)||'';
   var daysLeft=examDate?Math.max(0,daysBetween(today,examDate)):0;
   var pace=daysLeft>0?(pending/daysLeft).toFixed(1):'?';
   var journal=data.journal&&data.journal[today];
   var jnlText=journal&&journal.text?journal.text:'';
   var jnlMood=journal&&journal.mood||0;
-  var jnlProd=journal&&journal.productivityPct||null;
+  var jnlProd=(journal&&journal.productivityPct!==undefined)?journal.productivityPct:null;
   var subStats=data.subjects.map(function(s){
     var st=getStats(s.id);
-    return s.name+': '+st.done+'/'+st.total+' ('+st.pct+'%)';
-  }).join(', ');
-  return 'USER STUDY PROFILE:\n'
+    return s.name+' ('+s.id+'): '+st.done+'/'+st.total+' ('+st.pct+'%, '+minsToStr(st.leftMins)+' left)';
+  }).join('; ');
+  return 'TODAY DATE: '+today+'\n'
+    +'ACTIVE VIEW: '+currentView+(activeSub?' (selected subject: '+subjectName(activeSub)+')':'')+'\n'
+    +'USER STUDY PROFILE:\n'
     +'Streak: '+streak+' days\n'
-    +'Level: '+lvl.name+' ('+totalXp()+' XP)\n'
-    +'Today: '+todayDone+' lectures done (daily target: '+target+')\n'
+    +'Level: '+L.level+' ('+lvlName+', '+xp+' XP, '+spendableCoins()+' coins)\n'
+    +'Today: '+todayDone+' lectures done (daily target: '+target+'), '+todayDpp+' DPPs, '+todayStudyMin+'m timer study\n'
     +'Overall: '+totalDone+'/'+totalAll+' lectures ('+pending+' pending)\n'
     +'Exam in: '+(daysLeft||'?')+' days → need '+pace+' lectures/day\n'
     +'Subjects: '+subStats+'\n'
-    +(jnlText?'Today\'s journal: '+jnlText.slice(0,200)+'\n':'')
-    +(jnlMood?'Mood today: '+moodEmoji(jnlMood)+'\n':'')
-    +(jnlProd!==null?'Productivity: '+jnlProd+'%\n':'');
+    +(jnlText?'Today\'s journal: '+jnlText.slice(0,300)+'\n':'')
+    +(jnlMood?'Mood today: '+jnlMood+'/5 '+moodEmoji(jnlMood)+'\n':'')
+    +(jnlProd!==null?'Productivity self-rating: '+jnlProd+'%\n':'');
 }
 
-function smartCompanionReply(msg){
-  var m=msg.toLowerCase();
-  var streak=currentStreak();
-  var G=gameState();
-  var today=todayKey();
-  var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
-  var target=data.settings&&data.settings.dailyTarget||3;
-  var totalDone=data.lectures.filter(function(l){return l.done;}).length;
-  var totalAll=data.lectures.length;
-  var pending=totalAll-totalDone;
-  var journal=data.journal&&data.journal[today];
-  var jnlMood=journal&&journal.mood||0;
-
-  if(/motivat|inspire|push|hype|pump|fire me up/.test(m)){
-    var lines=[
-      'Bro you have '+(streak>0?streak+' days of momentum — don\'t waste it.':'a chance to start a new streak TODAY.'),
-      'Every lecture is one less thing between you and the exam. '+(todayDone>0?'You already did '+todayDone+' today. Keep it rolling.':'Start with just one. The first one breaks the inertia.'),
-      'The students who top the exam aren\'t smarter — they just showed up more consistently. '+(streak>=7?'Your '+streak+'-day streak proves you can.':'Time to prove it.'),
-      'Pain now, rank later. '+pending+' lectures left. Let\'s delete them.'
-    ];
-    return lines[Math.floor(Math.random()*lines.length)];
-  }
-  if(/how am i doing|my progress|status|update/.test(m)){
-    var pct=totalAll?Math.round(totalDone/totalAll*100):0;
-    return 'You\'ve cleared '+totalDone+' out of '+totalAll+' lectures ('+pct+'%). '
-      +(todayDone>=target?'You hit your daily target today — nice!':todayDone>0?'You\'re at '+todayDone+' today, '+(target-todayDone)+' more to hit your target.':'Haven\'t started today yet — go for at least '+target+'.')
-      +' Streak: '+streak+' days. '+G.bonusXp+' bonus XP in the bank.';
-  }
-  if(/streak|fire/.test(m)){
-    if(streak===0)return 'No streak yet — start one RIGHT NOW. Even a single DPP or timer session counts. Go.';
-    if(streak<7)return streak+' days going. Build it to 7 for the first milestone and bonus XP. You\'re '+(7-streak)+' away.';
-    if(streak<30)return streak+' days 🔥. You\'re in the top tier. Don\'t break it — a streak saver shield will cover you on hard days.';
-    return streak+'-day legend streak. Seriously impressive. Don\'t stop.';
-  }
-  if(/behind|backlog|slow|behind schedule/.test(m)){
-    var examDate=data.settings&&data.settings.examDate||'';
-    var daysLeft=examDate?Math.max(0,daysBetween(today,examDate)):0;
-    var pace=daysLeft>0?(pending/daysLeft).toFixed(1):'?';
-    return 'You have '+pending+' lectures left and '+daysLeft+' days. That\'s ~'+pace+' per day. '
-      +(parseFloat(pace)>8?'That\'s intense — but doable if you do 4-5 in the morning and 4-5 in the evening. Block your phone.':'You can handle '+pace+'/day. Split it into two sessions.')
-      +' Write down what you\'ll watch today in your Journal right now.';
-  }
-  if(/sad|tired|burnt out|exhausted|stress|anxious|worried/.test(m)||jnlMood<=2){
-    return 'Hey, it\'s okay. Feeling '+(jnlMood===1?'rough':'tired')+' sometimes is part of the grind. '
-      +'Take 10 minutes away from the screen. Drink water. Then come back and do JUST ONE lecture — not to grind, just to keep the habit alive. '
-      +'Small wins matter more than big exhausted sessions.';
-  }
-  if(/tip|advice|help|what should i do|study/.test(m)){
-    var subs=data.subjects.map(function(s){var st=getStats(s.id);return{name:s.name,pct:st.pct};}).sort(function(a,b){return a.pct-b.pct;});
-    var weakest=subs[0];
-    return 'Your weakest subject right now is '+escH(weakest?weakest.name:'N/A')+(weakest?' at '+weakest.pct+'%':'')+'. '
-      +'Start tomorrow\'s session with that. '
-      +'Also — open the timer, set a 25-min Pomodoro, and just go. The hardest part is starting.';
-  }
-  if(/xp|level|coins/.test(m)){
-    var xp=totalXp(),lvl=calcLevel(xp);
-    return 'You\'re at Level '+lvl.lvl+' ('+lvl.name+') with '+xp+' XP total. '
-      +(lvl.next?'Next level needs '+(lvl.next-xp)+' more XP. '+'Each lecture and DPP earns you XP — with combos and boosts it stacks fast.':'You\'re at max level. Legend.');
-  }
-  if(/hello|hi|hey|sup|what\'s up/.test(m)){
-    var greet=['Hey! How\'s the grind going?','Sup. Ready to get some lectures done?','Hey bro! What\'s on your mind?'];
-    return greet[Math.floor(Math.random()*greet.length)]+' (Tip: type "how am I doing" to see your stats.)';
-  }
-  // default
-  var fallbacks=[
-    'Focus tip: Break today\'s target into two blocks — morning and evening. Even 3+3 is better than nothing.',
-    'Write in your journal before you study. It sets intention and you\'ll be more focused.',
-    'Activate an XP boost from the shop before a long session — your XP gain doubles.',
-    'Haven\'t started today? Open the Study Timer and do one 25-min Pomodoro. That\'s all.',
-    'Check your weakest subject in Stats and dedicate the first lecture slot to it.'
-  ];
-  return fallbacks[Math.floor(Math.random()*fallbacks.length)];
-}
-
-async function callGemini(userMsg){
-  var key=localStorage.getItem('pw_gemini_key')||'';
-  if(!key)return null;
+async function callGemini(userMsg,historyTurns){
+  var key=getGeminiApiKey();
+  if(!key)throw new Error('No Gemini API key set. Paste your key below and click Save.');
   var ctx=buildCompanionContext();
-  var sysPrompt='You are an AI study companion for a JEE/NEET student using a lecture tracker app. '
-    +'Be direct, motivating, specific, and concise (under 80 words). '
-    +'Never give generic advice — reference the user\'s actual stats below.\n\n'+ctx;
-  try{
-    var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key,{
+  var sysPrompt='You are the embedded Gemini 3.6 Flash AI Agent inside Aryan\'s PW Lecture Tracker (IIT-JEE).\n'
+    +'You have FULL control of the website via function tools (`list_items`, `update_lectures`, `add_lectures`, `manage_dpps`, `manage_materials`, `manage_subjects`, `control_timer`, `manage_journal`, `update_settings`, `manage_gamification`, `navigate_ui`).\n'
+    +'RULES:\n'
+    +'1. Whenever the user asks you to tick, mark, add, paste, edit, delete, start/stop timer, log study hours, save journal, change target/exam date, equip/buy themes or boosts, open chest, add rewards, or navigate — CALL THE TOOLS DIRECTLY instead of telling them how to click.\n'
+    +'2. If an item name or ID is ambiguous, call `list_items` first to inspect exact IDs/titles, then execute the update.\n'
+    +'3. Be concise, direct, motivating, and confirm exact changes made (never claim a change unless the tool returned ok:true).\n\n'
+    +ctx;
+
+  var contents=[];
+  var started=false;
+  (historyTurns||[]).forEach(function(m){
+    if(m.role!=='user'&&m.role!=='bot')return;
+    if(!started&&m.role!=='user')return;
+    started=true;
+    var r=m.role==='user'?'user':'model';
+    if(contents.length&&contents[contents.length-1].role===r){
+      contents[contents.length-1].parts[0].text+='\n'+m.text;
+    }else{
+      contents.push({role:r,parts:[{text:m.text}]});
+    }
+  });
+  if(contents.length&&contents[contents.length-1].role==='user'){
+    contents[contents.length-1].parts[0].text+='\n'+userMsg;
+  }else{
+    contents.push({role:'user',parts:[{text:userMsg}]});
+  }
+
+  var actionsLog=[];
+  for(var round=0;round<6;round++){
+    var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json','x-goog-api-key':key},
       body:JSON.stringify({
         system_instruction:{parts:[{text:sysPrompt}]},
-        contents:[{role:'user',parts:[{text:userMsg}]}]
+        contents:contents,
+        tools:AI_TOOLS
       })
     });
-    if(!resp.ok)return null;
-    var j=await resp.json();
-    return j?.candidates?.[0]?.content?.parts?.[0]?.text||null;
-  }catch(e){return null;}
+    var j=null;
+    try{j=await resp.json();}catch(e){}
+    if(!resp.ok){
+      var msg=(j&&j.error&&j.error.message)||('HTTP '+resp.status);
+      throw new Error(msg);
+    }
+    var candContent=j&&j.candidates&&j.candidates[0]&&j.candidates[0].content;
+    var parts=(candContent&&candContent.parts)||[];
+    var calls=parts.filter(function(p){return p&&p.functionCall;});
+    if(calls.length){
+      contents.push(candContent);
+      var respParts=calls.map(function(p){
+        var fc=p.functionCall;
+        var out;
+        try{out=executeAiTool(fc.name,fc.args||{},actionsLog);}
+        catch(err){out={ok:false,error:err&&err.message?err.message:String(err)};}
+        var fr={name:fc.name,response:{result:out}};
+        if(fc.id)fr.id=fc.id;
+        return {functionResponse:fr};
+      });
+      contents.push({role:'user',parts:respParts});
+      continue;
+    }
+    var text=parts.filter(function(p){return !p.thought&&p.text;}).map(function(p){return p.text;}).join('').trim();
+    if(!text&&actionsLog.length)text='Done! Updated your tracker.';
+    if(!text)throw new Error('Empty response from Gemini 3.6 Flash.');
+    return {text:text,actions:actionsLog};
+  }
+  return {text:actionsLog.length?'Done! Applied your updates.':'Stopped after max tool steps.',actions:actionsLog};
 }
 
 function aicoRenderMsgs(){
   var el=document.getElementById('aicoMsgs');if(!el)return;
   var history=data.chatHistory||[];
   el.innerHTML=history.map(function(m){
-    return '<div class="aico-msg '+m.role+'">'+(m.role==='typing'?'<div class="aico-typing-dots"><span></span><span></span><span></span></div>':escH(m.text))+'</div>';
+    var cls=m.role==='err'?'err':m.role;
+    if(m.role==='typing')return '<div class="aico-msg typing"><div class="aico-typing-dots"><span></span><span></span><span></span></div></div>';
+    var actHtml=(Array.isArray(m.actions)&&m.actions.length)
+      ?'<div class="aico-actions">'+m.actions.map(function(a){return '<span class="aico-act-chip">'+escH(a)+'</span>';}).join('')+'</div>'
+      :'';
+    return '<div class="aico-msg '+cls+'">'+escH(m.text)+actHtml+'</div>';
   }).join('');
   el.scrollTop=el.scrollHeight;
+}
+
+function aicoUpdateStatus(){
+  var st=document.getElementById('aicoStatus');
+  if(!st)return;
+  var key=getGeminiApiKey();
+  st.textContent=key
+    ?('Gemini 3.6 Flash · Full Control · '+(currentUser?'Supabase':'Guest'))
+    :'Gemini 3.6 Flash · API key required';
 }
 
 function aicoSaveKey(){
   var inp=document.getElementById('aicoKeyInput');if(!inp)return;
   var k=inp.value.trim();
-  if(k){localStorage.setItem('pw_gemini_key',k);showToast('🤖','Gemini key saved!','AI mode activated. Responses will be powered by Gemini.');}
-  else{localStorage.removeItem('pw_gemini_key');showToast('ℹ️','Key removed','Using smart rule-based replies.');}
+  if(!data.settings)data.settings={};
+  data.settings.geminiApiKey=k;
+  try{localStorage.removeItem('pw_gemini_key');}catch(e){}
+  save();
+  if(sb&&currentUser)syncNow();
+  if(k){
+    showToast('✨','Gemini 3.6 Flash key saved',currentUser?'Synced to your Supabase account for all devices.':'Saved in Guest mode. Sign in with Google to sync to Supabase.');
+  }else{
+    showToast('ℹ️','API key removed',currentUser?'Removed from Supabase.':'Cleared.');
+  }
   renderAicoKey();
+  aicoUpdateStatus();
 }
 
 function renderAicoKey(){
   var el=document.getElementById('aicoKeyRow');if(!el)return;
-  var key=localStorage.getItem('pw_gemini_key')||'';
-  el.innerHTML='<span>Gemini API key:</span>'
-    +'<input id="aicoKeyInput" type="password" placeholder="Paste your key here" value="'+escH(key)+'">'
+  var key=getGeminiApiKey();
+  var badge=key
+    ?(currentUser?'<span style="color:var(--green-text,#15803d);font-weight:700;">✓ Supabase</span>':'<span style="color:var(--accent);font-weight:700;">✓ Guest</span>')
+    :'<span style="color:var(--red-text,#dc2626);font-weight:700;">No key</span>';
+  el.innerHTML='<span>Key:</span>'
+    +'<input id="aicoKeyInput" type="password" placeholder="Paste Gemini API key (AQ...)" value="'+escH(key)+'">'
     +'<button onclick="aicoSaveKey()">'+(key?'Update':'Save')+'</button>'
-    +(key?'<span style="color:var(--accent)">✓ AI on</span>':'<span style="color:var(--muted)">offline</span>');
+    +badge;
+  aicoUpdateStatus();
+}
+
+function aicoClearChat(){
+  if(!confirm('Clear companion chat history?'))return;
+  data.chatHistory=[];
+  save();
+  openAiCompanion();
 }
 
 async function aicoSend(){
   var inp=document.getElementById('aicoInput');if(!inp||_aicoThinking)return;
   var msg=inp.value.trim();if(!msg)return;
+  if(!getGeminiApiKey()){
+    showToast('🔑','API key needed','Paste your Gemini API key below and click Save.');
+    var ki=document.getElementById('aicoKeyInput');if(ki)ki.focus();
+    return;
+  }
   inp.value='';
   if(!data.chatHistory)data.chatHistory=[];
+  var priorTurns=data.chatHistory.filter(function(m){return m.role==='user'||m.role==='bot';}).slice(-10);
   data.chatHistory.push({role:'user',text:msg,ts:new Date().toISOString()});
   if(data.chatHistory.length>40)data.chatHistory=data.chatHistory.slice(-40);
   data.chatHistory.push({role:'typing',text:'',ts:''});
@@ -3956,15 +4770,20 @@ async function aicoSend(){
   _aicoThinking=true;
   var sendBtn=document.getElementById('aicoSendBtn');
   if(sendBtn)sendBtn.disabled=true;
-  var reply;
+  var replyText='',replyRole='bot',replyActions=[];
   try{
-    var gemini=await callGemini(msg);
-    reply=gemini||smartCompanionReply(msg);
-  }catch(e){reply=smartCompanionReply(msg);}
+    var res=await callGemini(msg,priorTurns);
+    replyText=res.text;
+    replyActions=res.actions||[];
+  }catch(e){
+    replyRole='err';
+    replyText='⚠️ Gemini 3.6 Flash error: '+(e&&e.message?e.message:'Request failed. Check your API key and connection.');
+  }
   _aicoThinking=false;
-  // remove typing indicator
   data.chatHistory=data.chatHistory.filter(function(m){return m.role!=='typing';});
-  data.chatHistory.push({role:'bot',text:reply,ts:new Date().toISOString()});
+  var entry={role:replyRole,text:replyText,ts:new Date().toISOString()};
+  if(replyActions.length)entry.actions=replyActions;
+  data.chatHistory.push(entry);
   if(data.chatHistory.length>40)data.chatHistory=data.chatHistory.slice(-40);
   save();
   aicoRenderMsgs();
@@ -3979,28 +4798,29 @@ function openAiCompanion(){
     document.body.appendChild(ov);
   }
   if(!data.chatHistory)data.chatHistory=[];
-  // Add welcome if first open
   if(data.chatHistory.length===0){
     var streak=currentStreak();
     var today=todayKey();
     var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
-    var welcome='Hey! 👋 I\'m your study companion. '
+    var key=getGeminiApiKey();
+    var welcome='Hey! ✨ I\'m your Gemini 3.6 Flash AI Agent. '
       +(streak>0?'You\'re on a '+streak+'-day streak — ':'')
-      +(todayDone>0?'You\'ve done '+todayDone+' lectures today. ':'No lectures yet today — let\'s change that. ')
-      +'Ask me anything: tips, stats, motivation, or just vent.';
+      +(todayDone>0?'You\'ve done '+todayDone+' lectures today. ':'')
+      +(key?'Tell me to tick lectures, log DPPs, start a timer, write your journal, change themes, or plan your backlog — I\'ll update the site directly!':'Paste your Gemini API key below and hit Save to activate.');
     data.chatHistory.push({role:'bot',text:welcome,ts:new Date().toISOString()});
     save();
   }
   ov.innerHTML='<div class="aico-wrap">'
     +'<div class="aico-head">'
-    +'<div class="aico-avatar">🤖</div>'
-    +'<div class="aico-headtxt"><b>Study Companion</b><small id="aicoStatus">'+(localStorage.getItem('pw_gemini_key')?'Powered by Gemini AI':'Smart rule-based mode')+'</small></div>'
-    +'<button class="aico-close" onclick="closeAiCompanion()">✕</button>'
+    +'<div class="aico-avatar">'+AI_LOGO_SVG+'</div>'
+    +'<div class="aico-headtxt"><b>PW AI Agent</b><small id="aicoStatus"></small></div>'
+    +'<button class="aico-close" onclick="aicoClearChat()" title="Clear chat"><i class="ti ti-trash" style="font-size:16px;"></i></button>'
+    +'<button class="aico-close" onclick="closeAiCompanion()" title="Close">✕</button>'
     +'</div>'
     +'<div class="aico-msgs" id="aicoMsgs"></div>'
     +'<div class="aico-key-row" id="aicoKeyRow"></div>'
     +'<div class="aico-input-row">'
-    +'<input class="aico-input" id="aicoInput" placeholder="Ask anything..." onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();aicoSend();}">'
+    +'<input class="aico-input" id="aicoInput" placeholder="Ask or command anything (e.g. tick Phy lec 1)..." onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();aicoSend();}">'
     +'<button class="aico-send" id="aicoSendBtn" onclick="aicoSend()">➤</button>'
     +'</div>'
     +'</div>';
