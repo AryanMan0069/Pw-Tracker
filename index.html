@@ -868,6 +868,48 @@ body.theme-cyber .btn-primary{background:linear-gradient(135deg,#00f2fe,#4facfe)
   .aico-fab svg{width:27px;height:27px;}
   .aico-ov{padding:12px;}
 }
+
+/* ---- Phase 1 Uncertainty Mechanics ---- */
+.spin-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(245,158,11,.18),var(--accent-soft),var(--surface));border:1.5px solid var(--accent);border-radius:20px;padding:14px 16px;margin-bottom:1rem;cursor:pointer;box-shadow:var(--shadow-md);animation:gmpulse 2.2s ease-in-out infinite;}
+.spin-banner-ico{font-size:32px;flex-shrink:0;}
+.spin-banner-txt{flex:1;min-width:0;}
+.spin-banner-txt b{font-size:14.5px;font-weight:800;display:block;color:var(--text);}
+.spin-banner-txt span{font-size:12px;color:var(--text2);line-height:1.4;}
+.spin-ov{position:fixed;inset:0;z-index:3800;background:rgba(10,8,30,.72);display:flex;align-items:center;justify-content:center;padding:16px;animation:ovfade .2s both;}
+.spin-card{background:var(--surface);border:1.5px solid var(--border);border-radius:26px;padding:24px 20px;width:min(460px,95vw);text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.45);}
+.spin-track-wrap{position:relative;overflow:hidden;border-radius:16px;border:1.5px solid var(--border-strong);background:var(--surface2);height:92px;margin:16px 0;}
+.spin-ptr{position:absolute;top:0;bottom:0;left:50%;width:3px;background:var(--accent);transform:translateX(-50%);z-index:4;box-shadow:0 0 12px var(--accent);}
+.spin-ptr::before,.spin-ptr::after{content:'';position:absolute;left:50%;transform:translateX(-50%);border-left:7px solid transparent;border-right:7px solid transparent;}
+.spin-ptr::before{top:0;border-top:8px solid var(--accent);}
+.spin-ptr::after{bottom:0;border-bottom:8px solid var(--accent);}
+.spin-track{display:flex;align-items:center;height:100%;gap:8px;padding:0 8px;will-change:transform;transition:transform 3.6s cubic-bezier(.12,.85,.18,1);}
+.spin-cell{flex:0 0 96px;height:72px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;font-weight:800;color:var(--text);padding:4px;}
+.spin-cell span{font-size:22px;line-height:1;}
+.spin-cell.rare{border-color:#a855f7;background:rgba(168,85,247,.12);}
+.spin-cell.leg{border-color:#f59e0b;background:rgba(245,158,11,.15);}
+.mq-div{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:12px 0 4px;display:flex;align-items:center;gap:6px;}
+.mq-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--border);}
+.mq-row:last-of-type{border-bottom:none;}
+.mq-tag{font-size:10px;font-weight:900;letter-spacing:.06em;padding:2px 7px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin-right:6px;}
+.mq-row.done .mq-tag{background:var(--green-bg);color:var(--green-text);}
+.od-slot{display:flex;align-items:center;gap:14px;margin-top:12px;padding:13px 14px;border-radius:18px;border:1.5px dashed var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface));}
+.od-slot.ready{border-style:solid;border-color:#f59e0b;background:linear-gradient(135deg,rgba(245,158,11,.2),var(--surface));animation:gmpulse 1.6s ease-in-out infinite;}
+.od-radar{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(108,92,231,.65);animation:tmping 1.5s infinite;flex-shrink:0;}
+.fx-crit{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;animation:fxflame 2.4s ease both;text-align:center;}
+.fx-crit span{font-size:80px;filter:drop-shadow(0 0 24px rgba(245,158,11,.85));}
+.fx-crit b{font-size:32px;font-weight:900;letter-spacing:.1em;color:#ffd666;text-shadow:0 2px 14px rgba(0,0,0,.6);}
+.fx-crit em{font-style:normal;font-size:42px;font-weight:900;color:#fff;-webkit-text-stroke:3px #ea580c;paint-order:stroke fill;}
+
+/* ---- Phase 2: Golden Bounty, Flash Surge, AI Contracts ---- */
+.bounty-strip{display:flex;align-items:center;gap:14px;margin-bottom:1rem;border-color:rgba(245,158,11,.45);background:linear-gradient(135deg,rgba(245,158,11,.12),var(--surface));cursor:pointer;transition:transform .15s;}
+.bounty-strip:hover{transform:translateY(-2px);}
+.bounty-strip.claimed{border-color:var(--green);background:linear-gradient(135deg,rgba(22,196,127,.1),var(--surface));opacity:.88;}
+.surge-banner{display:flex;align-items:center;gap:14px;margin-bottom:1rem;border-radius:20px;padding:13px 16px;border:1.5px solid #f59e0b;background:linear-gradient(135deg,rgba(245,158,11,.22),rgba(108,92,231,.14),var(--surface));box-shadow:0 6px 24px rgba(245,158,11,.22);animation:riskpulse 2.2s ease-in-out infinite;}
+.surge-ico{font-size:28px;animation:skflick 1.2s ease-in-out infinite;flex-shrink:0;}
+.contract-card{margin-bottom:1rem;border-color:var(--accent);background:linear-gradient(135deg,var(--accent-soft),var(--surface));}
+.contract-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap;}
+.contract-pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;background:var(--surface);border:1px solid var(--border);color:var(--accent);}
+.contract-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--text2);margin-top:8px;}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -1121,7 +1163,7 @@ function ensureDataShape(obj){
   obj.sessions=(Array.isArray(obj.sessions)?obj.sessions:[]).filter(s=>s&&s.date&&Number(s.minutes)>0).map(s=>({id:s.id,subjectId:s.subjectId,date:s.date,minutes:Math.round(Number(s.minutes))}));
   obj.settings.checkMin=Number(obj.settings.checkMin)||45;
   obj.settings.pomo={focus:25,brk:5,lng:15,cycles:4,...(obj.settings.pomo||{})};
-  {const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};
+  {const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},mysteryAwarded:{},chestDay:'',dailySpinDay:'',odDay:'',odNext:0,odReady:false,odCount:0,bountyDay:'',bountyId:null,bountyBucket:'',bountyXp:0,bountyClaimed:false,surge:null,surgeDate:'',surgeN:0,contracts:[],luckyDate:'',luckyN:0,log:[]};
    if(!obj.game||typeof obj.game!=='object')obj.game={};
    Object.keys(gdef).forEach(k=>{if(obj.game[k]===undefined)obj.game[k]=gdef[k];});}
   obj.meta={updatedAt:obj.meta?.updatedAt||'',lastDevice:obj.meta?.lastDevice||''};
@@ -1280,7 +1322,11 @@ async function syncNow(){
   if(resync){resync=false;syncNow();return;}
   unsaved=false;setSyncStatus('Synced','ok');
 }
-window.addEventListener('beforeunload',e=>{if(sb&&currentUser&&(unsaved||isSyncing)){e.preventDefault();e.returnValue='';}});
+window.addEventListener('beforeunload',e=>{
+  let timerRunning=false;
+  try{const s=tState();timerRunning=!!(s&&s.running);}catch(_){}
+  if(timerRunning||(sb&&currentUser&&(unsaved||isSyncing))){e.preventDefault();e.returnValue='';}
+});
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&sb&&currentUser&&unsaved&&!isSyncing)syncNow();});
 async function load(){
   if(!sb||!currentUser)return;
@@ -2085,7 +2131,7 @@ function xpShopHtml(){
     <div class="tool-caption" style="margin-bottom:12px;">Spend study coins on gear. Buying items <strong>never</strong> lowers your level or rank!</div>
     ${previewingThemeId?`<div class="boost-live" style="border-color:var(--accent);display:flex;align-items:center;justify-content:space-between;gap:8px;"><div>🎨 <b>Previewing ${THEMES[previewingThemeId]?.name||'Theme'}</b> <span style="font-size:11px;color:var(--text3);">(auto-reverts in 30s)</span></div><button class="shop-btn" style="padding:4px 10px;" onclick="cancelThemePreview()">Exit preview</button></div>`:''}
     ${boost?`<div class="boost-live">🚀 <b>${boost.mult}× XP</b> is active until ${new Date(boost.until).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}. Every lecture, DPP and study session pays more.</div>`:''}
-    <div class="shop-sub">Gear</div><div class="shop-grid">${card('🛡️','Streak Shield','Saves your streak if you miss 2 days in a row','🪙 300',`<button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy'}</button>`)}</div>
+    <div class="shop-sub">Gear &amp; Mystery</div><div class="shop-grid">${card('🛡️','Streak Shield','Saves your streak if you miss 2 days in a row','🪙 300',`<button class="shop-btn buy" onclick="buyShopItem('shield')" ${coins<300||shields>=2?'disabled':''}>${shields>=2?'Maxed (2/2)':coins<300?'Need Coins':'Buy'}</button>`)}${card('📦','Mystery Crate','Random loot: +110–500 XP, Boosts, Shield, or a locked Theme!','🪙 150',`<button class="shop-btn buy" onclick="buyShopItem('crate')" ${coins<150?'disabled':''}>${coins<150?'Need Coins':'Open'}</button>`)}</div>
     <div class="shop-sub">XP multipliers <small>one at a time</small></div><div class="shop-grid">${mults}</div>
     <div class="shop-sub">Customization</div>
     <div class="theme-hub-card" onclick="openThemeModal('shop')">
@@ -2108,8 +2154,68 @@ function xpShopHtml(){
     </div>
     <div class="inv-bar"><span><b>Inventory:</b></span><span class="inv-item">🛡️ ${shields} / 2 Shields</span><span class="inv-item" style="cursor:pointer;" onclick="openThemeModal('wardrobe')" title="Click to change theme">🎨 ${activeName} · Change ▾</span>${boost?`<span class="inv-item">🚀 ${boost.mult}× active</span>`:''}</div></div>`;
 }
+function grantBoostOrExtend(mult,mins){
+  const G=gameState(),cur=activeBoost();
+  if(cur&&cur.mult>=mult){
+    cur.until+=mins*60000;
+    G.boost=cur;
+    return {extended:true,mult:cur.mult,mins};
+  }
+  G.boost={mult:Math.max(mult,cur?cur.mult:0),until:Math.max(Date.now(),cur?cur.until:Date.now())+mins*60000};
+  return {extended:false,mult:G.boost.mult,mins};
+}
+function rollMysteryCrate(){
+  const r=Math.random(),j=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),G=gameState();
+  const locked=Object.keys(THEMES).filter(id=>!(G.unlockedThemes||['default']).includes(id));
+  if(r<0.04)return {rarity:'Mythic',cls:'leg',title:'+500 XP JACKPOT',sub:'Massive haul!',apply:()=>{G.bonusXp+=500;}};
+  if(r<0.12){
+    if(locked.length){
+      const tid=locked[Math.floor(Math.random()*locked.length)],t=THEMES[tid];
+      return {rarity:'Theme Drop',cls:'epic',title:t.ico+' '+t.name,sub:`Unlocked a ${t.cost}-coin theme for 150!`,apply:()=>{G.unlockedThemes=G.unlockedThemes||['default'];G.unlockedThemes.push(tid);G.activeTheme=tid;applyTheme(tid);}};
+    }
+    return {rarity:'Epic',cls:'epic',title:'+450 XP',sub:'All themes owned — converted to mega XP!',apply:()=>{G.bonusXp+=450;}};
+  }
+  if(r<0.24){
+    if((G.shields||0)<2){
+      return {rarity:'Rare Gear',cls:'rare',title:'🛡️ Streak Shield',sub:'Worth 300 coins — streak protection +1!',apply:()=>{G.shields=(G.shields||0)+1;G.shieldCheckDay='';}};
+    }
+    return {rarity:'Epic',cls:'epic',title:'+320 XP',sub:'Shields maxed (2/2) — converted to XP!',apply:()=>{G.bonusXp+=320;}};
+  }
+  if(r<0.44){
+    const is3x=Math.random()<0.4;
+    const m=is3x?3:2,mins=is3x?30:60;
+    return {rarity:'Boost Drop',cls:'rare',title:(is3x?'🔥 3×':'🚀 2×')+' XP Boost',sub:`Active for ${mins} minutes — start grinding!`,apply:()=>{grantBoostOrExtend(m,mins);}};
+  }
+  if(r<0.72){
+    const xp=j(175,245);
+    return {rarity:'Uncommon',cls:'rare',title:`+${xp} XP`,sub:'Profitable pull — beats crate cost!',apply:()=>{G.bonusXp+=xp;}};
+  }
+  const xp=j(110,145);
+  return {rarity:'Common',cls:'com',title:`+${xp} XP`,sub:'Steady momentum.',apply:()=>{G.bonusXp+=xp;}};
+}
+function openMysteryCrate(isFree=false){
+  const G=gameState(),rw=rollMysteryCrate();
+  rw.apply();
+  G.log=[{d:todayKey(),r:'Crate:'+rw.rarity,xp:rw.title},...(G.log||[])].slice(0,20);
+  save();
+  const ov=document.createElement('div');
+  ov.className='chest-ov';ov.innerHTML='<div class="chest-rays"></div><div class="chest-box">📦</div>';document.body.appendChild(ov);
+  sfx('chest');
+  setTimeout(()=>{
+    ov.innerHTML=`<div class="chest-rays"></div><div class="chest-card ${rw.cls}"><small>MYSTERY CRATE · ${rw.rarity.toUpperCase()}</small><b style="font-size:clamp(28px,6vw,44px);text-align:center;">${escH(rw.title)}</b><span>${escH(rw.sub)}</span><button class="btn-primary" onclick="this.closest('.chest-ov').remove()">Collect</button></div>`;
+    sfx('reveal');if(!REDUCE())confetti(rw.cls==='com'?100:rw.cls==='rare'?180:280);
+    updateHud();updateBoostChip();refreshQuestUi();
+  },1400);
+}
 function buyShopItem(k){
   const coins=spendableCoins(),G=gameState();
+  if(k==='crate'){
+    if(coins<150){alert('Not enough coins! Need 150.');return;}
+    G.spentCoins=(G.spentCoins||0)+150;
+    save();
+    openMysteryCrate(false);
+    return;
+  }
   if(k==='shield'){
     if(coins<300){alert('Not enough coins!');return;}
     if((G.shields||0)>=2){alert('You can hold at most 2 shields at a time.');return;}
@@ -2261,7 +2367,7 @@ function badgeList(){
     ['📝','DPP machine','25 DPPs done',dppDone>=25],['🏹','Sharpshooter','A DPP with every question correct',perfect]];
 }
 function gameHtml(){
-  return streakCardHtml()+questsHtml()+gameHtml2();
+  return dailySpinHtml()+surgeBannerHtml()+contractCardHtml()+bountyStripHtml()+streakCardHtml()+questsHtml()+gameHtml2();
 }
 function gameHtml2(){
   const shopBlock=xpShopHtml();
@@ -2420,6 +2526,7 @@ function startTimer(){
   if(!sub){alert('Add a subject first.');return;}
   tSave(tmMode==='pomo'?{subjectId:sub,mode:'pomo',phase:'focus',running:true,startedAt:now,acc:0,cycle:0,phaseEnd:now+P.focus*60000,phaseLeft:0}:{subjectId:sub,mode:'free',running:true,startedAt:now,acc:0,nextCheck:now+everyMs(),promptAt:0});
   try{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission();}catch(e){}
+  try{maybeTriggerSurge({kind:'timer',subjectId:sub});}catch(e){}
   timerTick();refreshTimerView();openFocus();
 }
 function pauseTimer(){
@@ -2437,7 +2544,7 @@ function stopTimer(trimMs){
   const s=tState();if(!s)return;
   const ms=typeof trimMs==='number'?trimMs:tElapsed(s),min=Math.round(ms/60000),s1=snap();
   tSave(null);hideIdle();
-  if(min>=1){data.sessions.push({id:uid(),subjectId:s.subjectId,date:todayKey(),minutes:min});save();afterProgress(s1);showToast('⏱️','Session saved',`${min} min · ${escH(subjectName(s.subjectId))}`);}
+  if(min>=1){data.sessions.push({id:uid(),subjectId:s.subjectId,date:todayKey(),minutes:min});save();afterProgress(s1,true,{kind:'timer',subjectId:s.subjectId});showToast('⏱️','Session saved',`${min} min · ${escH(subjectName(s.subjectId))}`);}
   else showToast('⏱️','Under a minute','Not saved.');
   timerTick();if(typeof refreshCurrentView==='function')refreshCurrentView();
 }
@@ -2475,6 +2582,27 @@ function pomoTick(s,now){
   }
   if(ch){tSave(s);refreshTimerView();}
 }
+function updateTabTitle(live,now){
+  const base=(typeof BASE_TITLE!=='undefined'&&BASE_TITLE)||'PW Lecture Tracker';
+  let next=base;
+  if(live){
+    const dm=displayMs(live,now||Date.now());
+    const shortCl=clockStr(dm).replace(/^00:/,'');
+    const sub=subjectName(live.subjectId)||'Study';
+    if(live.mode==='pomo'){
+      if(live.waiting)next=`🍅 Ready · ${sub} · ${base}`;
+      else if(!live.running)next=`⏸ ${shortCl} · ${sub} (Paused) · ${base}`;
+      else if(live.phase==='break'||live.phase==='long')next=`☕ ${shortCl} · ${live.phase==='long'?'Long Break':'Break'} · ${base}`;
+      else next=`🍅 ${shortCl} · ${sub} · ${base}`;
+    }else{
+      next=live.running?`⏱️ ${shortCl} · ${sub} · ${base}`:`⏸ ${shortCl} · ${sub} (Paused) · ${base}`;
+    }
+  }else if(typeof streakRisk==='function'){
+    const r=streakRisk();
+    if(r)next=`🔥 ${r.n}-day streak at risk · ${base}`;
+  }
+  if(document.title!==next)document.title=next;
+}
 function timerTick(){
   const s=tState(),now=Date.now();
   if(s&&s.mode==='pomo')pomoTick(s,now);
@@ -2497,6 +2625,7 @@ function timerTick(){
   const ip=document.getElementById('idlePrompt');
   if(ip&&ip.style.display!=='none'&&live&&live.promptAt){const left=Math.max(0,IDLE_GRACE-(now-live.promptAt));document.getElementById('idleLeft').textContent=Math.floor(left/60000)+':'+String(Math.floor(left%60000/1000)).padStart(2,'0');}
   focusUpdate(live,dm,now);
+  updateTabTitle(live,now);
   updateComboChip();updateBoostChip();
   if(now-_qT>5000){_qT=now;checkQuests();}
   if(_prevMin!==null&&_prevMin<STUDY_GOAL&&today>=STUDY_GOAL){
@@ -2700,25 +2829,321 @@ function questProgress(q){
   if(q.kind==='res')return data.dpps.filter(d=>d.result&&d.result.loggedAt===k).length;
   return(data.sessions||[]).filter(x=>x.date===k).length;
 }
+const MYSTERY_POOL=[
+  {id:'mq_2sub',xp:45,clue:'Study across 2 different subjects in one day…',reveal:'Cross-Subject Grinder (2 subjects today)',check:()=>{const k=todayKey(),a=dayActivity()[k],subs=new Set();if(a){a.lec.forEach(l=>subs.add(l.subjectId));a.dpp.forEach(d=>subs.add(d.subjectId));a.sess.forEach(s=>subs.add(s.subjectId));}return subs.size>=2;}},
+  {id:'mq_backlog',xp:55,clue:'Chip away at 2 of your oldest-date backlog lectures…',reveal:'Backlog Archaeologist (2 oldest-date lectures)',check:()=>{const k=todayKey();let c=0;data.subjects.forEach(s=>{const pool=data.lectures.filter(l=>l.subjectId===s.id&&(!l.done||l.completedAt===k)).sort((a,b)=>+parseDate(a.date)-+parseDate(b.date));pool.slice(0,5).forEach(l=>{if(l.done&&l.completedAt===k)c++;});});return c>=2;}},
+  {id:'mq_dpp_acc',xp:50,clue:'Log a DPP score with sharp accuracy (75%+)…',reveal:'Precision Shooter (75%+ DPP accuracy)',check:()=>{const k=todayKey();return data.dpps.some(d=>d.result&&d.result.loggedAt===k&&(d.result.correct+d.result.wrong)>0&&(d.result.correct/(d.result.correct+d.result.wrong))>=0.75);}},
+  {id:'mq_timer60',xp:50,clue:'Clock deep focus time (60+ mins on the timer)…',reveal:'Deep Work Hour (60m+ timer study)',check:()=>studyMinToday()>=60},
+  {id:'mq_journal',xp:45,clue:'Reflect in today’s Daily Journal with 70%+ productivity…',reveal:'Mindful Grinder (Journal + 70%+ score)',check:()=>{const j=data.journal&&data.journal[todayKey()];return !!(j&&j.text&&j.text.trim().length>=8&&(j.productivityPct||0)>=70);}},
+  {id:'mq_combo3',xp:60,clue:'Chain 3 tasks within a single 60-minute window…',reveal:'Hot Streak Combo (3-in-a-row)',check:()=>{const c=comboGet();return !!(c&&c.n>=3);}},
+  {id:'mq_chem_phy',xp:55,clue:'Touch both Physics and any Chemistry branch today…',reveal:'PCM Fusion (Physics + Chemistry today)',check:()=>{const k=todayKey(),a=dayActivity()[k];if(!a)return false;const has=(re)=>[...a.lec,...a.dpp,...a.sess].some(x=>re.test(subjectName(x.subjectId)));return has(/physics/i)&&has(/chemistry/i);}},
+  {id:'mq_grind4',xp:65,clue:'Push past comfort: 4+ total lectures & DPPs today…',reveal:'Relentless Pace (4+ lectures/DPPs)',check:()=>{const k=todayKey(),a=dayActivity()[k];return a?(a.lec.length+a.dpp.length)>=4:false;}}
+];
+function todayMysteryQuests(){
+  const r=rng(hashStr(todayKey()+'|mystery_v1')),pool=MYSTERY_POOL.slice(),out=[];
+  while(out.length<2&&pool.length)out.push(pool.splice(Math.floor(r()*pool.length),1)[0]);
+  return out;
+}
 function gameState(){
-  const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},chestDay:'',luckyDate:'',luckyN:0,log:[]};
+  const gdef={bonusXp:0,spentCoins:0,shields:0,shieldUsedDates:[],unlockedThemes:['default'],activeTheme:'default',masteredChapters:[],awarded:{},mysteryAwarded:{},chestDay:'',dailySpinDay:'',odDay:'',odNext:0,odReady:false,odCount:0,bountyDay:'',bountyId:null,bountyBucket:'',bountyXp:0,bountyClaimed:false,surge:null,surgeDate:'',surgeN:0,contracts:[],luckyDate:'',luckyN:0,log:[]};
   if(!data.game||typeof data.game!=='object')data.game={};
   Object.keys(gdef).forEach(k=>{if(data.game[k]===undefined)data.game[k]=gdef[k];});
+  if(!Array.isArray(data.game.contracts))data.game.contracts=[];
   return data.game;
 }
+
+/* ---- Phase 2A: Date-Aware Backlog Golden Bounty ---- */
+function bucketForSubject(sub){
+  const nm=(sub&&sub.name)||'';
+  if(/chemistry/i.test(nm))return 'Chemistry';
+  if(/physics/i.test(nm))return 'Physics';
+  if(/math/i.test(nm))return 'Maths';
+  return nm||'Backlog';
+}
+function subjectIdsForBucket(bucket){
+  return data.subjects.filter(s=>bucketForSubject(s)===bucket).map(s=>s.id);
+}
+function ensureDailyBounty(){
+  const G=gameState(),k=todayKey();
+  const pending=(data.lectures||[]).filter(l=>!l.done);
+  if(G.bountyDay===k){
+    if(G.bountyClaimed)return G;
+    if(G.bountyId&&(data.lectures||[]).some(l=>l.id===G.bountyId))return G;
+  }
+  const buckets=[];
+  ['Chemistry','Physics','Maths'].forEach(b=>{
+    const ids=new Set(subjectIdsForBucket(b));
+    if(pending.some(l=>ids.has(l.subjectId)))buckets.push(b);
+  });
+  if(!buckets.length){
+    data.subjects.forEach(s=>{
+      const b=bucketForSubject(s);
+      if(!buckets.includes(b)&&pending.some(l=>l.subjectId===s.id))buckets.push(b);
+    });
+  }
+  if(!buckets.length){G.bountyDay=k;G.bountyId=null;G.bountyBucket='';G.bountyXp=0;G.bountyClaimed=false;return G;}
+  const r=rng(hashStr(k+'|bounty_v2|'+pending.length));
+  const chosen=buckets[Math.floor(r()*buckets.length)];
+  const ids=new Set(subjectIdsForBucket(chosen));
+  const pool=pending.filter(l=>ids.has(l.subjectId)).sort((a,b)=>(+parseDate(a.date)-+parseDate(b.date))||(a.id-b.id));
+  const front=pool.slice(0,Math.min(5,pool.length));
+  const pickLec=front[Math.floor(r()*front.length)];
+  G.bountyDay=k;G.bountyId=pickLec.id;G.bountyBucket=chosen;G.bountyXp=160+Math.floor(r()*121);G.bountyClaimed=false;
+  save();
+  return G;
+}
+function checkGoldenBounty(){
+  const G=gameState(),k=todayKey();
+  if(G.bountyDay!==k||G.bountyClaimed||!G.bountyId)return false;
+  const hit=data.lectures.find(l=>l.id===G.bountyId&&l.done);
+  if(!hit)return false;
+  G.bountyClaimed=true;
+  G.bonusXp+=G.bountyXp;
+  G.log=[{d:k,r:'Bounty',xp:`+${G.bountyXp} XP`},...(G.log||[])].slice(0,20);
+  save();
+  setTimeout(()=>{
+    sfx('level');
+    if(!REDUCE()){fxLucky(G.bountyXp,'GOLDEN BOUNTY!');confetti(220);}
+    showToast('👁️','Golden Bounty Found!',`${escH(hit.title)} held the hidden bounty · +${G.bountyXp} XP & Coins!`);
+    updateHud();refreshQuestUi();
+  },400);
+  return true;
+}
+function bountyStripHtml(){
+  const G=ensureDailyBounty();
+  if(!G.bountyId&&!G.bountyClaimed)return '';
+  if(G.bountyClaimed){
+    return `<div class="tool-panel bounty-strip claimed" onclick="setView('tracker')"><span style="font-size:26px;">🏆</span><div style="flex:1;"><div style="font-weight:800;font-size:14px;">Golden Bounty Claimed Today</div><div class="tool-caption">You uncovered today’s hidden +${G.bountyXp} XP backlog jackpot. New bounty tomorrow!</div></div><span class="qs-chest" style="color:var(--green);">Claimed</span></div>`;
+  }
+  const bDesc=G.bountyBucket==='Chemistry'?'oldest-date Chemistry (PC/OC/IC synced by date)':`oldest-date ${G.bountyBucket}`;
+  return `<div class="tool-panel bounty-strip" onclick="setView('tracker')"><span style="font-size:28px;">👁️</span><div style="flex:1;"><div style="font-weight:800;font-size:14px;">Hidden Backlog Golden Bounty · <span style="color:#d97706;">+${G.bountyXp} XP</span></div><div class="tool-caption">Secretly planted in 1 of your next 5 <b>${escH(bDesc)}</b> lectures. Clear oldest backlog to trigger!</div></div><span class="qs-chest">Hunt →</span></div>`;
+}
+
+/* ---- Phase 2B: Chemistry-Synced Flash Surges ---- */
+function activeSurge(){
+  const G=gameState();
+  if(G.surge&&G.surge.until>Date.now())return G.surge;
+  if(G.surge){G.surge=null;save();}
+  return null;
+}
+function pickSurgeTarget(){
+  const buckets=[];
+  const chemSubs=data.subjects.filter(s=>/chemistry/i.test(s.name||''));
+  if(chemSubs.length){
+    // Sort chemistry branches by oldest pending upload date so active branch leads, while all PC/OC/IC sync together
+    const sortedChem=chemSubs.slice().sort((a,b)=>{
+      const oa=data.lectures.filter(l=>l.subjectId===a.id&&!l.done).sort((x,y)=>+parseDate(x.date)-+parseDate(y.date))[0];
+      const ob=data.lectures.filter(l=>l.subjectId===b.id&&!l.done).sort((x,y)=>+parseDate(x.date)-+parseDate(y.date))[0];
+      return (oa?+parseDate(oa.date):9e15)-(ob?+parseDate(ob.date):9e15);
+    });
+    const lead=sortedChem[0];
+    buckets.push({key:'Chemistry',label:`Chemistry (PC/OC/IC synced · ${lead.name} front)`,subjectIds:chemSubs.map(s=>s.id),kind:'all'});
+  }
+  const phy=data.subjects.filter(s=>/physics/i.test(s.name||''));
+  if(phy.length)buckets.push({key:'Physics',label:'Physics',subjectIds:phy.map(s=>s.id),kind:'all'});
+  const mat=data.subjects.filter(s=>/math/i.test(s.name||''));
+  if(mat.length)buckets.push({key:'Maths',label:'Maths',subjectIds:mat.map(s=>s.id),kind:'all'});
+  buckets.push({key:'Timer',label:'Study Timer Sessions',subjectIds:[],kind:'timer'});
+  if((data.dpps||[]).some(d=>!d.done))buckets.push({key:'DPP',label:'Any Subject DPPs',subjectIds:[],kind:'dpp'});
+  return buckets[Math.floor(Math.random()*buckets.length)];
+}
+function maybeTriggerSurge(meta){
+  const G=gameState(),k=todayKey();
+  if(G.surgeDate!==k){G.surgeDate=k;G.surgeN=0;}
+  if(G.surgeN>=2||activeSurge())return false;
+  if(Math.random()>(meta&&meta.kind==='timer'?0.22:0.24))return false;
+  const t=pickSurgeTarget();if(!t)return false;
+  const mult=[1.75,2,2.5][Math.floor(Math.random()*3)];
+  const mins=25+Math.floor(Math.random()*16); // 25–40m
+  G.surge={key:t.key,label:t.label,subjectIds:t.subjectIds,kind:t.kind,mult,until:Date.now()+mins*60000};
+  G.surgeN++;
+  save();
+  sfx('ready');if(!REDUCE())fxSparkle();
+  showToast('⚡',`FLASH SURGE · ${mult}× XP!`,`${t.label} pays ${mult}× XP for the next ${mins} minutes!`);
+  refreshQuestUi();
+  return true;
+}
+function surgeApply(gain,meta){
+  const sg=activeSurge();if(!sg||gain<=0)return;
+  const m=meta||{};
+  const match=sg.kind==='timer'?(m.kind==='timer'):sg.kind==='dpp'?(m.kind==='dpp'):(m.subjectId&&(sg.subjectIds||[]).includes(m.subjectId));
+  if(!match)return;
+  const bonus=Math.round(gain*(sg.mult-1));
+  if(bonus<=0)return;
+  gameState().bonusXp+=bonus;save();
+  showToast('⚡',`Flash Surge ×${sg.mult}`,`+${bonus} bonus XP (${sg.key})`);
+}
+function surgeBannerHtml(){
+  const sg=activeSurge();if(!sg)return '';
+  const mins=Math.max(1,Math.ceil((sg.until-Date.now())/60000));
+  return `<div class="surge-banner"><div class="surge-ico">⚡</div><div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:14px;">FLASH SURGE · ${sg.mult}× XP (${mins}m left)</div><div class="tool-caption">Active on <b>${escH(sg.label)}</b> — finish tasks now before the window closes!</div></div><button class="btn-primary" onclick="setView('${sg.kind==='timer'?'timer':sg.kind==='dpp'?'dpp':'tracker'}')">Go</button></div>`;
+}
+
+/* ---- Phase 2C: AI Double-or-Nothing Contracts ---- */
+function contractMetric(kind,subjectId){
+  const k=todayKey();
+  if(kind==='dpp')return data.dpps.filter(d=>d.done&&d.completedAt===k&&(!subjectId||d.subjectId===subjectId)).length;
+  if(kind==='timer')return (data.sessions||[]).filter(s=>s.date===k&&(!subjectId||s.subjectId===subjectId)).reduce((a,s)=>a+s.minutes,0)+timerLiveMin();
+  if(kind==='any'){
+    const a=dayActivity()[k];if(!a)return 0;
+    return a.lec.filter(l=>!subjectId||l.subjectId===subjectId).length+a.dpp.filter(d=>!subjectId||d.subjectId===subjectId).length;
+  }
+  return data.lectures.filter(l=>l.done&&l.completedAt===k&&(!subjectId||l.subjectId===subjectId)).length;
+}
+function createContract({title,kind='lec',subjectId=null,target=3,hours=4,stake=100,reward=260}){
+  const G=gameState(),coins=spendableCoins();
+  stake=Math.max(20,Math.round(Number(stake)||0));
+  reward=Math.max(stake+20,Math.round(Number(reward)||Math.round(stake*2.5)));
+  target=Math.max(1,Math.round(Number(target)||1));
+  if(G.contracts.some(c=>c.status==='active'))return {ok:false,error:'Finish or cancel your active contract first.'};
+  if(coins<stake)return {ok:false,error:`Not enough coins to stake ${stake} (you have ${coins}).`};
+  G.spentCoins=(G.spentCoins||0)+stake;
+  const c={
+    id:uid(),
+    title:title||`Clear ${target} ${subjectId?subjectName(subjectId)+' ':''}${kind==='dpp'?'DPPs':kind==='timer'?'timer mins':'lectures'} in ${hours}h`,
+    kind,subjectId:subjectId||null,target,
+    startCount:contractMetric(kind,subjectId||null),
+    stake,reward,
+    deadlineMs:Date.now()+Math.max(0.5,Number(hours)||4)*3600000,
+    status:'active',createdAt:new Date().toISOString()
+  };
+  G.contracts.unshift(c);G.contracts=G.contracts.slice(0,12);
+  save();updateHud();refreshQuestUi();
+  showToast('🤝','Contract Signed!',`${c.title} · Staked 🪙${stake} to win 🪙${reward}`);
+  return {ok:true,contract:c};
+}
+function quickDareContract(){
+  const pending=(data.lectures||[]).filter(l=>!l.done);
+  const tgt=pending.length>=3?3:Math.max(1,pending.length);
+  const coins=spendableCoins();
+  const stake=Math.min(100,Math.max(30,Math.floor(coins/4/10)*10));
+  if(coins<30){showToast('🪙','Need at least 30 coins','Complete a lecture or quest first to stake coins.');return;}
+  const oldestSub=pending.slice().sort((a,b)=>+parseDate(a.date)-+parseDate(b.date))[0];
+  const subId=oldestSub?oldestSub.subjectId:null;
+  const title=`Clear ${tgt} ${subId?subjectName(subId)+' ':''}lecture${tgt===1?'':'s'} in 4 hours`;
+  createContract({title,kind:'lec',subjectId:subId,target:tgt,hours:4,stake,reward:Math.round(stake*2.5)});
+}
+function checkContracts(){
+  const G=gameState();let changed=false;
+  const now=Date.now();
+  (G.contracts||[]).forEach(c=>{
+    if(c.status!=='active')return;
+    const prog=Math.max(0,contractMetric(c.kind,c.subjectId)-c.startCount);
+    if(prog>=c.target){
+      c.status='won';changed=true;
+      const profit=Math.max(0,c.reward-c.stake);
+      G.spentCoins=Math.max(0,(G.spentCoins||0)-c.stake);
+      G.bonusXp+=profit;
+      G.log=[{d:todayKey(),r:'Contract Won',xp:`+${c.reward}🪙`},...(G.log||[])].slice(0,20);
+      setTimeout(()=>{sfx('level');if(!REDUCE())confetti(220);showToast('🏆','Contract WON!',`${escH(c.title)} · Won 🪙${c.reward} (+${profit} profit)!`);updateHud();},350);
+    }else if(now>=c.deadlineMs){
+      c.status='lost';changed=true;
+      showToast('💀','Contract Expired',`Missed "${escH(c.title)}". Lost your 🪙${c.stake} stake.`);
+    }
+  });
+  if(changed){save();refreshQuestUi();}
+}
+function contractCardHtml(){
+  const G=gameState(),c=(G.contracts||[]).find(x=>x.status==='active');
+  if(!c){
+    const last=(G.contracts||[])[0];
+    const lastLine=last?`Last contract: <b>${last.status==='won'?'WON +🪙'+last.reward:'LOST -🪙'+last.stake}</b> · `:'';
+    return `<div class="tool-panel contract-card"><div class="contract-head"><h3 style="margin:0;">🤝 Double-or-Nothing Dare</h3><span class="contract-pill">High Stakes</span></div><div class="tool-caption">${lastLine}Stake coins on a timed goal — succeed for <b>2.5× payout</b>, fail and lose your stake. Or ask the PW AI Agent for a custom dare!</div><div class="tool-actions" style="margin-bottom:0;"><button class="btn-primary" onclick="quickDareContract()"><i class="ti ti-bolt"></i> Take a Quick Dare</button><button class="btn-sec" onclick="openAiCompanion()">Ask AI Agent</button></div></div>`;
+  }
+  const prog=Math.min(c.target,Math.max(0,contractMetric(c.kind,c.subjectId)-c.startCount));
+  const pct=Math.round(prog/c.target*100);
+  const minsLeft=Math.max(0,Math.ceil((c.deadlineMs-Date.now())/60000));
+  const timeStr=minsLeft>=60?Math.floor(minsLeft/60)+'h '+(minsLeft%60)+'m':minsLeft+'m';
+  return `<div class="tool-panel contract-card"><div class="contract-head"><h3 style="margin:0;">🤝 Active Dare</h3><span class="contract-pill">⏳ ${timeStr} left · 🪙${c.stake} → 🪙${c.reward}</span></div><div style="font-weight:700;font-size:14px;">${escH(c.title)}</div><div class="hm-bar"><div style="width:${pct}%"></div></div><div class="contract-meta"><span>Progress: <b>${prog} / ${c.target}</b>${c.kind==='timer'?' min':''}</span><span>Payout: <b style="color:var(--green);">+🪙${c.reward}</b></span></div></div>`;
+}
 function chestReady(){const G=gameState(),aw=G.awarded[todayKey()]||[];return aw.length>=3&&G.chestDay!==todayKey();}
+function todayOdUnits(){
+  const a=dayActivity()[todayKey()];
+  const lec=a?a.lec.length:0,dpp=a?a.dpp.length:0,tm=Math.floor(studyMinToday()/25);
+  return lec+dpp+tm;
+}
+function checkOverdrive(){
+  const G=gameState(),k=todayKey();
+  if(G.chestDay!==k)return false; // Overdrive unlocks ONLY after base chest is opened
+  if(G.odDay!==k){
+    G.odDay=k;G.odCount=0;G.odReady=false;
+    G.odNext=todayOdUnits()+2+Math.floor(Math.random()*4); // hidden +2 to +5 gap
+    save();
+    return false;
+  }
+  if(G.odReady||G.odCount>=4)return false;
+  if(todayOdUnits()>=G.odNext){
+    G.odReady=true;save();
+    if(!REDUCE())fxSparkle();
+    sfx('ready');
+    showToast('🔥','Surprise Overdrive Chest!','Your extra grind triggered a hidden chest! Tap to open.');
+    return true;
+  }
+  return false;
+}
+function rollOverdriveChest(){
+  const r=Math.random(),j=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),G=gameState();
+  if(r<0.15){
+    return {rarity:'Overdrive Boost',cls:'epic',title:'🚀 2× XP · 60m',sub:'Overdrive surge activated!',apply:()=>{grantBoostOrExtend(2,60);}};
+  }
+  if(r<0.28){
+    return {rarity:'Free Crate',cls:'epic',title:'+150 XP + Lucky Surge',sub:'Overdrive jackpot!',apply:()=>{G.bonusXp+=150;grantBoostOrExtend(1.5,90);}};
+  }
+  const xp=j(110,280);
+  return {rarity:xp>=220?'Epic Overdrive':'Overdrive Loot',cls:xp>=220?'epic':'rare',title:`+${xp} XP`,sub:'Pure unpredictable grind bonus.',apply:()=>{G.bonusXp+=xp;}};
+}
+function openOverdriveChest(){
+  const G=gameState(),k=todayKey();
+  if(G.odDay!==k||!G.odReady)return;
+  const rw=rollOverdriveChest();
+  rw.apply();
+  G.odReady=false;
+  G.odCount=(G.odCount||0)+1;
+  G.odNext=todayOdUnits()+2+Math.floor(Math.random()*5); // next hidden threshold (+2 to +6)
+  G.log=[{d:k,r:'Overdrive',xp:rw.title},...(G.log||[])].slice(0,20);
+  save();
+  const ov=document.createElement('div');
+  ov.className='chest-ov';ov.innerHTML='<div class="chest-rays"></div><div class="chest-box">🔥</div>';document.body.appendChild(ov);
+  sfx('chest');
+  setTimeout(()=>{
+    ov.innerHTML=`<div class="chest-rays"></div><div class="chest-card ${rw.cls}"><small>${rw.rarity.toUpperCase()}</small><b style="font-size:clamp(30px,6vw,48px);text-align:center;">${escH(rw.title)}</b><span>${escH(rw.sub)}</span><button class="btn-primary" onclick="this.closest('.chest-ov').remove()">Collect</button></div>`;
+    sfx('reveal');if(!REDUCE())confetti(220);
+    updateHud();updateBoostChip();refreshQuestUi();
+  },1400);
+}
+function overdriveBlock(){
+  const G=gameState(),k=todayKey();
+  if(G.chestDay!==k)return '';
+  if(G.odCount>=4)return `<div class="od-slot"><span style="font-size:22px;">👑</span><div style="flex:1;"><b>Overdrive Maxed Today</b><div class="tool-caption">You pulled all 4 surprise Overdrive Chests today. Absolute monster pace.</div></div></div>`;
+  if(G.odReady)return `<div class="od-slot ready"><span style="font-size:30px;">🔥</span><div style="flex:1;"><b>Overdrive Chest Appeared!</b><div class="tool-caption">Surprise drop unlocked from extra grind (#${(G.odCount||0)+1}).</div></div><button class="btn-primary" onclick="openOverdriveChest()">Open 🔥</button></div>`;
+  return `<div class="od-slot"><div class="od-radar"></div><div style="flex:1;"><b>Overdrive Radar Armed</b><div class="tool-caption">Keep clearing lectures, DPPs, or timer blocks — a hidden chest can pop up at any moment.</div></div></div>`;
+}
+function checkMysteryQuests(){
+  const G=gameState(),k=todayKey(),maw=G.mysteryAwarded[k]=G.mysteryAwarded[k]||[];let fresh=[];
+  todayMysteryQuests().forEach(q=>{if(!maw.includes(q.id)&&q.check()){maw.push(q.id);G.bonusXp+=q.xp;fresh.push(q);}});
+  Object.keys(G.mysteryAwarded).forEach(d=>{if(d<todayKey(new Date(Date.now()-8*864e5)))delete G.mysteryAwarded[d];});
+  if(!fresh.length)return false;
+  save();
+  if(!REDUCE())fxSparkle();
+  sfx('quest');
+  showToast('🔮','Mystery Quest Solved!',`${escH(fresh[0].reveal)} · +${fresh[0].xp} XP`);
+  return true;
+}
 function checkQuests(){
   if(!data.subjects||!data.subjects.length)return;
   const G=gameState(),k=todayKey(),aw=G.awarded[k]=G.awarded[k]||[];let fresh=[];
   todayQuests().forEach(q=>{if(!aw.includes(q.id)&&questProgress(q)>=q.target){aw.push(q.id);G.bonusXp+=QUEST_XP;fresh.push(q);}});
   Object.keys(G.awarded).forEach(d=>{if(d<todayKey(new Date(Date.now()-8*864e5)))delete G.awarded[d];});
-  if(!fresh.length)return;
-  save();
-  const all=aw.length>=3&&G.chestDay!==k;
-  if(!REDUCE())fxSparkle();
-  sfx(all?'ready':'quest');
-  showToast(all?'🎁':'✅',all?'All quests done: chest ready!':'Quest complete',all?'Open it from the Dashboard or the Streaks tab.':`${escH(fresh[0].label)} · +${QUEST_XP} XP`);
-  refreshQuestUi();updateHud();
+  const mHit=checkMysteryQuests();
+  const odHit=checkOverdrive();
+  if(fresh.length){
+    save();
+    const all=aw.length>=3&&G.chestDay!==k;
+    if(!REDUCE())fxSparkle();
+    sfx(all?'ready':'quest');
+    showToast(all?'🎁':'✅',all?'All quests done: chest ready!':'Quest complete',all?'Open it from the Dashboard or the Streaks tab.':`${escH(fresh[0].label)} · +${QUEST_XP} XP`);
+  }
+  if(fresh.length||mHit||odHit){refreshQuestUi();updateHud();}
 }
 function refreshQuestUi(){renderQuestStrip();if(typeof currentView!=='undefined'&&currentView==='streaks')renderStreaks();}
 function questRows(compact){
@@ -2728,20 +3153,94 @@ function questRows(compact){
     return `<div class="qs-row ${done?'done':''}"><div class="qs-ic">${done?'✓':'◦'}</div><div class="qs-main"><div class="qs-t">${q.label}</div>${compact?'':`<div class="hm-bar"><div style="width:${pct}%"></div></div>`}</div><div class="qs-v">${done?'+'+QUEST_XP+' XP':v+' / '+q.target}</div></div>`;
   }).join('');
 }
+function mysteryQuestRows(compact){
+  const G=gameState(),maw=G.mysteryAwarded[todayKey()]||[];
+  return `<div class="mq-div"><i class="ti ti-sparkles"></i>Mystery quests (hidden triggers)</div>`+todayMysteryQuests().map(q=>{
+    const done=maw.includes(q.id)||q.check();
+    return `<div class="mq-row ${done?'done':''}"><div class="qs-ic">${done?'✓':'?'}</div><div class="qs-main"><div class="qs-t"><span class="mq-tag">${done?'SOLVED':'[ ??? ]'}</span>${done?escH(q.reveal):escH(q.clue)}</div></div><div class="qs-v">+${q.xp} XP</div></div>`;
+  }).join('');
+}
 function chestBlock(){
   const G=gameState(),k=todayKey(),n=(G.awarded[k]||[]).length;
-  if(G.chestDay===k)return `<div class="chest-slot opened"><div class="chest-ic">🎁</div><div><b>Chest opened today</b><div class="tool-caption">New quests and a new chest tomorrow.</div></div></div>`;
-  if(n>=3)return `<div class="chest-slot ready"><div class="chest-ic">🎁</div><div style="flex:1;"><b>Your chest is ready</b><div class="tool-caption">Contains a random reward. Could be something rare.</div></div><button class="btn-primary" onclick="openChest()">Open chest</button></div>`;
-  return `<div class="chest-slot"><div class="chest-ic locked">🎁</div><div style="flex:1;"><b>Daily chest</b><div class="tool-caption">Finish all 3 quests to unlock it (${n}/3).</div></div><div class="chest-pips">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>`;
+  if(G.chestDay===k)return `<div class="chest-slot opened"><div class="chest-ic">🎁</div><div><b>Base chest opened today</b><div class="tool-caption">Overdrive Radar is now active below.</div></div></div>${overdriveBlock()}`;
+  if(n>=3)return `<div class="chest-slot ready"><div class="chest-ic">🎁</div><div style="flex:1;"><b>Your chest is ready</b><div class="tool-caption">Contains a random reward. Open it to arm Overdrive!</div></div><button class="btn-primary" onclick="openChest()">Open chest</button></div>`;
+  return `<div class="chest-slot"><div class="chest-ic locked">🎁</div><div style="flex:1;"><b>Daily chest</b><div class="tool-caption">Finish all 3 base quests to unlock it (${n}/3).</div></div><div class="chest-pips">${[0,1,2].map(i=>`<i class="${i<n?'on':''}"></i>`).join('')}</div></div>`;
 }
 function questsHtml(){
-  return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-target-arrow"></i>Daily quests</h3><div class="tool-caption" style="margin-bottom:10px;">New quests every day. Each is worth ${QUEST_XP} XP, and finishing all three opens a chest.</div>${questRows(false)}${chestBlock()}</div>`;
+  return `<div class="tool-panel" style="margin-bottom:1rem;"><h3><i class="ti ti-target-arrow"></i>Daily quests</h3><div class="tool-caption" style="margin-bottom:10px;">3 visible quests (${QUEST_XP} XP each) + 2 secret Mystery Quests (+45–65 XP).</div>${questRows(false)}${mysteryQuestRows(false)}${chestBlock()}</div>`;
 }
 function questStripHtml(){
-  const G=gameState(),n=(G.awarded[todayKey()]||[]).length,done=G.chestDay===todayKey();
-  return `<div class="tool-panel qs-strip ${chestReady()?'ready':''}" onclick="${chestReady()?'openChest()':"setView('streaks')"}"><div class="qs-head"><h3 style="margin:0;"><i class="ti ti-target-arrow"></i>Daily quests <span class="td-n">${n}/3</span></h3><span class="qs-chest">${done?'Chest opened 🎁':chestReady()?'Open your chest 🎁':'🎁 locked'}</span></div>${questRows(true)}</div>`;
+  const G=gameState(),n=(G.awarded[todayKey()]||[]).length,done=G.chestDay===todayKey(),odR=done&&G.odDay===todayKey()&&G.odReady;
+  const clickFn=odR?'openOverdriveChest()':(chestReady()?'openChest()':"setView('streaks')");
+  const badge=odR?'🔥 Open Overdrive!':(done?'Overdrive active ⚡':chestReady()?'Open your chest 🎁':'🎁 locked');
+  return `<div class="tool-panel qs-strip ${(chestReady()||odR)?'ready':''}" onclick="${clickFn}"><div class="qs-head"><h3 style="margin:0;"><i class="ti ti-target-arrow"></i>Daily quests <span class="td-n">${n}/3 + 2🔮</span></h3><span class="qs-chest">${badge}</span></div>${questRows(true)}${mysteryQuestRows(true)}</div>`;
 }
-const BASE_TITLE=document.title;
+const SPIN_REWARDS=[
+  {id:'xp100',ico:'⚡',label:'+100 XP',cls:'',w:22,apply:G=>{G.bonusXp+=100;return 'Morning kickstart: +100 XP & Coins!';}},
+  {id:'xp150',ico:'🪙',label:'+150 Coins',cls:'',w:20,apply:G=>{G.bonusXp+=150;return 'Jackpot coins: +150 XP & Coins!';}},
+  {id:'boost2x',ico:'🚀',label:'2× XP (45m)',cls:'rare',w:18,apply:()=>{grantBoostOrExtend(2,45);return '2× XP active for the next 45 minutes!';}},
+  {id:'boost15',ico:'🔥',label:'1.5× (3h)',cls:'rare',w:16,apply:()=>{grantBoostOrExtend(1.5,180);return '3-hour marathon 1.5× XP boost activated!';}},
+  {id:'xp250',ico:'💥',label:'+250 Rush',cls:'rare',w:12,apply:G=>{G.bonusXp+=250;return 'Super morning rush: +250 XP & Coins!';}},
+  {id:'crate',ico:'📦',label:'Free Crate',cls:'rare',w:7,apply:()=>{return '__FREE_CRATE__';}},
+  {id:'shield_xp',ico:'🛡️',label:'Shield / +180',cls:'leg',w:3,apply:G=>{if((G.shields||0)<2){G.shields=(G.shields||0)+1;G.shieldCheckDay='';return 'Free Streak Shield (+300 coin value)!';}G.bonusXp+=180;return 'Shields maxed — +180 XP instead!';}},
+  {id:'leg400',ico:'👑',label:'+400 LEGEND',cls:'leg',w:2,apply:G=>{G.bonusXp+=400;return 'LEGENDARY START! +400 XP & Coins!';}}
+];
+function dailySpinHtml(){
+  const G=gameState();
+  if(G.dailySpinDay===todayKey())return '';
+  return `<div class="spin-banner" onclick="openDailySpin()"><div class="spin-banner-ico">🎡</div><div class="spin-banner-txt"><b>Daily Kickstart Spin Ready!</b><span>New day, new rush — spin once for a surprise XP boost, coins, or a free Mystery Crate.</span></div><button class="btn-primary" onclick="event.stopPropagation();openDailySpin()">Spin</button></div>`;
+}
+function openDailySpin(){
+  const G=gameState();
+  if(G.dailySpinDay===todayKey()){showToast('🎡','Already spun today','Your next Daily Kickstart Spin unlocks tomorrow.');return;}
+  let ov=document.getElementById('spinOv');
+  if(!ov){ov=document.createElement('div');ov.id='spinOv';ov.className='spin-ov';ov.onclick=e=>{if(e.target===ov&&!_spinning)ov.remove();};document.body.appendChild(ov);}
+  const strip=[];
+  for(let i=0;i<36;i++){const r=SPIN_REWARDS[i%SPIN_REWARDS.length];strip.push(`<div class="spin-cell ${r.cls}"><span>${r.ico}</span>${escH(r.label)}</div>`);}
+  ov.innerHTML=`<div class="spin-card"><div style="font-size:28px;">🌅</div><h3 style="margin:6px 0 4px;font-size:20px;font-weight:900;">Daily Kickstart Spin</h3><div class="tool-caption">One free spin each morning to start your grind with a boost.</div>
+    <div class="spin-track-wrap"><div class="spin-ptr"></div><div class="spin-track" id="spinTrack">${strip.join('')}</div></div>
+    <div id="spinRes" style="min-height:24px;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:12px;"></div>
+    <button class="btn-primary" id="spinGoBtn" style="width:100%;justify-content:center;padding:12px;font-size:15px;" onclick="runDailySpin()">🎡 Spin Now</button></div>`;
+}
+let _spinning=false;
+function runDailySpin(){
+  if(_spinning)return;
+  const G=gameState();if(G.dailySpinDay===todayKey())return;
+  const totW=SPIN_REWARDS.reduce((a,x)=>a+x.w,0);let roll=Math.random()*totW,winIdx=0;
+  for(let i=0;i<SPIN_REWARDS.length;i++){roll-=SPIN_REWARDS[i].w;if(roll<=0){winIdx=i;break;}}
+  const rw=SPIN_REWARDS[winIdx];
+  G.dailySpinDay=todayKey();
+  const msg=rw.apply(G);
+  const openCrateAfter=msg==='__FREE_CRATE__';
+  if(!openCrateAfter)G.log=[{d:todayKey(),r:'DailySpin',xp:rw.label},...(G.log||[])].slice(0,20);
+  save();
+  if(sb&&currentUser)syncNow();
+  const btn=document.getElementById('spinGoBtn');if(btn)btn.disabled=true;
+  const track=document.getElementById('spinTrack');
+  if(!track||REDUCE()){
+    const ov=document.getElementById('spinOv');if(ov)ov.remove();
+    updateHud();updateBoostChip();refreshQuestUi();
+    if(openCrateAfter)openMysteryCrate(true);
+    else showToast(rw.ico,rw.label,msg);
+    return;
+  }
+  _spinning=true;
+  sfx('chest');
+  const targetTile=24+winIdx; // land deep in the strip on winIdx
+  const wrapW=(track.parentElement&&track.parentElement.clientWidth)||380;
+  const cellStep=104; // 96px + 8px gap
+  const offset=-(targetTile*cellStep + 48 + 8 - wrapW/2);
+  track.style.transform=`translateX(${offset}px)`;
+  setTimeout(()=>{
+    _spinning=false;
+    sfx('reveal');if(!REDUCE())confetti(180);
+    const resEl=document.getElementById('spinRes');
+    if(resEl)resEl.textContent=openCrateAfter?'📦 Free Mystery Crate unlocked! Opening…':`${rw.ico} ${msg}`;
+    if(btn){btn.disabled=false;btn.textContent=openCrateAfter?'Open Crate 📦':'Collect & Grind';btn.onclick=()=>{const o=document.getElementById('spinOv');if(o)o.remove();if(openCrateAfter)openMysteryCrate(true);};}
+    updateHud();updateBoostChip();refreshQuestUi();
+  },3700);
+}
+const BASE_TITLE=document.title||'PW Lecture Tracker';
 function streakRisk(){
   const info=streakInfo(),n=info.streak,h=new Date().getHours();
   if(n<1||streakActiveToday()||h<17)return null;
@@ -2753,9 +3252,9 @@ function riskHtml(){
   return `<div class="risk-banner ${r.final?'final':''}"><div class="risk-ic">🔥</div><div class="risk-t"><b>Your ${r.n}-day streak ends tonight</b><span>${r.final?'StreakSaver already covered yesterday, so missing today breaks it. ':''}${r.left} hour${r.left===1?'':'s'} left. 10 minutes with the timer, or any lecture or DPP, saves it.</span></div><button class="btn-primary" onclick="setView('timer')"><i class="ti ti-hourglass-high"></i> Save it</button></div>`;
 }
 function renderQuestStrip(){
-  try{maybeApplyShields();}catch(e){}
-  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=riskHtml()+courseStripHtml()+weeklyStripHtml()+questStripHtml()+journalStripHtml();}
-  const r=streakRisk();document.title=r?`🔥 ${r.n}-day streak at risk · ${BASE_TITLE}`:BASE_TITLE;
+  try{maybeApplyShields();checkContracts();}catch(e){}
+  const e=document.getElementById('dashQuests');if(e){seedCourse();e.innerHTML=dailySpinHtml()+surgeBannerHtml()+contractCardHtml()+bountyStripHtml()+riskHtml()+courseStripHtml()+weeklyStripHtml()+questStripHtml()+journalStripHtml();}
+  updateTabTitle(typeof tState==='function'?tState():null,Date.now());
 }
 
 function rollChest(){
@@ -2768,7 +3267,9 @@ function rollChest(){
 function openChest(){
   if(!chestReady())return;
   const G=gameState(),rw=rollChest(),ov=document.createElement('div');
-  G.chestDay=todayKey();G.bonusXp+=rw.xp;G.log=[{d:todayKey(),r:rw.rarity,xp:rw.xp},...(G.log||[])].slice(0,20);save();
+  G.chestDay=todayKey();G.bonusXp+=rw.xp;G.log=[{d:todayKey(),r:rw.rarity,xp:rw.xp},...(G.log||[])].slice(0,20);
+  checkOverdrive();
+  save();
   ov.className='chest-ov';ov.innerHTML='<div class="chest-rays"></div><div class="chest-box">🎁</div>';document.body.appendChild(ov);
   sfx('chest');
   setTimeout(()=>{
@@ -2777,28 +3278,34 @@ function openChest(){
     updateHud();refreshQuestUi();
   },1700);
 }
-function fxLucky(amt){
+function fxLucky(amt,multLabel){
   const L=fxLayer(2600);
-  L.innerHTML=`<div class="fx-gold"></div><div class="fx-lucky"><span>🍀</span><b>LUCKY DROP</b><em>+${amt} XP</em></div>`+Array.from({length:16},(_,i)=>`<span class="fx-star" style="left:${Math.random()*94}%;animation-delay:${i*90}ms">🍀</span>`).join('');
+  L.innerHTML=`<div class="fx-gold"></div><div class="fx-crit"><span>${multLabel&&multLabel.indexOf('5×')!==-1?'💥':'⚡'}</span><b>${escH(multLabel||'CRITICAL HIT!')}</b><em>+${amt} XP</em></div>`+Array.from({length:16},(_,i)=>`<span class="fx-star" style="left:${Math.random()*94}%;animation-delay:${i*90}ms">${multLabel&&multLabel.indexOf('5×')!==-1?'💥':'✨'}</span>`).join('');
 }
 function maybeLucky(gain,src){
   const G=gameState(),k=todayKey();
   if(G.luckyDate!==k){G.luckyDate=k;G.luckyN=0;}
-  if(G.luckyN>=3||Math.random()>(src==='pomo'?.25:.12))return;
-  const amt=Math.random()<.35?Math.max(10,gain):10+Math.floor(Math.random()*31);
+  if(G.luckyN>=5||Math.random()>(src==='pomo'?.30:.18))return;
+  const r=Math.random();
+  let label='1.5× CRIT',amt=Math.max(15,Math.round(gain*0.5));
+  if(r<0.04){label='5× MEGA CRIT!';amt=Math.max(90,gain*4);}
+  else if(r<0.17){label='3× SUPER CRIT!';amt=Math.max(45,gain*2);}
+  else if(r<0.45){label='2× DOUBLE CRIT!';amt=Math.max(25,gain);}
   G.luckyN++;G.bonusXp+=amt;save();
-  setTimeout(()=>{sfx('lucky');if(!REDUCE())fxLucky(amt);showToast('🍀','Lucky drop!',`${amt===gain?'Double XP: ':'Bonus: '}+${amt} XP`);updateHud();},650);
+  setTimeout(()=>{sfx('lucky');if(!REDUCE()){fxLucky(amt,label);if(r<0.17)confetti(180);}showToast('💥',label,`+${amt} bonus XP!`);updateHud();},650);
 }
-function postProgress(s1,isFirstTime=true){
+function postProgress(s1,isFirstTime=true,meta=null){
   const s2=snap(),gain=s2.xp-s1.xp;if(gain<=0)return;
   const mile=MILESTONES.find(m=>s1.streak<m&&s2.streak>=m),newR=s2.unlocked.filter(id=>!s1.unlocked.includes(id));
   sfx(s2.lvl>s1.lvl||mile?'level':newR.length?'chest':(s2.hit&&!s1.hit)?'quest':s2.streak>s1.streak?'streak':'xp');
   if(isFirstTime){
     comboApply(gain);
     boostApply(gain);
-    maybeLucky(gain,'tick');
+    surgeApply(gain,meta);
+    maybeLucky(gain,meta&&meta.kind==='timer'?'pomo':'tick');
+    maybeTriggerSurge(meta);
   }
-  checkCourse();checkQuests();checkChapterMastery();
+  checkGoldenBounty();checkContracts();checkCourse();checkQuests();checkChapterMastery();
 }
 
 
@@ -3684,7 +4191,7 @@ document.addEventListener('visibilitychange',function(){
   const it=find();
   const isFirstTime=!it||!it.everAwarded;
   if(it&&it.done&&isFirstTime)it.everAwarded=true;
-  afterProgress(s1,isFirstTime);
+  afterProgress(s1,isFirstTime,{kind:n==='toggleDone'?'lec':'dpp',id:it?it.id:id,subjectId:it?it.subjectId:null});
   if(n!=='submitDppResult'&&it&&it.done&&!was){const nm=(it.title||it.label||'Item');showToast('✅','Marked done',escH(String(nm).slice(0,60)),'',{label:'Undo',fn:()=>window[n](id)});}
   return r;};});
 {const _sv=save;window.save=function(){const r=_sv.apply(this,arguments);try{updateHud();}catch(e){}return r;};}
@@ -3692,7 +4199,7 @@ document.addEventListener('visibilitychange',function(){
 {const _rs=renderStreaks;window.renderStreaks=function(){_rs.apply(this,arguments);countUp();};}
 
 {const fixA11y=()=>document.querySelectorAll('button[title]:not([aria-label])').forEach(b=>b.setAttribute('aria-label',b.getAttribute('title')));let _at;new MutationObserver(()=>{clearTimeout(_at);_at=setTimeout(fixA11y,200);}).observe(document.body,{childList:true,subtree:true});fixA11y();}
-{const _ap=afterProgress;window.afterProgress=function(s1,isFirst){_ap.apply(this,arguments);postProgress(s1,isFirst);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
+{const _ap=afterProgress;window.afterProgress=function(s1,isFirst,meta){_ap.apply(this,arguments);postProgress(s1,isFirst,meta);};const _rd=renderDashboard;window.renderDashboard=function(){_rd.apply(this,arguments);renderQuestStrip();};updateSoundIcon();setInterval(()=>{try{renderQuestStrip();}catch(e){}},60000);document.addEventListener('visibilitychange',()=>{try{renderQuestStrip();}catch(e){}});}
 initTimerUi();
 
 /* ============================================================
@@ -4037,13 +4544,31 @@ var AI_TOOLS=[{
       parameters:{
         type:'OBJECT',
         properties:{
-          action:{type:'STRING',description:'One of: equip_theme, preview_theme, buy_item, open_chest, add_reward, claim_reward, delete_reward'},
+          action:{type:'STRING',description:'One of: equip_theme, preview_theme, buy_item, open_chest, open_overdrive_chest, spin_daily, add_reward, claim_reward, delete_reward'},
           theme:{type:'STRING',description:'Theme id or name (e.g. cyber, sunset, dracula, gold, default)'},
-          item:{type:'STRING',description:'Shop key: shield, mult2, mult3, mult15, or theme:<id>'},
+          item:{type:'STRING',description:'Shop key: shield, crate, mult2, mult3, mult15, or theme:<id>'},
           rewardLabel:{type:'STRING',description:'Reward title for add_reward'},
           rewardType:{type:'STRING',description:'streak, lectures, targetdays, or level'},
           rewardGoal:{type:'INTEGER',description:'Numeric goal for add_reward'},
           rewardId:{type:'NUMBER',description:'Reward id (or match by rewardLabel)'}
+        },
+        required:['action']
+      }
+    },
+    {
+      name:'manage_contracts',
+      description:'Create or inspect Double-or-Nothing Dare Contracts where the user stakes coins on a timed study goal (lectures, DPPs, or timer minutes) for a 2x-3x coin payout.',
+      parameters:{
+        type:'OBJECT',
+        properties:{
+          action:{type:'STRING',description:'One of: status, create, quick_dare, cancel'},
+          title:{type:'STRING',description:'Short contract challenge description'},
+          kind:{type:'STRING',description:'Goal type: lec (lectures), dpp (DPPs), timer (minutes), or any (lec+dpp)'},
+          subject:{type:'STRING',description:'Optional subject name or ID'},
+          target:{type:'INTEGER',description:'Target count (or minutes if kind=timer)'},
+          hours:{type:'NUMBER',description:'Hours until deadline (e.g. 3 or 6)'},
+          stake:{type:'INTEGER',description:'Coins to stake (min 20)'},
+          reward:{type:'INTEGER',description:'Total coin payout on win (typically 2x to 3x stake)'}
         },
         required:['action']
       }
@@ -4196,7 +4721,7 @@ function executeAiTool(name,args,actionsLog){
           if(args.done&&!next.everAwarded)next.everAwarded=true;
           return next;
         });
-        save();renderAll();afterProgress(s1,true);
+        save();renderAll();afterProgress(s1,true,{kind:'lec',subjectId:toFlip[0]?toFlip[0].subjectId:null});
       }
       if(toFlip.length){
         actionsLog.push((args.done?'✅ Marked ':'↩️ Unmarked ')+toFlip.length+' lecture'+(toFlip.length===1?'':'s')+(args.done?' done':''));
@@ -4233,7 +4758,7 @@ function executeAiTool(name,args,actionsLog){
       var s1=snap();
       data.lectures.push.apply(data.lectures,parsed);
       save();renderAll();
-      if(args.done)afterProgress(s1,true);
+      if(args.done)afterProgress(s1,true,{kind:'lec',subjectId:sub.id});
       actionsLog.push('📥 Added '+parsed.length+' lectures to '+sub.name);
       return {ok:true,addedCount:parsed.length,subject:sub.name,category:cat,titles:parsed.slice(0,10).map(function(l){return l.title;})};
     }
@@ -4296,7 +4821,7 @@ function executeAiTool(name,args,actionsLog){
       var s1=snap();
       var resObj={total:total,correct:correct,wrong:wrong,skipped:total-correct-wrong,minutes:args.minutes!==undefined?Number(args.minutes):null,notes:String(args.notes||''),redo:Boolean(args.redo),mistakes:Array.isArray(args.mistakes)?args.mistakes:[],loggedAt:todayKey()};
       data.dpps=data.dpps.map(function(d){return d.id===d0.id?{...d,result:resObj,marks:args.marks!==undefined?Number(args.marks):d.marks,totalMarks:args.totalMarks!==undefined?Number(args.totalMarks):d.totalMarks,done:true,completedAt:d.completedAt||todayKey(),everAwarded:true}:d;});
-      save();renderAll();afterProgress(s1,!d0.everAwarded);
+      save();renderAll();afterProgress(s1,!d0.everAwarded,{kind:'dpp',id:d0.id,subjectId:d0.subjectId});
       actionsLog.push('📊 Logged '+correct+'/'+total+' on '+d0.label);
       return {ok:true,dpp:d0.label,result:resObj};
     }
@@ -4446,7 +4971,7 @@ function executeAiTool(name,args,actionsLog){
       var dt=aiResolveDate(args.date);
       var s1=snap();
       data.sessions.push({id:uid(),subjectId:sub.id,date:dt,minutes:mins});
-      save();renderAll();afterProgress(s1,true);
+      save();renderAll();afterProgress(s1,true,{kind:'timer',subjectId:sub.id});
       actionsLog.push('⏱️ Logged '+mins+'m '+sub.name+' ('+dt+')');
       return {ok:true,subject:sub.name,date:dt,minutes:mins};
     }
@@ -4517,12 +5042,12 @@ function executeAiTool(name,args,actionsLog){
     }
     if(act==='buy_item'){
       var k=String(args.item||'').trim();
-      if(k&&k!=='shield'&&!MULTS[k]&&!k.startsWith('theme:')){
+      if(k&&k!=='shield'&&k!=='crate'&&!MULTS[k]&&!k.startsWith('theme:')){
         var th=aiFindTheme(k);if(th&&th!=='default')k='theme:'+th;
       }
-      var beforeCoins=spendableCoins();
+      var beforeSpent=G.spentCoins||0;
       buyShopItem(k);
-      if(spendableCoins()<beforeCoins||((G.unlockedThemes||[]).indexOf(k.slice(6))!==-1&&k.startsWith('theme:'))){
+      if((G.spentCoins||0)>beforeSpent){
         actionsLog.push('🛒 Bought '+k);
         return {ok:true,bought:k,coinsLeft:spendableCoins()};
       }
@@ -4532,6 +5057,18 @@ function executeAiTool(name,args,actionsLog){
       if(!chestReady())return {ok:false,error:'Daily chest is not ready yet or was already opened today.'};
       openChest();
       actionsLog.push('🎁 Opened daily chest');
+      return {ok:true};
+    }
+    if(act==='open_overdrive_chest'){
+      if(!(G.odDay===todayKey()&&G.odReady))return {ok:false,error:'No Overdrive Chest is ready right now.'};
+      openOverdriveChest();
+      actionsLog.push('🔥 Opened Overdrive Chest');
+      return {ok:true};
+    }
+    if(act==='spin_daily'){
+      if(G.dailySpinDay===todayKey())return {ok:false,error:'Daily Kickstart Spin already used today.'};
+      openDailySpin();
+      actionsLog.push('🎡 Opened Daily Kickstart Spin');
       return {ok:true};
     }
     if(act==='add_reward'){
@@ -4558,6 +5095,45 @@ function executeAiTool(name,args,actionsLog){
       }
     }
     return {ok:false,error:'Unknown gamification action: '+act};
+  }
+
+  if(name==='manage_contracts'){
+    var act=String(args.action||'status').toLowerCase();
+    var G=gameState();
+    checkContracts();
+    if(act==='status'){
+      var active=G.contracts.find(function(c){return c.status==='active';});
+      return {ok:true,coins:spendableCoins(),active:active||null,history:G.contracts.slice(0,5)};
+    }
+    if(act==='quick_dare'){
+      quickDareContract();
+      var ac=G.contracts.find(function(c){return c.status==='active';});
+      if(!ac)return {ok:false,error:'Could not create quick dare (check coin balance or active contract).'};
+      actionsLog.push('🤝 Accepted Dare: '+ac.title);
+      return {ok:true,contract:ac};
+    }
+    if(act==='create'){
+      var sub=args.subject?aiFindSubject(args.subject):null;
+      var res=createContract({
+        title:args.title,
+        kind:args.kind||'lec',
+        subjectId:sub?sub.id:null,
+        target:args.target||3,
+        hours:args.hours||4,
+        stake:args.stake||80,
+        reward:args.reward||Math.round((args.stake||80)*2.5)
+      });
+      if(res.ok)actionsLog.push('🤝 Contract: '+res.contract.title);
+      return res;
+    }
+    if(act==='cancel'){
+      var c=G.contracts.find(function(x){return x.status==='active';});
+      if(!c)return {ok:false,error:'No active contract.'};
+      c.status='lost';save();renderAll();
+      actionsLog.push('🏳️ Forfeited dare (-🪙'+c.stake+')');
+      return {ok:true,forfeited:c.title,lostCoins:c.stake};
+    }
+    return {ok:false,error:'Unknown contract action: '+act};
   }
 
   if(name==='navigate_ui'){
@@ -4605,6 +5181,15 @@ function buildCompanionContext(){
     var st=getStats(s.id);
     return s.name+' ('+s.id+'): '+st.done+'/'+st.total+' ('+st.pct+'%, '+minsToStr(st.leftMins)+' left)';
   }).join('; ');
+  var sg=activeSurge();
+  var bt=ensureDailyBounty();
+  var G=gameState();
+  var activeDare=(G.contracts||[]).find(function(c){return c.status==='active';});
+  var activeDareLine='';
+  if(activeDare){
+    var dProg=Math.max(0,contractMetric(activeDare.kind,activeDare.subjectId)-activeDare.startCount);
+    activeDareLine='Active Dare Contract: '+activeDare.title+' ('+dProg+'/'+activeDare.target+', stake '+activeDare.stake+' -> win '+activeDare.reward+')\n';
+  }
   return 'TODAY DATE: '+today+'\n'
     +'ACTIVE VIEW: '+currentView+(activeSub?' (selected subject: '+subjectName(activeSub)+')':'')+'\n'
     +'USER STUDY PROFILE:\n'
@@ -4614,6 +5199,9 @@ function buildCompanionContext(){
     +'Overall: '+totalDone+'/'+totalAll+' lectures ('+pending+' pending)\n'
     +'Exam in: '+(daysLeft||'?')+' days → need '+pace+' lectures/day\n'
     +'Subjects: '+subStats+'\n'
+    +(sg?'Active Flash Surge: '+sg.mult+'x XP on '+sg.label+' ('+Math.max(1,Math.ceil((sg.until-Date.now())/60000))+'m left)\n':'')
+    +(bt&&bt.bountyId&&!bt.bountyClaimed?'Hidden Golden Bounty: inside earliest-date '+bt.bountyBucket+' backlog (+'+bt.bountyXp+' XP, keep specific ID secret!)\n':'')
+    +activeDareLine
     +(jnlText?'Today\'s journal: '+jnlText.slice(0,300)+'\n':'')
     +(jnlMood?'Mood today: '+jnlMood+'/5 '+moodEmoji(jnlMood)+'\n':'')
     +(jnlProd!==null?'Productivity self-rating: '+jnlProd+'%\n':'');
@@ -4624,9 +5212,9 @@ async function callGemini(userMsg,historyTurns){
   if(!key)throw new Error('No Gemini API key set. Paste your key below and click Save.');
   var ctx=buildCompanionContext();
   var sysPrompt='You are the embedded Gemini 3.6 Flash AI Agent inside Aryan\'s PW Lecture Tracker (IIT-JEE).\n'
-    +'You have FULL control of the website via function tools (`list_items`, `update_lectures`, `add_lectures`, `manage_dpps`, `manage_materials`, `manage_subjects`, `control_timer`, `manage_journal`, `update_settings`, `manage_gamification`, `navigate_ui`).\n'
+    +'You have FULL control of the website via function tools (`list_items`, `update_lectures`, `add_lectures`, `manage_dpps`, `manage_materials`, `manage_subjects`, `control_timer`, `manage_journal`, `update_settings`, `manage_gamification`, `manage_contracts`, `navigate_ui`).\n'
     +'RULES:\n'
-    +'1. Whenever the user asks you to tick, mark, add, paste, edit, delete, start/stop timer, log study hours, save journal, change target/exam date, equip/buy themes or boosts, open chest, add rewards, or navigate — CALL THE TOOLS DIRECTLY instead of telling them how to click.\n'
+    +'1. Whenever the user asks you to tick, mark, add, paste, edit, delete, start/stop timer, log study hours, save journal, change target/exam date, equip/buy themes or boosts or mystery crate, open chest/spin, issue a dare contract (`manage_contracts`), or navigate — CALL THE TOOLS DIRECTLY instead of telling them how to click.\n'
     +'2. If an item name or ID is ambiguous, call `list_items` first to inspect exact IDs/titles, then execute the update.\n'
     +'3. Be concise, direct, motivating, and confirm exact changes made (never claim a change unless the tool returned ok:true).\n\n'
     +ctx;
