@@ -4313,9 +4313,21 @@ function journalStripHtml(){
 }
 
 /* ============================================================
-   AI COMPANION (Gemini 3.6 Flash · Full Site Control + Supabase Key)
+   AI COMPANION (Smart Gemini Cascade + Supabase Key)
    ============================================================ */
-var GEMINI_MODEL='gemini-3.6-flash';
+var GEMINI_MODEL='gemini-4-hydrogen';
+var GEMINI_FALLBACKS=[
+  'gemini-3.8-flash',
+  'gemini-3.6-flash',
+  'gemini-3-flash',
+  'gemini-2.5-flash',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-2.5-flash-lite',
+  'gemma-4-31b-it',
+  'gemma-4-26b-a4b-it'
+];
+var _geminiCooldown={};
 var _aicoOpen=false;
 var _aicoThinking=false;
 var AI_LOGO_SVG='<svg viewBox="0 0 32 32" fill="none" aria-hidden="true">'
@@ -5211,7 +5223,7 @@ async function callGemini(userMsg,historyTurns){
   var key=getGeminiApiKey();
   if(!key)throw new Error('No Gemini API key set. Paste your key below and click Save.');
   var ctx=buildCompanionContext();
-  var sysPrompt='You are the embedded Gemini 3.6 Flash AI Agent inside Aryan\'s PW Lecture Tracker (IIT-JEE).\n'
+  var sysPrompt='You are the embedded AI Agent inside Aryan\'s PW Lecture Tracker (IIT-JEE).\n'
     +'You have FULL control of the website via function tools (`list_items`, `update_lectures`, `add_lectures`, `manage_dpps`, `manage_materials`, `manage_subjects`, `control_timer`, `manage_journal`, `update_settings`, `manage_gamification`, `manage_contracts`, `navigate_ui`).\n'
     +'RULES:\n'
     +'1. Whenever the user asks you to tick, mark, add, paste, edit, delete, start/stop timer, log study hours, save journal, change target/exam date, equip/buy themes or boosts or mystery crate, open chest/spin, issue a dare contract (`manage_contracts`), or navigate — CALL THE TOOLS DIRECTLY instead of telling them how to click.\n'
@@ -5238,23 +5250,75 @@ async function callGemini(userMsg,historyTurns){
     contents.push({role:'user',parts:[{text:userMsg}]});
   }
 
-  var actionsLog=[];
-  for(var round=0;round<6;round++){
-    var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-goog-api-key':key},
-      body:JSON.stringify({
-        system_instruction:{parts:[{text:sysPrompt}]},
-        contents:contents,
-        tools:AI_TOOLS
-      })
-    });
-    var j=null;
-    try{j=await resp.json();}catch(e){}
-    if(!resp.ok){
-      var msg=(j&&j.error&&j.error.message)||('HTTP '+resp.status);
-      throw new Error(msg);
+function makeAiPayload(sysText,conv,foldSystem){
+  if(!foldSystem){
+    return JSON.stringify({system_instruction:{parts:[{text:sysText}]},contents:conv,tools:AI_TOOLS});
+  }
+  var cloned=conv.map(function(m,idx){
+    if(idx===0&&m.role==='user'&&m.parts&&m.parts[0]&&typeof m.parts[0].text==='string'){
+      var np=m.parts.slice();
+      np[0]={text:'[System Instruction:\n'+sysText+'\n]\n\n'+np[0].text};
+      return {role:m.role,parts:np};
     }
+    return m;
+  });
+  return JSON.stringify({contents:cloned,tools:AI_TOOLS});
+}
+
+async function geminiFetchTurn(key,sysText,conv,preferredModel){
+  var baseOrder=[preferredModel||GEMINI_MODEL].concat(GEMINI_FALLBACKS.filter(function(m){return m!==(preferredModel||GEMINI_MODEL);}));
+  var nowMs=Date.now();
+  var activeOrder=baseOrder.filter(function(m){return !(_geminiCooldown[m]>nowMs);});
+  if(!activeOrder.length)activeOrder=baseOrder;
+  var lastErr=null;
+  for(var mi=0;mi<activeOrder.length;mi++){
+    var mdl=activeOrder[mi];
+    var isGemma=mdl.indexOf('gemma-')===0;
+    var tries=(mi===0&&!isGemma)?2:1;
+    for(var t=0;t<tries;t++){
+      var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-goog-api-key':key},
+        body:makeAiPayload(sysText,conv,isGemma)
+      });
+      var j=null;
+      try{j=await resp.json();}catch(e){}
+      if(resp.ok)return {json:j,model:mdl};
+      var msg=(j&&j.error&&j.error.message)||('HTTP '+resp.status);
+      lastErr=new Error(msg);
+      if(resp.status===400&&!isGemma&&/developer instruction|system_instruction/i.test(msg)){
+        var resp2=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+mdl+':generateContent',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','x-goog-api-key':key},
+          body:makeAiPayload(sysText,conv,true)
+        });
+        var j2=null;
+        try{j2=await resp2.json();}catch(e){}
+        if(resp2.ok)return {json:j2,model:mdl};
+      }
+      var isQuota=resp.status===429||/quota|exhausted|PerDay|rate limit/i.test(msg);
+      var transient=isQuota||resp.status===500||resp.status===503||resp.status===504||/high demand|overloaded|unavailable|try again/i.test(msg);
+      var notFound=resp.status===404&&mi<activeOrder.length-1;
+      if(!transient&&!notFound)throw lastErr;
+      if(transient&&!isQuota&&t+1<tries){await new Promise(function(r){setTimeout(r,900);});continue;}
+      _geminiCooldown[mdl]=Date.now()+(isQuota?900000:45000);
+      break;
+    }
+  }
+  throw lastErr||new Error('All Gemini/Gemma models are temporarily busy or quota-limited.');
+}
+
+  var actionsLog=[],activeModel=GEMINI_MODEL,usedFallback=false;
+  for(var round=0;round<6;round++){
+    var outFetch=await geminiFetchTurn(key,sysPrompt,contents,activeModel);
+    if(outFetch.model!==activeModel){
+      activeModel=outFetch.model;
+      if(!usedFallback&&outFetch.model!==GEMINI_MODEL){
+        usedFallback=true;
+        actionsLog.push('⚡ Backup: '+outFetch.model);
+      }
+    }
+    var j=outFetch.json;
     var candContent=j&&j.candidates&&j.candidates[0]&&j.candidates[0].content;
     var parts=(candContent&&candContent.parts)||[];
     var calls=parts.filter(function(p){return p&&p.functionCall;});
@@ -5274,7 +5338,7 @@ async function callGemini(userMsg,historyTurns){
     }
     var text=parts.filter(function(p){return !p.thought&&p.text;}).map(function(p){return p.text;}).join('').trim();
     if(!text&&actionsLog.length)text='Done! Updated your tracker.';
-    if(!text)throw new Error('Empty response from Gemini 3.6 Flash.');
+    if(!text)throw new Error('Empty response from Gemini AI.');
     return {text:text,actions:actionsLog};
   }
   return {text:actionsLog.length?'Done! Applied your updates.':'Stopped after max tool steps.',actions:actionsLog};
@@ -5299,8 +5363,8 @@ function aicoUpdateStatus(){
   if(!st)return;
   var key=getGeminiApiKey();
   st.textContent=key
-    ?('Gemini 3.6 Flash · Full Control · '+(currentUser?'Supabase':'Guest'))
-    :'Gemini 3.6 Flash · API key required';
+    ?('Gemini 4 · Auto-Cascade · '+(currentUser?'Supabase':'Guest'))
+    :'Gemini AI · API key required';
 }
 
 function aicoSaveKey(){
@@ -5312,7 +5376,7 @@ function aicoSaveKey(){
   save();
   if(sb&&currentUser)syncNow();
   if(k){
-    showToast('✨','Gemini 3.6 Flash key saved',currentUser?'Synced to your Supabase account for all devices.':'Saved in Guest mode. Sign in with Google to sync to Supabase.');
+    showToast('✨','Gemini API key saved',currentUser?'Synced to your Supabase account for all devices.':'Saved in Guest mode. Sign in with Google to sync to Supabase.');
   }else{
     showToast('ℹ️','API key removed',currentUser?'Removed from Supabase.':'Cleared.');
   }
@@ -5365,7 +5429,7 @@ async function aicoSend(){
     replyActions=res.actions||[];
   }catch(e){
     replyRole='err';
-    replyText='⚠️ Gemini 3.6 Flash error: '+(e&&e.message?e.message:'Request failed. Check your API key and connection.');
+    replyText='⚠️ Gemini AI error: '+(e&&e.message?e.message:'Request failed. Check your API key and connection.');
   }
   _aicoThinking=false;
   data.chatHistory=data.chatHistory.filter(function(m){return m.role!=='typing';});
@@ -5391,7 +5455,7 @@ function openAiCompanion(){
     var today=todayKey();
     var todayDone=data.lectures.filter(function(l){return l.done&&l.completedAt&&l.completedAt.startsWith(today);}).length;
     var key=getGeminiApiKey();
-    var welcome='Hey! ✨ I\'m your Gemini 3.6 Flash AI Agent. '
+    var welcome='Hey! ✨ I\'m your Gemini AI Agent (10-model smart cascade). '
       +(streak>0?'You\'re on a '+streak+'-day streak — ':'')
       +(todayDone>0?'You\'ve done '+todayDone+' lectures today. ':'')
       +(key?'Tell me to tick lectures, log DPPs, start a timer, write your journal, change themes, or plan your backlog — I\'ll update the site directly!':'Paste your Gemini API key below and hit Save to activate.');
